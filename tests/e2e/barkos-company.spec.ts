@@ -49,9 +49,10 @@ test('manages a BarkOS company through the real desktop persistence boundary', a
   await expect(officeTab).toHaveAttribute('aria-selected', 'true')
   const office = orcaPage.locator('[data-barkos-live-office="true"]')
   await expect(orcaPage.getByRole('region', { name: 'Live office', exact: true })).toBeVisible()
-  await expect(orcaPage.getByRole('region', { name: 'Live office floor' })).toBeVisible()
-  await expect(orcaPage.locator('.barkos-office-desk')).toHaveCount(1)
-  await expect(orcaPage.locator('.barkos-office-desk')).toHaveAttribute('data-status', 'unbound')
+  await expect(
+    office.getByRole('img', { name: 'BarkOS çalışanlarının canlı piksel ofisi' })
+  ).toBeVisible()
+  await expect(office.locator('[data-barkos-pixel-office="true"]')).toHaveAttribute('width', /\d+/)
   await expect(orcaPage.getByRole('status')).toContainText('0 with active work')
   await expect(orcaPage.getByRole('list', { name: 'Workers' })).toBeVisible()
   await expect(office).toHaveAttribute('data-density', 'comfortable')

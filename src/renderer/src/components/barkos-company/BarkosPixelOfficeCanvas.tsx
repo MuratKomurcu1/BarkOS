@@ -349,6 +349,7 @@ export function BarkosPixelOfficeCanvas({ company, entries }: Props): React.JSX.
       <canvas
         ref={canvasRef}
         className="barkos-pixel-canvas"
+        role="img"
         aria-label={translate(
           'barkos.office.canvas.label',
           'BarkOS çalışanlarının canlı piksel ofisi'

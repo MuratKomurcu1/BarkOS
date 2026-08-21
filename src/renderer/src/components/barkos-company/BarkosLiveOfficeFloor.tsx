@@ -103,6 +103,7 @@ export function BarkosLiveOfficeFloor(props: {
   return (
     <section
       className="barkos-office-floor"
+      role="region"
       aria-label={translate('barkos.office.floorLabel', 'Canlı ofis katı')}
     >
       <div className="barkos-office-floor-header" aria-hidden="true">
