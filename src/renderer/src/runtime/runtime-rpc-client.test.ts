@@ -1,0 +1,364 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import {
+  callRuntimeRpc,
+  clearRuntimeCompatibilityCacheForTests,
+  getActiveRuntimeTarget,
+  RuntimeRpcCallError,
+  unwrapRuntimeRpcResult
+} from './runtime-rpc-client'
+import {
+  MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION,
+  ORCHESTRATION_CONTRACT_RUNTIME_CAPABILITY,
+  RUNTIME_PROTOCOL_VERSION
+} from '../../../shared/protocol-version'
+import {
+  ORCA_RUNTIME_RPC_BROWSER_UI_SOURCE,
+  ORCA_RUNTIME_RPC_FEATURE_INTERACTION_SOURCE_KEY
+} from '../../../shared/runtime-rpc-feature-interaction-source'
+
+const runtimeCall = vi.fn()
+const runtimeEnvironmentCall = vi.fn()
+const runtimeEnvironmentSubscribe = vi.fn()
+
+beforeEach(() => {
+  clearRuntimeCompatibilityCacheForTests()
+  runtimeCall.mockReset()
+  runtimeEnvironmentCall.mockReset()
+  runtimeEnvironmentSubscribe.mockReset()
+  vi.stubGlobal('window', {
+    api: {
+      runtime: { call: runtimeCall },
+      runtimeEnvironments: {
+        call: runtimeEnvironmentCall,
+        subscribe: runtimeEnvironmentSubscribe
+      }
+    }
+  })
+})
+
+describe('runtime RPC client routing', () => {
+  it('uses the local runtime when no active environment is selected', () => {
+    expect(getActiveRuntimeTarget(null)).toEqual({ kind: 'local' })
+    expect(getActiveRuntimeTarget({ activeRuntimeEnvironmentId: null })).toEqual({ kind: 'local' })
+    expect(getActiveRuntimeTarget({ activeRuntimeEnvironmentId: '   ' })).toEqual({ kind: 'local' })
+  })
+
+  it('uses the active saved environment when one is selected', () => {
+    expect(getActiveRuntimeTarget({ activeRuntimeEnvironmentId: 'env-1' })).toEqual({
+      kind: 'environment',
+      environmentId: 'env-1'
+    })
+  })
+
+  it('routes local runtime calls through window.api.runtime.call', async () => {
+    runtimeCall.mockResolvedValue({
+      id: 'local',
+      ok: true,
+      result: [{ id: 'repo-1' }],
+      _meta: { runtimeId: 'local-runtime' }
+    })
+
+    await expect(callRuntimeRpc({ kind: 'local' }, 'repo.list')).resolves.toEqual([
+      { id: 'repo-1' }
+    ])
+    expect(runtimeCall).toHaveBeenCalledWith({ method: 'repo.list', params: undefined })
+    expect(runtimeEnvironmentCall).not.toHaveBeenCalled()
+  })
+
+  it('marks local UI-owned runtime calls so feature interaction tracking can ignore them', async () => {
+    runtimeCall.mockResolvedValue({
+      id: 'local',
+      ok: true,
+      result: { ok: true },
+      _meta: { runtimeId: 'local-runtime' }
+    })
+
+    await callRuntimeRpc(
+      { kind: 'local' },
+      'browser.viewport',
+      { page: 'page-1' },
+      { suppressFeatureInteraction: true }
+    )
+
+    expect(runtimeCall).toHaveBeenCalledWith({
+      method: 'browser.viewport',
+      params: {
+        page: 'page-1',
+        [ORCA_RUNTIME_RPC_FEATURE_INTERACTION_SOURCE_KEY]: ORCA_RUNTIME_RPC_BROWSER_UI_SOURCE
+      }
+    })
+    expect(runtimeEnvironmentCall).not.toHaveBeenCalled()
+  })
+
+  it('routes remote runtime calls through window.api.runtimeEnvironments.call', async () => {
+    runtimeEnvironmentCall.mockResolvedValue({
+      id: 'remote',
+      ok: true,
+      result: { graphStatus: 'ready' },
+      _meta: { runtimeId: 'remote-runtime' }
+    })
+
+    await expect(
+      callRuntimeRpc({ kind: 'environment', environmentId: 'env-1' }, 'status.get', undefined, {
+        timeoutMs: 50
+      })
+    ).resolves.toEqual({ graphStatus: 'ready' })
+    expect(runtimeEnvironmentCall).toHaveBeenCalledWith({
+      selector: 'env-1',
+      method: 'status.get',
+      params: undefined,
+      timeoutMs: 50
+    })
+    expect(runtimeCall).not.toHaveBeenCalled()
+  })
+
+  it('uses an abortable subscription for paired-runtime requests', async () => {
+    const controller = new AbortController()
+    const unsubscribe = vi.fn()
+    runtimeEnvironmentSubscribe.mockResolvedValue({ unsubscribe, sendBinary: vi.fn() })
+
+    const request = callRuntimeRpc(
+      { kind: 'environment', environmentId: 'env-1' },
+      'status.get',
+      undefined,
+      { signal: controller.signal }
+    )
+    await vi.waitFor(() => expect(runtimeEnvironmentSubscribe).toHaveBeenCalled())
+    controller.abort()
+
+    await expect(request).rejects.toMatchObject({ name: 'AbortError' })
+    await vi.waitFor(() => expect(unsubscribe).toHaveBeenCalledTimes(1))
+    expect(runtimeEnvironmentCall).not.toHaveBeenCalled()
+  })
+
+  it('rejects an abortable paired-runtime request at the response deadline', async () => {
+    vi.useFakeTimers()
+    try {
+      const controller = new AbortController()
+      const unsubscribe = vi.fn()
+      runtimeEnvironmentSubscribe.mockResolvedValue({ unsubscribe, sendBinary: vi.fn() })
+
+      const request = callRuntimeRpc(
+        { kind: 'environment', environmentId: 'env-1' },
+        'status.get',
+        undefined,
+        { signal: controller.signal, timeoutMs: 15_000 }
+      )
+      await vi.waitFor(() => expect(runtimeEnvironmentSubscribe).toHaveBeenCalled())
+      const rejection = expect(request).rejects.toThrow('timed out before status.get completed')
+      await vi.advanceTimersByTimeAsync(15_000)
+
+      await rejection
+      await vi.waitFor(() => expect(unsubscribe).toHaveBeenCalledTimes(1))
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('preflights remote runtime compatibility before non-status calls', async () => {
+    runtimeEnvironmentCall.mockImplementation(({ method }: { method: string }) => {
+      const result =
+        method === 'status.get'
+          ? {
+              runtimeId: 'remote-runtime',
+              graphStatus: 'ready',
+              runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+              minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION
+            }
+          : { repos: [{ id: 'repo-1' }] }
+      return Promise.resolve({
+        id: method,
+        ok: true,
+        result,
+        _meta: { runtimeId: 'remote-runtime' }
+      })
+    })
+
+    await expect(
+      callRuntimeRpc({ kind: 'environment', environmentId: 'env-compat' }, 'repo.list')
+    ).resolves.toEqual({ repos: [{ id: 'repo-1' }] })
+
+    expect(runtimeEnvironmentCall.mock.calls.map((call) => call[0].method)).toEqual([
+      'status.get',
+      'repo.list'
+    ])
+  })
+
+  it('requires the current orchestration capability before paired mutations', async () => {
+    runtimeEnvironmentCall.mockImplementation(({ method }: { method: string }) => {
+      const result =
+        method === 'status.get'
+          ? {
+              runtimeId: 'remote-runtime',
+              graphStatus: 'ready',
+              runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+              minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION,
+              capabilities: [ORCHESTRATION_CONTRACT_RUNTIME_CAPABILITY]
+            }
+          : { run: { id: 'run-1' } }
+      return Promise.resolve({
+        id: method,
+        ok: true,
+        result,
+        _meta: { runtimeId: 'remote-runtime' }
+      })
+    })
+
+    await expect(
+      callRuntimeRpc(
+        { kind: 'environment', environmentId: 'env-orchestration' },
+        'orchestration.runCreate',
+        { objective: 'İncele', from: 'term-lead' }
+      )
+    ).resolves.toEqual({ run: { id: 'run-1' } })
+    expect(runtimeEnvironmentCall.mock.calls.map((call) => call[0].method)).toEqual([
+      'status.get',
+      'orchestration.runCreate'
+    ])
+  })
+
+  it('blocks paired orchestration mutations on legacy runtimes', async () => {
+    runtimeEnvironmentCall.mockResolvedValue({
+      id: 'status.get',
+      ok: true,
+      result: {
+        runtimeId: 'remote-runtime',
+        graphStatus: 'ready',
+        runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+        minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION,
+        capabilities: []
+      },
+      _meta: { runtimeId: 'remote-runtime' }
+    })
+
+    await expect(
+      callRuntimeRpc(
+        { kind: 'environment', environmentId: 'env-legacy' },
+        'orchestration.runCreate',
+        { objective: 'İncele', from: 'term-lead' }
+      )
+    ).rejects.toThrow('güncel orkestrasyon sözleşmesini desteklemiyor')
+    expect(runtimeEnvironmentCall).toHaveBeenCalledTimes(1)
+  })
+
+  it('marks remote UI-owned runtime calls so feature interaction tracking can ignore them', async () => {
+    runtimeEnvironmentCall.mockImplementation(({ method }: { method: string }) => {
+      const result =
+        method === 'status.get'
+          ? {
+              runtimeId: 'remote-runtime',
+              graphStatus: 'ready',
+              runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+              minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION
+            }
+          : { ok: true }
+      return Promise.resolve({
+        id: method,
+        ok: true,
+        result,
+        _meta: { runtimeId: 'remote-runtime' }
+      })
+    })
+
+    await callRuntimeRpc(
+      { kind: 'environment', environmentId: 'env-1' },
+      'browser.viewport',
+      { page: 'page-1' },
+      { suppressFeatureInteraction: true }
+    )
+
+    expect(runtimeEnvironmentCall).toHaveBeenLastCalledWith({
+      selector: 'env-1',
+      method: 'browser.viewport',
+      params: {
+        page: 'page-1',
+        [ORCA_RUNTIME_RPC_FEATURE_INTERACTION_SOURCE_KEY]: ORCA_RUNTIME_RPC_BROWSER_UI_SOURCE
+      },
+      timeoutMs: undefined
+    })
+  })
+
+  it('caches successful remote compatibility checks per environment', async () => {
+    runtimeEnvironmentCall.mockImplementation(({ method }: { method: string }) => {
+      const result =
+        method === 'status.get'
+          ? {
+              runtimeId: 'remote-runtime',
+              graphStatus: 'ready',
+              runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+              minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION
+            }
+          : { ok: true }
+      return Promise.resolve({
+        id: method,
+        ok: true,
+        result,
+        _meta: { runtimeId: 'remote-runtime' }
+      })
+    })
+
+    await callRuntimeRpc({ kind: 'environment', environmentId: 'env-cache' }, 'repo.list')
+    await callRuntimeRpc({ kind: 'environment', environmentId: 'env-cache' }, 'worktree.list')
+
+    expect(runtimeEnvironmentCall.mock.calls.map((call) => call[0].method)).toEqual([
+      'status.get',
+      'repo.list',
+      'worktree.list'
+    ])
+  })
+
+  it('bounds successful remote compatibility checks by evicting old environments', async () => {
+    runtimeEnvironmentCall.mockImplementation(({ method }: { method: string }) => {
+      const result =
+        method === 'status.get'
+          ? {
+              runtimeId: 'remote-runtime',
+              graphStatus: 'ready',
+              runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
+              minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION
+            }
+          : { ok: true }
+      return Promise.resolve({
+        id: method,
+        ok: true,
+        result,
+        _meta: { runtimeId: 'remote-runtime' }
+      })
+    })
+
+    for (let i = 0; i < 33; i += 1) {
+      await callRuntimeRpc({ kind: 'environment', environmentId: `env-${i}` }, 'repo.list')
+    }
+
+    runtimeEnvironmentCall.mockClear()
+    await callRuntimeRpc({ kind: 'environment', environmentId: 'env-0' }, 'worktree.list')
+    expect(runtimeEnvironmentCall.mock.calls.map((call) => call[0].method)).toEqual([
+      'status.get',
+      'worktree.list'
+    ])
+
+    runtimeEnvironmentCall.mockClear()
+    await callRuntimeRpc({ kind: 'environment', environmentId: 'env-32' }, 'worktree.list')
+    expect(runtimeEnvironmentCall.mock.calls.map((call) => call[0].method)).toEqual([
+      'worktree.list'
+    ])
+  })
+
+  it('throws structured runtime RPC failures', () => {
+    const failure = {
+      id: 'rpc-1',
+      ok: false as const,
+      error: { code: 'method_not_found', message: 'Unknown method: nope' },
+      _meta: { runtimeId: 'runtime-1' }
+    }
+
+    expect(() => unwrapRuntimeRpcResult(failure)).toThrow(RuntimeRpcCallError)
+    try {
+      unwrapRuntimeRpcResult(failure)
+    } catch (error) {
+      expect(error).toBeInstanceOf(RuntimeRpcCallError)
+      expect((error as RuntimeRpcCallError).code).toBe('method_not_found')
+      expect((error as RuntimeRpcCallError).response).toBe(failure)
+    }
+  })
+})

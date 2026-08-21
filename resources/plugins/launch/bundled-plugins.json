@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "pluginKey": "barkos.barkos-navigation-shortcuts",
+      "path": "barkos.barkos-navigation-shortcuts",
+      "contentHash": "f5ae4846c7b4daa1c8a5662b5fde7b3321c257e03208cf60a94bf4db8ef72bea"
+    }
+  ]
+}

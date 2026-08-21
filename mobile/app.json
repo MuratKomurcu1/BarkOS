@@ -1,0 +1,117 @@
+{
+  "expo": {
+    "name": "BarkOS",
+    "slug": "barkos-mobile",
+    "version": "0.0.44",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "barkos",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#111111"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.barkos.mobile",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "BarkOS, yerel ağınızdaki masaüstü uygulamasına bağlanır.",
+        "NSMicrophoneUsageDescription": "BarkOS'un sesli dikteyi kaydedip eşleştirilmiş bilgisayarınızda yazıya dönüştürmesine izin verin.",
+        "NSPhotoLibraryUsageDescription": "BarkOS'un fotoğrafları eşleştirilmiş bilgisayarınızdaki terminal oturumuna eklemesine izin verin.",
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true,
+          "NSExceptionDomains": {
+            "100.64.0.0/10": {
+              "NSExceptionAllowsInsecureHTTPLoads": true
+            },
+            "fd7a:115c:a1e0::/48": {
+              "NSExceptionAllowsInsecureHTTPLoads": true
+            }
+          }
+        },
+        "ITSAppUsesNonExemptEncryption": false,
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ],
+        "UISupportedInterfaceOrientations~ipad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      },
+      "privacyManifests": {
+        "NSPrivacyTracking": false,
+        "NSPrivacyTrackingDomains": [],
+        "NSPrivacyCollectedDataTypes": [],
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+            "NSPrivacyAccessedAPITypeReasons": ["C617.1"]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+            "NSPrivacyAccessedAPITypeReasons": ["35F9.1"]
+          }
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#111111"
+      },
+      "usesCleartextTraffic": true,
+      "allowBackup": false,
+      "permissions": ["RECORD_AUDIO", "MODIFY_AUDIO_SETTINGS"],
+      "package": "com.barkos.mobile",
+      "versionCode": 13
+    },
+    "plugins": [
+      "expo-router",
+      "./plugins/android-respect-rotation-lock.js",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "backgroundColor": "#111111"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "QR kodunu taramak için BarkOS'un kamerayı kullanmasına izin verin.",
+          "microphonePermission": "Eşleştirilmiş bilgisayarda yazıya dönüştürülecek sesli dikte için BarkOS'un mikrofonu kullanmasına izin verin.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "BarkOS'un arşivinizdeki fotoğrafları eşleştirilmiş bilgisayardaki terminal oturumuna eklemesine izin verin."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "buildReactNativeFromSource": true
+          },
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
+  }
+}

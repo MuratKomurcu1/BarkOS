@@ -1,0 +1,33 @@
+{
+  "manifestVersion": 1,
+  "id": "orca-navigation-shortcuts",
+  "publisher": "stablyai",
+  "name": "BarkOS Gezinti Kısayolları",
+  "version": "1.0.0",
+  "description": "Sık kullanılan BarkOS ekranları için komutlar ve isteğe bağlı kısayollar.",
+  "engines": { "orca": ">=1.4.0" },
+  "pluginApi": 1,
+  "contributes": {
+    "commands": [
+      { "id": "open-tasks", "title": "Görevleri aç", "context": "global", "action": "view.tasks" },
+      {
+        "id": "toggle-search",
+        "title": "Aramayı aç veya kapat",
+        "context": "global",
+        "action": "sidebar.search.toggle"
+      },
+      {
+        "id": "toggle-source-control",
+        "title": "Kaynak kontrolünü aç veya kapat",
+        "context": "global",
+        "action": "sidebar.sourceControl.toggle"
+      }
+    ],
+    "keybindings": [
+      { "command": "open-tasks", "key": "Mod+Alt+T", "when": "global" },
+      { "command": "toggle-search", "key": "Mod+Alt+F", "when": "global" },
+      { "command": "toggle-source-control", "key": "Mod+Alt+G", "when": "global" }
+    ]
+  },
+  "capabilities": []
+}
