@@ -250,6 +250,7 @@ function createSkillMutationHandler(verb: SkillMutationVerb): CommandHandler {
             verb,
             global,
             dryRun,
+            executed: !dryRun,
             outcomes: result.outcomes
           },
           null,

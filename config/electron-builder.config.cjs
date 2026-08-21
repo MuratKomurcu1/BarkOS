@@ -201,6 +201,7 @@ module.exports = {
     'out/main/gemini/**',
     'out/main/grok/**',
     'out/main/hermes/**',
+    'out/main/skills/**',
     'out/main/daemon-entry.js',
     'out/main/session-scanner-service-entry.js',
     'out/main/session-scanner-opencode-sqlite-worker-entry.js',

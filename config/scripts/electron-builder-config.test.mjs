@@ -208,6 +208,7 @@ describe('electron-builder config', () => {
         'out/package.json',
         'out/cli/**',
         'out/shared/**',
+        'out/main/skills/**',
         'out/main/claude-accounts/keychain.js'
       ])
     )

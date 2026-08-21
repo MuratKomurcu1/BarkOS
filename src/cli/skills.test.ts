@@ -435,6 +435,7 @@ describe('orca skills CLI', () => {
       verb: string
       global: boolean
       dryRun: boolean
+      executed: boolean
       outcomes: {
         skill: string
         placements: { agentKey: string; outcome: string }[]
@@ -443,6 +444,7 @@ describe('orca skills CLI', () => {
     expect(payload.verb).toBe('install')
     expect(payload.global).toBe(true)
     expect(payload.dryRun).toBe(false)
+    expect(payload.executed).toBe(true)
     expect(payload.outcomes).toHaveLength(1)
     expect(payload.outcomes[0].skill).toBe('alpha')
     expect(payload.outcomes[0].placements.map((placement) => placement.agentKey).sort()).toEqual([
