@@ -1424,3 +1424,29 @@ hak bugün yeni geniş geliştirme dilimi başlatmak için kullanılmayacak.
 - Doğrulama: görev başlatma ve çalışma alanı oluşturma için 3 dosyada 42 test
   geçti; tüm TypeScript projeleri hatasız derlendi; Türkçe sözlükte patolojik
   tekrar sayısı 0 ve JSON geçerli.
+
+## 22 Ağustos 2026 — BarkOS ürünleştirme doğrulaması
+
+- Türkçe arayüz kataloğundaki görünür `Orca` markaları BarkOS olarak temizlendi;
+  bozuk çalışma alanı, kenar çubuğu ve ayar metinleri düzeltildi. İç protokol,
+  ortam değişkeni ve dosya adları geriye dönük uyumluluk için değiştirilmedi.
+- Claude Pro oturumu gerçek CLI çağrısıyla doğrulandı. Kullanım API'sindeki 429
+  artık oturumu bozuk göstermiyor; mevcut geri çekilme ve yeniden deneme akışı
+  sessiz çalışıyor.
+- OpenCode'un kimlik bilgisi gerektirmeyen, gerçek çağrıyla doğrulanan
+  `opencode/mimo-v2.5-free` modeli BarkOS çalışanlarının varsayılanına bağlandı.
+  Baş ajanın atadığı model, eski kullanıcı model argümanını güvenle değiştiriyor.
+- Piksel ofis gerçek çalışan durumuna bağlı yürüyüş/yazma/okuma karelerini,
+  yol bulmayı, görev ve araç etiketlerini, çalışma bölgelerini ve hareketli
+  Pixel Agents evcil hayvanlarını gösteriyor. Sistem hareket azaltma ayarına
+  uyuyor.
+- Başlangıçtaki yinelenen terminal kurtarma yarışı kaldırıldı. Beklenen geçici
+  `terminal_liveness_unavailable` uyarısı bastırıldı; gerçek hatalar raporlanmaya
+  devam ediyor. Ana Electron penceresinin meşru dinleyici kapasitesi yerel olarak
+  yükseltilerek `MaxListeners` uyarısı giderildi.
+- `muratkomurrcu.com` yönlendirmesi özellikle devreye alınmadı. Hedef sayfalar
+  yayımlandıktan sonra eski upstream URL'ler tek envanter üzerinden BarkOS
+  adreslerine taşınacak; şimdilik kırık bağlantı üretmiyoruz.
+- Doğrulama: 103 hedef Vitest testi, TypeScript typecheck, React Doctor ve tam
+  depo lint/yerelleştirme kontrolleri geçti. Sonraki adım yeni DMG'yi üretip
+  kurulu uygulamada Playwright CDP ile başlangıç ve canlı ofisi doğrulamak.

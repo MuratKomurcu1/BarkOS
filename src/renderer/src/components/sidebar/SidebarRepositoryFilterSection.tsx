@@ -19,15 +19,15 @@ function getProjectFilterVisibilityLabel({
   if (selectedCount === 0) {
     return translate(
       'auto.components.sidebar.SidebarRepositoryFilterSection.allProjects',
-      'All projects'
+      'Tüm projeler'
     )
   }
   if (selectedCount === 1) {
-    return selectedRepos[0]?.displayName ?? 'Projects'
+    return selectedRepos[0]?.displayName ?? 'Projeler'
   }
   return translate(
     'auto.components.sidebar.SidebarRepositoryFilterSection.selectedProjectsCount',
-    '{{value0}} projects',
+    '{{value0}} proje',
     { value0: selectedCount }
   )
 }
@@ -82,7 +82,7 @@ const SidebarRepositoryFilterSection = React.memo(function SidebarRepositoryFilt
           <span>
             {translate(
               'auto.components.sidebar.SidebarRepositoryFilterSection.7679f0c268',
-              'Projects'
+              'Projeler'
             )}
           </span>
           <span className="min-w-0 truncate text-[11px] font-medium text-muted-foreground">
@@ -98,7 +98,7 @@ const SidebarRepositoryFilterSection = React.memo(function SidebarRepositoryFilt
           <span className="text-[11px] font-semibold text-muted-foreground">
             {translate(
               'auto.components.sidebar.SidebarRepositoryFilterSection.7679f0c268',
-              'Projects'
+              'Projeler'
             )}
             {hasRepoFilter && (
               <span className="ml-1.5 font-medium text-foreground">· {selectedCount}</span>
@@ -112,7 +112,7 @@ const SidebarRepositoryFilterSection = React.memo(function SidebarRepositoryFilt
           >
             {translate(
               'auto.components.sidebar.SidebarRepositoryFilterSection.d3a9c4cea1',
-              'Clear'
+              'Temizle'
             )}
           </button>
         </div>

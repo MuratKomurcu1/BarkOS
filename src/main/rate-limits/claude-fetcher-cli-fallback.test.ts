@@ -66,6 +66,7 @@ describe('fetchClaudeRateLimits', () => {
   })
 
   it('does not mask OAuth usage rate limits with the PTY fallback', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
     const configDir = '/Users/test/.claude'
     const authPreparation: ClaudeRuntimeAuthPreparation = {
       configDir,
@@ -114,6 +115,7 @@ describe('fetchClaudeRateLimits', () => {
       })
     )
     expect(fetchViaPty).not.toHaveBeenCalled()
+    expect(warn).not.toHaveBeenCalled()
   })
 
   it('omits retryAtMs when a 429 has no Retry-After header', async () => {

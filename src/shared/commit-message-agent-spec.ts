@@ -7,6 +7,7 @@ import {
   parseClaudeModelList
 } from './claude-model-list-probe'
 import { labelFromModelId } from './model-id-label'
+import { OPENCODE_FREE_MODEL_ID, OPENCODE_FREE_MODEL_LABEL } from './opencode-free-model'
 
 /* eslint-disable max-lines -- Why: this is the single registry for non-interactive commit-message agents, their model discovery parsers, and UI capabilities. */
 
@@ -475,16 +476,11 @@ export const COMMIT_MESSAGE_AGENT_SPECS: Partial<Record<TuiAgent, CommitMessageA
         // Why: OpenCode's hosted GPT models can require workspace billing even
         // when `opencode models` lists them. This free model is available in
         // discovery and works as a usable out-of-the-box default.
-        id: 'opencode/deepseek-v4-flash-free',
-        label: 'OpenCode DeepSeek V4 Flash Free'
-      },
-      {
-        id: 'opencode/gpt-5.4-mini',
-        label: 'OpenCode GPT 5.4 Mini',
-        ...withOpenAiThinking('gpt-5.4-mini')
+        id: OPENCODE_FREE_MODEL_ID,
+        label: OPENCODE_FREE_MODEL_LABEL
       }
     ],
-    defaultModelId: 'opencode/deepseek-v4-flash-free'
+    defaultModelId: OPENCODE_FREE_MODEL_ID
   },
   pi: {
     id: 'pi',

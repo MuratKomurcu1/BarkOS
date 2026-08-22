@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { spawnMock } from './pty-ipc-mock-registry'
+import { openCodeIsPluginInstalledMock, spawnMock } from './pty-ipc-mock-registry'
 import { BUNDLED_CLI_PATH, TEST_CODEX_HOME, makeDisposable } from './pty-ipc-test-constants'
 import { setupPtyIpcSuite } from './pty-ipc-test-harness'
 import { delimiter } from 'node:path'
@@ -11,7 +11,6 @@ import { registerPtyHandlers, buildPtyHostEnv, clearProviderPtyState } from './p
 import { wslHookRelayManager } from '../agent-hooks/wsl-hook-relay-manager'
 import { droidHookService } from '../droid/hook-service'
 import { geminiHookService } from '../gemini/hook-service'
-import { openCodeIsPluginInstalledMock } from './pty-ipc-mock-registry'
 
 vi.mock('electron', () => import('./pty-ipc-mock-registry').then((m) => m.electronModuleMock()))
 vi.mock('fs', () => import('./pty-ipc-mock-registry').then((m) => m.fsModuleMock()))

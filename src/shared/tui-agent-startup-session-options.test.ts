@@ -54,6 +54,22 @@ describe('tui agent startup session options', () => {
     expect(plan?.sessionOptions).toEqual({ model: 'custom-codex-model', effort: 'high' })
   })
 
+  it('keeps OpenCode flags while replacing an older default model', () => {
+    const plan = buildAgentStartupPlan({
+      agent: 'opencode',
+      prompt: '',
+      cmdOverrides: {},
+      platform: 'linux',
+      allowEmptyPromptLaunch: true,
+      sessionOptions: { model: 'opencode/mimo-v2.5-free' },
+      sessionOptionsOverrideAgentArgs: true,
+      agentArgs: '--share --model opencode/old-model'
+    })
+
+    expect(plan?.launchCommand).toBe("opencode '--share' '--model' 'opencode/mimo-v2.5-free'")
+    expect(plan?.sessionOptions).toEqual({ model: 'opencode/mimo-v2.5-free' })
+  })
+
   it('inserts worker preferences before an argument terminator', () => {
     const plan = buildAgentStartupPlan({
       agent: 'codex',

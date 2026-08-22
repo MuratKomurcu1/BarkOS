@@ -305,6 +305,8 @@ export function createMainWindow(
       webviewTag: true
     }
   })
+  // Why: one long-lived window owns several independent cleanup services; budget their legitimate close hooks without muting other emitters.
+  mainWindow.setMaxListeners?.(24)
   const rendererWebContentsId = mainWindow.webContents.id
   installWindowsPathRegistryChangeListener(mainWindow)
   // Why: native paste fallback is privileged IPC; only the top-level renderer may request it.

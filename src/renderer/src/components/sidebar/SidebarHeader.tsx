@@ -21,7 +21,7 @@ const SidebarHeader = React.memo(function SidebarHeader({
   const canCreateWorkspace = useAppStore((s) => s.repos.length > 0)
   const sidebarTitle =
     groupBy === 'repo'
-      ? translate('auto.components.sidebar.SidebarFilter.5f7085a077', 'Projects')
+      ? translate('auto.components.sidebar.SidebarFilter.5f7085a077', 'Projeler')
       : translate('auto.components.sidebar.SidebarHeader.workspaces', 'Workspaces')
 
   return (

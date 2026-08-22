@@ -283,7 +283,7 @@ const SidebarFilter = React.memo(function SidebarFilter({
             <DropdownMenuSeparator />
             <div className="flex items-center justify-between px-2 py-1">
               <span className="text-[11px] font-semibold tracking-wide uppercase text-muted-foreground">
-                {translate('auto.components.sidebar.SidebarFilter.5f7085a077', 'Projects')}
+                {translate('auto.components.sidebar.SidebarFilter.5f7085a077', 'Projeler')}
                 {hasRepoFilter && (
                   <span className="ml-1.5 normal-case tracking-normal font-medium text-foreground">
                     · {selectedCount}

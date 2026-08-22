@@ -9,22 +9,36 @@ type LegacyWorkerRendererRecoveryOptions = {
 export async function recoverLegacyWorkerTerminalsForRendererStartup(
   options: LegacyWorkerRendererRecoveryOptions
 ): Promise<void> {
+  let providerStartupSettled = false
   const providerStartupResult = options.localPtyProviderStartupReady.then(
-    () => ({ ok: true as const }),
-    (error: unknown) => ({ ok: false as const, error })
+    () => {
+      providerStartupSettled = true
+      return { ok: true as const }
+    },
+    (error: unknown) => {
+      providerStartupSettled = true
+      return { ok: false as const, error }
+    }
   )
   await Promise.all([
     options.firstWindowStartupServicesReady,
     options.managedWslCliStartupBarrierReady
   ])
-  void providerStartupResult
-    .then(async (result) => {
-      if (!result.ok) {
-        throw result.error
-      }
-      await options.reconcile()
-    })
-    .catch(options.onDeferredRecoveryError)
+  if (providerStartupSettled) {
+    const result = await providerStartupResult
+    if (!result.ok) {
+      options.onDeferredRecoveryError(result.error)
+    }
+  } else {
+    void providerStartupResult
+      .then(async (result) => {
+        if (!result.ok) {
+          throw result.error
+        }
+        await options.reconcile()
+      })
+      .catch(options.onDeferredRecoveryError)
+  }
   try {
     await options.reconcile()
   } catch (error) {

@@ -90,4 +90,28 @@ describe('BarkOS staffing proposal', () => {
       })
     ).toThrow()
   })
+
+  it('assigns the verified hosted free model to OpenCode workers', () => {
+    const company = createBarkosCompany({
+      name: 'BarkOS',
+      mission: 'Güvenilir ürünler geliştir.',
+      leadName: 'Mira',
+      now: 1
+    })
+    const result = applyBarkosStaffingProposal({
+      company,
+      proposal: {
+        ...proposal,
+        workers: [{ name: 'Lina', roleKey: 'frontend', agentId: 'opencode' }]
+      },
+      objectiveTitle: 'Kimlik doğrulama uygulaması',
+      objectiveBrief: 'Planı uygula.',
+      now: 2
+    })
+
+    expect(result.company.workers.at(-1)).toMatchObject({
+      agentId: 'opencode',
+      model: 'opencode/mimo-v2.5-free'
+    })
+  })
 })

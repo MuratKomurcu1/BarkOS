@@ -167,6 +167,7 @@ export async function launchBarkosWorkerSession(args: {
     prompt: buildBarkosWorkerBriefing(args.company, worker, role, memoryContext),
     promptDelivery: 'auto-submit',
     launchSource: 'unknown',
+    ...(worker.model ? { sessionOptions: { model: worker.model } } : {}),
     ...(executionHost?.kind !== 'runtime' && isBarkosLocalSideEffectAgent(worker.agentId)
       ? { additionalEnv: { ORCA_BARKOS_SIDE_EFFECT_ENFORCEMENT: '1' } }
       : {}),

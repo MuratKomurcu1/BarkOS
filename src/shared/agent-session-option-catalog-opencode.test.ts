@@ -20,11 +20,10 @@ describe('opencode session option catalog', () => {
       }))
     ).toEqual([
       {
-        id: 'opencode/deepseek-v4-flash-free',
-        label: 'OpenCode DeepSeek V4 Flash Free',
+        id: 'opencode/mimo-v2.5-free',
+        label: 'OpenCode MiMo V2.5 Ücretsiz',
         isDefault: undefined
-      },
-      { id: 'opencode/gpt-5.4-mini', label: 'OpenCode GPT 5.4 Mini', isDefault: undefined }
+      }
     ])
     // The CLI default comes from user config, so an untouched draft must launch vanilla.
     expect(OPENCODE_SESSION_OPTION_CATALOG.defaultModelIsCliDefault).toBeUndefined()

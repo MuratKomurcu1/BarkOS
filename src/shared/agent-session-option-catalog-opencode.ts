@@ -1,5 +1,7 @@
 import { hasFlag } from './agent-cli-flag-detection'
+import { removeAgentArgOption } from './agent-session-option-agent-args'
 import type { AgentSessionOptionCatalog, CatalogModel } from './agent-session-option-catalog-types'
+import { OPENCODE_FREE_MODEL_ID, OPENCODE_FREE_MODEL_LABEL } from './opencode-free-model'
 
 const OPENCODE_MODEL_ID_PATTERN = /^[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/i
 
@@ -22,19 +24,19 @@ export function parseOpencodeCatalogModels(stdout: string): CatalogModel[] {
 }
 
 export const OPENCODE_SESSION_OPTION_CATALOG: AgentSessionOptionCatalog = {
-  // Why: seed only the two ids the commit-message spec verified as usable without
-  // workspace billing; discovery overlays everything else the host's providers list.
+  // Why: seed the hosted model verified to run without provider credentials;
+  // discovery overlays everything else the host's providers list.
   models: [
     {
-      id: 'opencode/deepseek-v4-flash-free',
-      label: 'OpenCode DeepSeek V4 Flash Free',
+      id: OPENCODE_FREE_MODEL_ID,
+      label: OPENCODE_FREE_MODEL_LABEL,
       options: []
-    },
-    { id: 'opencode/gpt-5.4-mini', label: 'OpenCode GPT 5.4 Mini', options: [] }
+    }
   ],
   modelApply: {
     launchArgs: (value) => ['--model', String(value)],
     agentArgsOverride: (tokens) => hasFlag(tokens, ['-m', '--model']),
+    removeAgentArgs: (tokens) => removeAgentArgOption(tokens, ['-m', '--model']),
     // Why: `/models` opens opencode's own picker — no direct `/model <id>` slash
     // command exists to type a value into, so delegate like gemini's `/model`.
     midSession: { kind: 'agent-picker', command: '/models' }

@@ -268,6 +268,10 @@ function warnClaudeUsageFetchFailure(
 ): void {
   const message = error instanceof Error ? error.message : String(error)
   const status = error instanceof OAuthUsageError ? error.status : null
+  // Why: 429 is an expected informational-quota response with its own retry schedule; it does not mean the Claude agent connection failed.
+  if (status === 429) {
+    return
+  }
   console.warn('[claude-rate-limits] Claude usage refresh failed', {
     ...buildClaudeUsageFetchDiagnostic(authPreparation, oauthCredentials),
     status,

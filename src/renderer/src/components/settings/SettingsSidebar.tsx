@@ -283,7 +283,7 @@ export function SettingsSidebar({
 
           <div className="space-y-2">
             <p className="px-3 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              {translate('auto.components.settings.SettingsSidebar.5c9669ff9c', 'Projects')}
+              {translate('auto.components.settings.SettingsSidebar.5c9669ff9c', 'Projeler')}
             </p>
 
             {repoSections.length > 0 ? (

@@ -996,11 +996,11 @@
           "489d1c8c9f": "Projelerde ara...",
           "ee240a39eb": "Filtreleri düzenle",
           "81ded53722": "SSH",
-          "automationCreated": "Gizle otomasyon-yaratıcı",
-          "cliCreated": "Hide CLI-created",
-          "detachedHead": "Hide detached HEAD",
-          "keepDefaultBranch": "Varsayılan şube dışında",
-          "keepDefaultBranchAria": "Uyku iş uzaylarını gizlarken varsayılan şubeyi tutun"
+          "automationCreated": "Otomasyonun oluşturduklarını gizle",
+          "cliCreated": "CLI'ın oluşturduklarını gizle",
+          "detachedHead": "Bağımsız HEAD durumunu gizle",
+          "keepDefaultBranch": "Varsayılan dalı göster",
+          "keepDefaultBranchAria": "Uyuyan çalışma alanlarını gizlerken varsayılan dalı göster"
         },
         "SidebarWorkspaceOptionsMenu": {
           "showSection": "Göster",
@@ -1589,8 +1589,8 @@
           "459ad7f650": "Sadece kenar çubuğunda gösterilen adı değiştirir - diskteki klasör aynı kalır. şube veya klasör adını kullanmak için boş bırakın.",
           "7f21e0464f": "Özel ekran adı...",
           "ad5e4e514f": "Ekran Adı",
-          "65770ad0f0": "Edit GitHub bu çalışma alanı için bağlantılar ve notlar.",
-          "382fd11a3e": "Edit Worktree Details",
+          "65770ad0f0": "Bu çalışma alanının GitHub bağlantılarını ve notlarını düzenle.",
+          "382fd11a3e": "Çalışma alanı ayrıntılarını düzenle",
           "2174f17011": "Kaydet",
           "61d6f612cf": "Tasarruf...",
           "a0d191b7a7": "Sorun bağlantıları, istek bağlantıları ve bu çalışma alanı için notlar."
@@ -1622,9 +1622,9 @@
           "3ec372b664": "dosya-manager"
         },
         "WorktreeTitleInlineRename": {
-          "2f42ae024f": "Unread:",
-          "bff3bdd00c": "Rename workspace",
-          "8df295a78d": "İş alanı olarak adlandırmaya başarısız oldu."
+          "2f42ae024f": "Okunmamış:",
+          "bff3bdd00c": "Çalışma alanını yeniden adlandır",
+          "8df295a78d": "Çalışma alanı yeniden adlandırılamadı."
         },
         "WorktreeVisibilityHelpPopover": {
           "c41f2d7e90": "Hangi iş ağacı varsayılan olarak gizlidir?",
@@ -1637,22 +1637,22 @@
           "showWorktree": "{{value0}} {{value1}}"
         },
         "WorktreeVisibilityDialog": {
-          "83a5ba8dd1": "Non-BarkOS worktrees",
+          "83a5ba8dd1": "BarkOS dışındaki çalışma alanları",
           "f1f71b9f02": "Her zaman göster",
-          "759371df43": "Hide Hide Gizle",
+          "759371df43": "Gizle",
           "25ddf19920": "{{value0}} şu anda gizli saklı",
           "8372e4bbd9": "{{value0}} şu anda gösterildi",
-          "5d02a5647f": "Hidden from sidebar",
-          "3e045d4cb8": "Shown in sidebar",
+          "5d02a5647f": "Kenar çubuğunda gizli",
+          "3e045d4cb8": "Kenar çubuğunda gösteriliyor",
           "a3f19c07d2": "Denetleniyor…",
           "b8d24e61f5": "Bu repo'nun işağaçlarını listeleyemez.",
           "c5e70a93b1": "Yeniden dene",
-          "7d21c5e848": "Hidden worktrees ({{value0}})",
-          "2f80cd4b97": "gösteri...",
+          "7d21c5e848": "Gizli çalışma alanları ({{value0}})",
+          "2f80cd4b97": "gösteriliyor…",
           "e64b81d3a9": "Göster",
           "d40d436fc2": "İş ağacı görünürlüğü güncelleyemez. Tekrar deneyin.",
           "unsupportedHost": "Bu ev sahibi kaynak bazlı iş ağacı görünürlüğü desteklemez. Update BarkOS bu ayarı değiştirmek için ev sahibi.",
-          "search": "Arama gizli işağaçları",
+          "search": "Gizli çalışma alanlarında ara",
           "searchPlaceholder": "Arama {{value0}} işağaçları...",
           "noMatches": "eşleşen iştrees",
           "allShown": "Tüm keşfedilen işağaçları gösterilir",
@@ -5560,8 +5560,8 @@
         "addHostHint": "Başka bir makine veya BarkOS server",
         "addSshHost": "SSH ev sahibi",
         "addSshHostHint": "SSH üzerinde mevcut bir makine kullanın",
-        "addRemoteOrcaServer": "Uzak BarkOS Server",
-        "addRemoteOrcaServerHint": "Başka bir BarkOS runtimetime",
+        "addRemoteOrcaServer": "Uzak BarkOS sunucusu",
+        "addRemoteOrcaServerHint": "Başka bir BarkOS çalışma ortamını eşleştirin",
         "hostConnectionFailed": "Bağlantı başarısız oldu"
       },
       "NewWorkspaceComposerModal": {
@@ -12464,9 +12464,9 @@
         },
         "BrowserLinkRoutingModifierSetting": {
           "titleSystem": "Web tarayıcınızda açmayı tutun",
-          "titleOrca": "BarkOS",
+          "titleOrca": "BarkOS'ta açmak için Shift tuşunu basılı tutun",
           "descriptionSystem": "BarkOS'de açılan bağlantılar, bu yüzden {{chord}}+ tıklamanız bunun yerine sistem tarayıcınıza bir tane gönderir.",
-          "descriptionOrca": "Sistem tarayıcınızda açılan bağlantılar. Ne zaman etkinleştirilirse, {{chord}}+ tıklama BarkOS'in inşa edilmiş tarayıcılarında bir tane açar."
+          "descriptionOrca": "Bağlantılar sistem tarayıcınızda açılır. Etkinleştirildiğinde {{chord}}+tıklama, bağlantıyı BarkOS'un yerleşik tarayıcısında açar."
         },
         "BrowserTerminalLinkActionsSetting": {
           "title": "Show terminal link eylemleri",
@@ -16075,6 +16075,18 @@
         "floor": "Hareketli ofis alanı",
         "rail": "Aktif çalışanlar",
         "workers": "Çalışanlar"
+      },
+      "window": {
+        "title": "{{value0}} · Canlı ofis",
+        "live": "CANLI"
+      },
+      "canvas": {
+        "label": "BarkOS çalışanlarının canlı piksel ofisi"
+      },
+      "zone": {
+        "analysis": "ANALİZ",
+        "production": "ÜRETİM",
+        "review": "İNCELEME"
       }
     },
     "featureTip": {

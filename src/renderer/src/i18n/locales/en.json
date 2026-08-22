@@ -17148,6 +17148,11 @@
       },
       "canvas": {
         "label": "BarkOS çalışanlarının canlı piksel ofisi"
+      },
+      "zone": {
+        "analysis": "Analysis",
+        "production": "Production",
+        "review": "Review"
       }
     },
     "intake": {

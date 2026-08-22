@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createBarkosCompany } from '../../../shared/barkos/company'
+import { createBarkosCompany, updateBarkosWorker } from '../../../shared/barkos/company'
 import { parseBarkosMemoryVault } from '../../../shared/barkos/memory-vault'
 import type { BarkosWorkerLaunchTarget } from './barkos-worker-launch-targets'
 
@@ -146,6 +146,18 @@ describe('launchBarkosWorkerSession', () => {
       })
     )
     expect(mocks.recordSession).toHaveBeenCalledWith(result.ok ? result.binding : null)
+  })
+
+  it('applies the worker model to the launched agent session', async () => {
+    const original = company()
+    const lead = original.workers[0]
+    const value = updateBarkosWorker(original, 'ada', { ...lead, model: 'gpt-5.6' }, 2)
+
+    await launchBarkosWorkerSession({ company: value, workerId: 'ada', target: target() })
+
+    expect(mocks.launchAgent).toHaveBeenCalledWith(
+      expect.objectContaining({ sessionOptions: { model: 'gpt-5.6' } })
+    )
   })
 
   it('enables fail-closed side-effect enforcement for local and SSH Claude and Codex workers', async () => {

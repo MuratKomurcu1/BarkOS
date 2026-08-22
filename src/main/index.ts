@@ -898,6 +898,9 @@ ipcMain.handle('app:recoverLegacyWorkerTerminalsForRendererStartup', () =>
       return runtime?.reconcileLegacyWorkerTerminals({ materializeRenderer: true })
     },
     onDeferredRecoveryError: (error) => {
+      if (error instanceof Error && error.message === 'terminal_liveness_unavailable') {
+        return
+      }
       console.warn('[orchestration] legacy worker provider-ready recovery failed', error)
     }
   })

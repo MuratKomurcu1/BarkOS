@@ -9,6 +9,7 @@ import {
   type BarkosRole
 } from './company'
 import type { BarkosObjectivePlanInput } from './objective-planner'
+import { OPENCODE_FREE_MODEL_ID } from '../opencode-free-model'
 
 const capabilitySchema = z.string().trim().min(1).max(80)
 
@@ -163,7 +164,11 @@ export function applyBarkosStaffingProposal(args: {
         roleId: role.id,
         agentId: proposalWorker.agentId ?? lead.agentId,
         model:
-          proposalWorker.agentId && proposalWorker.agentId !== lead.agentId ? null : lead.model,
+          proposalWorker.agentId === 'opencode'
+            ? OPENCODE_FREE_MODEL_ID
+            : proposalWorker.agentId && proposalWorker.agentId !== lead.agentId
+              ? null
+              : lead.model,
         preferredEnvironmentId: lead.preferredEnvironmentId,
         workspacePolicy: 'folder-compatible',
         status: 'available'

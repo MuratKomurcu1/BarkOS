@@ -27,6 +27,7 @@ import { seedCommandCodeSubmittedPromptStatus } from '@/lib/command-code-prompt-
 import type { TuiAgent } from '../../../shared/tui-agent'
 import type { LaunchSource } from '../../../shared/telemetry-events'
 import type { BarkosPairedSideEffectApprovalVersion } from '../../../shared/barkos/paired-side-effect-approval'
+import type { SessionOptionValue } from '../../../shared/native-chat-session-options'
 import { getConnectionIdFromState } from '@/lib/connection-context'
 import { resolveInitialNativeChatSessionOptions } from '@/components/native-chat/native-chat-launch-session-options'
 import { seedNativeChatAppliedSessionOptions } from '@/components/native-chat/native-chat-session-option-cache'
@@ -40,6 +41,8 @@ export type LaunchAgentInNewTabArgs = {
   prompt?: string
   /** Optional CLI arguments appended to the selected agent command. */
   agentArgs?: string | null
+  /** Explicit launch preferences, used by persisted BarkOS worker assignments. */
+  sessionOptions?: Record<string, SessionOptionValue>
   /** Trusted caller-owned environment additions for this one launch. */
   additionalEnv?: Readonly<Record<string, string>>
   /** Host-enforced BarkOS approval channel prepared by the trusted desktop preload. */
@@ -82,6 +85,7 @@ export function launchAgentInNewTab(args: LaunchAgentInNewTabArgs): LaunchAgentI
     groupId,
     prompt,
     agentArgs,
+    sessionOptions,
     additionalEnv,
     pairedSideEffectApprovalVersion,
     initialCwd,
@@ -141,7 +145,10 @@ export function launchAgentInNewTab(args: LaunchAgentInNewTabArgs): LaunchAgentI
     isRemote,
     agentArgs: effectiveAgentArgs,
     agentEnv,
-    sessionOptions: resolveInitialNativeChatSessionOptions(store.settings, initialViewModeOptions)
+    sessionOptions:
+      sessionOptions ??
+      resolveInitialNativeChatSessionOptions(store.settings, initialViewModeOptions),
+    sessionOptionsOverrideAgentArgs: sessionOptions !== undefined
   }
   const { startupPlan, pasteDraftAfterLaunch, submitPastedPrompt } = planLaunchAgentStartupPrompt({
     base: startupPlanBase,

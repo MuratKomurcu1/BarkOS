@@ -63,14 +63,11 @@ function buildAndApplyMenu(options: RegisterAppMenuOptions): void {
 
   const isMac = process.platform === 'darwin'
   const appearance = getAppearanceState()
-  const shortcutLabel = (actionId: KeybindingActionId): string => {
-    const bindings = getEffectiveKeybindingsForAction(
-      actionId,
-      process.platform,
-      getKeybindings?.()
+  const shortcutLabel = (actionId: KeybindingActionId): string =>
+    formatKeybindingList(
+      getEffectiveKeybindingsForAction(actionId, process.platform, getKeybindings?.()),
+      process.platform
     )
-    return formatKeybindingList(bindings, process.platform)
-  }
 
   const reloadFocusedWindow = (ignoreCache: boolean): void => {
     const webContents = BrowserWindow.getFocusedWindow()?.webContents

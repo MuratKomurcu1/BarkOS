@@ -24,6 +24,8 @@ import plantLargeUrl from '../../assets/barkos-pixel-office/furniture/LARGE_PLAN
 import smallPaintingUrl from '../../assets/barkos-pixel-office/furniture/SMALL_PAINTING/SMALL_PAINTING.png'
 import sofaUrl from '../../assets/barkos-pixel-office/furniture/SOFA/SOFA_BACK.png'
 import whiteboardUrl from '../../assets/barkos-pixel-office/furniture/WHITEBOARD/WHITEBOARD.png'
+import claudioUrl from '../../assets/barkos-pixel-office/pets/claudio/pet.png'
+import gitcatUrl from '../../assets/barkos-pixel-office/pets/gitcat/pet.png'
 
 export type BarkosPixelOfficeImages = {
   characters: HTMLImageElement[]
@@ -45,6 +47,7 @@ export type BarkosPixelOfficeImages = {
   hangingPlant: HTMLImageElement
   smallPainting: HTMLImageElement
   largePainting: HTMLImageElement
+  pets: HTMLImageElement[]
 }
 
 function loadImage(url: string): Promise<HTMLImageElement> {
@@ -78,10 +81,11 @@ export async function loadBarkosPixelOfficeImages(): Promise<BarkosPixelOfficeIm
     loadImage(coffeeUrl),
     loadImage(binUrl)
   ])
-  const [hangingPlant, smallPainting, largePainting] = await Promise.all([
+  const [hangingPlant, smallPainting, largePainting, pets] = await Promise.all([
     loadImage(hangingPlantUrl),
     loadImage(smallPaintingUrl),
-    loadImage(largePaintingUrl)
+    loadImage(largePaintingUrl),
+    Promise.all([claudioUrl, gitcatUrl].map(loadImage))
   ])
   return {
     characters,
@@ -102,6 +106,7 @@ export async function loadBarkosPixelOfficeImages(): Promise<BarkosPixelOfficeIm
     bin,
     hangingPlant,
     smallPainting,
-    largePainting
+    largePainting,
+    pets
   }
 }

@@ -36,7 +36,7 @@ describe('legacy worker renderer recovery', () => {
     await vi.waitFor(() => expect(reconcile).toHaveBeenCalledTimes(2))
   })
 
-  it('retries after initial recovery when the provider is already ready', async () => {
+  it('does not duplicate recovery when the provider is already ready', async () => {
     const reconcile = vi.fn().mockResolvedValue(undefined)
 
     await recoverLegacyWorkerTerminalsForRendererStartup({
@@ -47,7 +47,7 @@ describe('legacy worker renderer recovery', () => {
       onDeferredRecoveryError: vi.fn()
     })
 
-    await vi.waitFor(() => expect(reconcile).toHaveBeenCalledTimes(2))
+    expect(reconcile).toHaveBeenCalledTimes(1)
   })
 
   it('contains provider startup rejection after initial recovery', async () => {
@@ -72,6 +72,10 @@ describe('legacy worker renderer recovery', () => {
 
   it('contains deferred recovery rejection', async () => {
     const recoveryError = new Error('recovery failed')
+    let resolveProvider!: () => void
+    const providerReady = new Promise<void>((resolve) => {
+      resolveProvider = resolve
+    })
     const reconcile = vi.fn().mockResolvedValueOnce(undefined).mockRejectedValueOnce(recoveryError)
     let reportError!: (error: unknown) => void
     const reportedError = new Promise<unknown>((resolve) => {
@@ -81,11 +85,12 @@ describe('legacy worker renderer recovery', () => {
     await recoverLegacyWorkerTerminalsForRendererStartup({
       firstWindowStartupServicesReady: Promise.resolve(),
       managedWslCliStartupBarrierReady: Promise.resolve(),
-      localPtyProviderStartupReady: Promise.resolve(),
+      localPtyProviderStartupReady: providerReady,
       reconcile,
       onDeferredRecoveryError: reportError
     })
 
+    resolveProvider()
     await expect(reportedError).resolves.toBe(recoveryError)
     expect(reconcile).toHaveBeenCalledTimes(2)
   })

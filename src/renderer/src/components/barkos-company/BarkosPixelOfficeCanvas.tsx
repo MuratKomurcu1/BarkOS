@@ -7,6 +7,11 @@ import {
   type BarkosPixelOfficeImages
 } from './barkos-pixel-office-assets'
 import {
+  drawBarkosPixelOfficePets,
+  drawBarkosPixelOfficeZones,
+  type BarkosPixelOfficeColors
+} from './barkos-pixel-office-details'
+import {
   BARKOS_PIXEL_OFFICE_HEIGHT,
   BARKOS_PIXEL_OFFICE_WIDTH,
   barkosPixelOfficePalette,
@@ -23,22 +28,11 @@ type Props = {
   entries: readonly BarkosLiveOfficeWorker[]
 }
 
-type OfficeColors = {
-  background: string
-  card: string
-  border: string
-  foreground: string
-  muted: string
-  mutedForeground: string
-  primary: string
-  destructive: string
-}
-
 function cssColor(style: CSSStyleDeclaration, name: string, fallback: string): string {
   return style.getPropertyValue(name).trim() || fallback
 }
 
-function readOfficeColors(canvas: HTMLCanvasElement): OfficeColors {
+function readOfficeColors(canvas: HTMLCanvasElement): BarkosPixelOfficeColors {
   const style = getComputedStyle(canvas)
   return {
     background: cssColor(style, '--background', '#101010'),
@@ -107,7 +101,7 @@ function drawCarpetArea(
 function drawRoom(
   context: CanvasRenderingContext2D,
   images: BarkosPixelOfficeImages,
-  colors: OfficeColors,
+  colors: BarkosPixelOfficeColors,
   entries: readonly BarkosLiveOfficeWorker[],
   now: number
 ): void {
@@ -127,6 +121,12 @@ function drawRoom(
   context.strokeStyle = colors.border
   context.lineWidth = 2
   context.strokeRect(15, 15, 610, 258)
+
+  drawBarkosPixelOfficeZones(context, colors, [
+    translate('barkos.office.zone.analysis', 'Analysis'),
+    translate('barkos.office.zone.production', 'Production'),
+    translate('barkos.office.zone.review', 'Review')
+  ])
 
   drawCarpetArea(context, images.carpet, 17, 8, 7, 4)
   drawImage(context, images.bookshelf, 32, 4)
@@ -163,7 +163,8 @@ function drawRoundedLabel(
   avatar: BarkosPixelOfficeAvatar,
   label: string,
   task: string | undefined,
-  colors: OfficeColors
+  tool: string | null,
+  colors: BarkosPixelOfficeColors
 ): void {
   const width = Math.min(112, Math.max(54, context.measureText(label).width + 16))
   const x = Math.max(24, Math.min(BARKOS_PIXEL_OFFICE_WIDTH - width - 24, avatar.x - width / 2))
@@ -175,7 +176,8 @@ function drawRoundedLabel(
       : colors.border
   context.lineWidth = 1
   context.beginPath()
-  context.roundRect(x, y, width, task ? 27 : 17, 4)
+  const detailRows = Number(Boolean(task)) + Number(Boolean(tool))
+  context.roundRect(x, y, width, 17 + detailRows * 10, 4)
   context.fill()
   context.stroke()
   context.fillStyle = colors.foreground
@@ -188,12 +190,18 @@ function drawRoundedLabel(
     const compactTask = task.length > 20 ? `${task.slice(0, 19)}…` : task
     context.fillText(compactTask, x + width / 2, y + 22)
   }
+  if (tool) {
+    context.fillStyle = colors.primary
+    context.font = '600 7px Geist, sans-serif'
+    const compactTool = tool.length > 22 ? `${tool.slice(0, 21)}…` : tool
+    context.fillText(compactTool, x + width / 2, y + (task ? 32 : 22))
+  }
 }
 
 function drawStatusBubble(
   context: CanvasRenderingContext2D,
   avatar: BarkosPixelOfficeAvatar,
-  colors: OfficeColors
+  colors: BarkosPixelOfficeColors
 ): void {
   if (avatar.status !== 'blocked' && avatar.status !== 'waiting') {
     return
@@ -244,8 +252,9 @@ function renderOffice(args: {
   company: BarkosCompany
   entries: readonly BarkosLiveOfficeWorker[]
   avatars: Map<string, BarkosPixelOfficeAvatar>
-  colors: OfficeColors
+  colors: BarkosPixelOfficeColors
   now: number
+  motionEnabled: boolean
 }): void {
   const { canvas, context } = args
   const dpr = window.devicePixelRatio || 1
@@ -263,6 +272,12 @@ function renderOffice(args: {
   context.imageSmoothingEnabled = false
   const colors = args.colors
   drawRoom(context, args.images, colors, args.entries, args.now)
+  drawBarkosPixelOfficePets({
+    context,
+    images: args.images,
+    now: args.now,
+    motionEnabled: args.motionEnabled
+  })
 
   const workersById = new Map(args.company.workers.map((worker) => [worker.id, worker]))
   const entriesById = new Map(args.entries.map((entry) => [entry.workerId, entry]))
@@ -276,7 +291,7 @@ function renderOffice(args: {
     const palette = barkosPixelOfficePalette(avatar.workerId, args.images.characters.length)
     drawAvatar(context, args.images.characters[palette], avatar)
     drawStatusBubble(context, avatar, colors)
-    drawRoundedLabel(context, avatar, worker.name, entry.work[0]?.taskTitle, colors)
+    drawRoundedLabel(context, avatar, worker.name, entry.work[0]?.taskTitle, entry.toolName, colors)
   })
   context.setTransform(1, 0, 0, 1, 0, 0)
 }
@@ -328,7 +343,16 @@ export function BarkosPixelOfficeCanvas({ company, entries }: Props): React.JSX.
               })
             }
           })
-          renderOffice({ canvas, context, images, ...current, avatars, colors, now })
+          renderOffice({
+            canvas,
+            context,
+            images,
+            ...current,
+            avatars,
+            colors,
+            now,
+            motionEnabled: !motionQuery.matches
+          })
           frameId = requestAnimationFrame(frame)
         }
         frameId = requestAnimationFrame(frame)
