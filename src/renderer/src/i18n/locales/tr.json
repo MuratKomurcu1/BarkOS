@@ -1449,7 +1449,7 @@
           "0777de5970": "Primary worktree (orijin klon rehberi)",
           "0f33af979b": "Bu yolların dışındaki dosyalar disk üzerinde değildir.",
           "4f964d5e8c": "sparse",
-          "7d517f82e2": "birincil birincil birincil birincil birincil birincil birincil",
+          "7d517f82e2": "birincil",
           "4eba2ea99e": "Auto-name başarısız oldu. ayrıntıları görmek için tıklayın.",
           "74522ee457": "İsim başarısız oldu",
           "02e19349f4": "Auto-rename başarısız oldu: görüntü hata",
@@ -6201,7 +6201,7 @@
         "f65d992a11": "Enter Enter Enter Enter Enter Enter girin",
         "c5081f2814": "Current Worktree",
         "52404f8096": "Şimdiki Tab",
-        "739bda980c": "birincil birincil birincil birincil birincil birincil birincil",
+        "739bda980c": "birincil",
         "556e7232ca": "Şimdiki akım",
         "684e8d7bc2": "Son çalışma ağacınızı ve açık sekmelerinizi toplayın.",
         "ff908adfe9": "Yükleme Hedefleri",
@@ -15822,6 +15822,13 @@
     }
   },
   "barkos": {
+    "workspaceStatus": {
+      "active": "Etkin",
+      "working": "Çalışıyor",
+      "permission": "İzin gerekiyor",
+      "done": "Tamamlandı",
+      "inactive": "Etkin değil"
+    },
     "github": {
       "projectView": {
         "board": "Pano",

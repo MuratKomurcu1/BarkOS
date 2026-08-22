@@ -1,4 +1,5 @@
 import { resolveAgentTypeFromTerminalTitle } from '@/components/sidebar/worktree-title-derived-agent-rows'
+import { translate } from '@/i18n/i18n'
 import { classifyTitleActivity } from '@/lib/pane-agent-evidence'
 import { tabHasLivePty } from '@/lib/tab-has-live-pty'
 import { resolveRuntimePaneTitleLeafIdFromRoot } from '@/lib/runtime-pane-title-leaf-id'
@@ -18,14 +19,6 @@ type WorktreeStatusHeuristicOptions = {
   agentStatusPaneIdsByTabId?: Record<string, ReadonlySet<string>>
   terminalLayoutsByTabId?: Record<string, TerminalLayoutSnapshot | undefined>
   terminalLayoutRootsByTabId?: Record<string, TerminalPaneLayoutNode | null | undefined>
-}
-
-const STATUS_LABELS: Record<WorktreeStatus, string> = {
-  active: 'Active',
-  working: 'Working',
-  permission: 'Needs permission',
-  done: 'Done',
-  inactive: 'Inactive'
 }
 
 export function getWorktreeStatus(
@@ -110,7 +103,18 @@ function titleStatusIsAgentAttributable(title: string, launchAgent?: TuiAgent | 
 }
 
 export function getWorktreeStatusLabel(status: WorktreeStatus): string {
-  return STATUS_LABELS[status]
+  switch (status) {
+    case 'active':
+      return translate('barkos.workspaceStatus.active', 'Active')
+    case 'working':
+      return translate('barkos.workspaceStatus.working', 'Working')
+    case 'permission':
+      return translate('barkos.workspaceStatus.permission', 'Needs permission')
+    case 'done':
+      return translate('barkos.workspaceStatus.done', 'Done')
+    case 'inactive':
+      return translate('barkos.workspaceStatus.inactive', 'Inactive')
+  }
 }
 
 /**

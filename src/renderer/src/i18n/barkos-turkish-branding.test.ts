@@ -26,5 +26,8 @@ describe('BarkOS Türkçe marka sözlüğü', () => {
     )
     expect(lookup('barkos.company.page.decisions')).toBe('Kararlar')
     expect(lookup('barkos.office.banner.title')).toBe('BarkOS canlı ofis')
+    expect(lookup('barkos.workspaceStatus.active')).toBe('Etkin')
+    expect(lookup('auto.components.sidebar.WorktreeCard.7d517f82e2')).toBe('birincil')
+    expect(lookup('auto.components.WorktreeJumpPalette.739bda980c')).toBe('birincil')
   })
 })

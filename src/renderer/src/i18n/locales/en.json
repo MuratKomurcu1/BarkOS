@@ -16501,6 +16501,13 @@
     }
   },
   "barkos": {
+    "workspaceStatus": {
+      "active": "Active",
+      "working": "Working",
+      "permission": "Needs permission",
+      "done": "Done",
+      "inactive": "Inactive"
+    },
     "company": {
       "create": {
         "title": "Create your company",
