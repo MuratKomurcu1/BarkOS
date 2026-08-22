@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="resources/build/icon.png" alt="BarkOS" width="96" />
+  <img src="docs/assets/barkos-logo.png" alt="BarkOS" width="112" />
   <br />
   BarkOS
 </h1>
@@ -10,11 +10,27 @@
 </p>
 
 <p align="center">
+  <a href="https://www.muratkomurrcu.com/urunler/barkos/"><strong>Product website</strong></a>
+  ·
+  <a href="https://www.muratkomurrcu.com/urunler/barkos/indir/"><strong>Download the macOS preview</strong></a>
+  ·
+  <a href="https://github.com/MuratKomurcu1/BarkOS/stargazers"><strong>Star BarkOS</strong></a>
+</p>
+
+<p align="center">
   <a href="https://github.com/MuratKomurcu1/BarkOS/stargazers"><img src="https://img.shields.io/github/stars/MuratKomurcu1/BarkOS?style=flat&color=06b6d4" alt="GitHub stars" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-06b6d4" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/status-preview-f59e0b" alt="Preview status" />
   <img src="https://img.shields.io/badge/macOS-Apple%20Silicon-111827?logo=apple" alt="macOS Apple Silicon" />
 </p>
+
+<p align="center">
+  <a href="https://www.muratkomurrcu.com/urunler/barkos/">
+    <img src="docs/assets/barkos-live-office.png" alt="BarkOS live pixel office showing active AI agents and their tasks" width="1200" />
+  </a>
+</p>
+
+<p align="center"><em>Real BarkOS MVP: agent sessions, assignments and status represented inside the live pixel office.</em></p>
 
 > [!IMPORTANT]
 > BarkOS is an early preview. It can run tools and modify files with the permissions you grant. Use Git, review high-risk actions, and keep important work backed up.
@@ -64,7 +80,7 @@ Provider assignments are recorded in the staffing plan. Users can still add or r
 
 ## Install the preview
 
-Download the newest macOS DMG from [Releases](https://github.com/MuratKomurcu1/BarkOS/releases), open it, and drag BarkOS into Applications.
+Download the [Apple Silicon macOS preview](https://www.muratkomurrcu.com/urunler/barkos/indir/), open the DMG, and drag BarkOS into Applications. Release notes and previous builds are available under [GitHub Releases](https://github.com/MuratKomurcu1/BarkOS/releases).
 
 The current preview is not notarized. On macOS, right-click BarkOS and choose **Open** on first launch if Gatekeeper asks for confirmation.
 
@@ -127,5 +143,6 @@ BarkOS is an independent fork built from the MIT-licensed [Orca](https://github.
 ---
 
 <p align="center">
-  Built by <a href="https://muratkomurcu.com">Murat Kömürcü</a> and the BarkOS contributors.
+  Built by <a href="https://www.muratkomurrcu.com/">Murat Kömürcü</a> and the BarkOS contributors.<br />
+  <a href="https://www.muratkomurrcu.com/urunler/barkos/">Website</a> · <a href="https://github.com/MuratKomurcu1/BarkOS/releases">Releases</a> · <a href="https://github.com/MuratKomurcu1/BarkOS/issues">Issues</a>
 </p>
