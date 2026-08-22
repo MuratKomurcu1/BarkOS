@@ -103,6 +103,28 @@ function runningAnalysisLedger() {
   }
 }
 
+function runningImplementationLedger(withReviewTask: boolean) {
+  const fixture = runningAnalysisLedger()
+  return {
+    ...fixture,
+    ledger: {
+      ...fixture.ledger,
+      plans: fixture.ledger.plans.map((plan) => ({
+        ...plan,
+        tasks: plan.tasks.map((task, index) =>
+          index === 0
+            ? { ...task, title: 'Uygula', requiredCapabilities: ['javascript'] }
+            : {
+                ...task,
+                title: 'Doğrula',
+                requiredCapabilities: withReviewTask ? ['review'] : ['testing']
+              }
+        )
+      }))
+    }
+  }
+}
+
 describe('BarkOS worker report reconciliation', () => {
   it('accepts bounded read-only analysis evidence and unlocks the lead task', () => {
     const fixture = runningAnalysisLedger()
@@ -130,5 +152,49 @@ describe('BarkOS worker report reconciliation', () => {
     })
     expect(result.ledger.plans[0].tasks[1]).toMatchObject({ status: 'ready' })
     expect(result.ledger.revision).toBe(fixture.ledger.revision + 1)
+  })
+
+  it('unlocks an explicit downstream review task after low-risk implementation', () => {
+    const fixture = runningImplementationLedger(true)
+    const result = reconcileBarkosWorkerReport({
+      ledger: fixture.ledger,
+      orchestrationTaskId: 'task-runtime',
+      result: {
+        provenance: 'worker_report',
+        outcome: 'succeeded',
+        messageId: 'message-implementation',
+        subject: 'Uygulama tamamlandı',
+        body: 'Kod düzeltildi ve testler geçti.',
+        filesModified: ['src/cart.js'],
+        reportPath: null
+      },
+      now: 4
+    })
+
+    expect(result).toMatchObject({ changed: true, accepted: true })
+    expect(result.ledger.evidence[0]).toMatchObject({ status: 'accepted' })
+    expect(result.ledger.plans[0].tasks[1]).toMatchObject({ status: 'ready' })
+  })
+
+  it('keeps implementation evidence submitted without a downstream reviewer', () => {
+    const fixture = runningImplementationLedger(false)
+    const result = reconcileBarkosWorkerReport({
+      ledger: fixture.ledger,
+      orchestrationTaskId: 'task-runtime',
+      result: {
+        provenance: 'worker_report',
+        outcome: 'succeeded',
+        messageId: 'message-unreviewed',
+        subject: 'Uygulama tamamlandı',
+        body: 'Kod düzeltildi.',
+        filesModified: ['src/cart.js'],
+        reportPath: null
+      },
+      now: 4
+    })
+
+    expect(result).toMatchObject({ changed: true, accepted: false })
+    expect(result.ledger.evidence[0]).toMatchObject({ status: 'submitted' })
+    expect(result.ledger.plans[0].tasks[1]).toMatchObject({ status: 'blocked' })
   })
 })

@@ -30,7 +30,11 @@ function evidenceId(dispatchId: string): string {
     : dispatchId
 }
 
-function isAutoReviewableTask(task: BarkosTask, filesModified: readonly string[]): boolean {
+function isAutoReviewableTask(
+  ledger: BarkosWorkLedger,
+  task: BarkosTask,
+  filesModified: readonly string[]
+): boolean {
   if (task.risk !== 'low') {
     return false
   }
@@ -38,11 +42,17 @@ function isAutoReviewableTask(task: BarkosTask, filesModified: readonly string[]
   const isStaffingDecision =
     task.requiredCapabilities.includes('planning') &&
     task.requiredCapabilities.includes('delegation')
-  if (!isProjectAnalysis && !isStaffingDecision) {
-    return false
+  if (isProjectAnalysis || isStaffingDecision) {
+    return filesModified.every(
+      (path) => path.startsWith('.barkos/reports/') || path === '.barkos/staffing-proposal.json'
+    )
   }
-  return filesModified.every(
-    (path) => path.startsWith('.barkos/reports/') || path === '.barkos/staffing-proposal.json'
+  return ledger.plans.some((plan) =>
+    plan.tasks.some(
+      (candidate) =>
+        candidate.dependencyIds.includes(task.id) &&
+        candidate.requiredCapabilities.includes('review')
+    )
   )
 }
 
@@ -158,7 +168,7 @@ export function reconcileBarkosWorkerReport(args: {
     },
     now
   })
-  const accepted = isAutoReviewableTask(task, report.data.filesModified)
+  const accepted = isAutoReviewableTask(args.ledger, task, report.data.filesModified)
   const reviewed = accepted
     ? reviewBarkosEvidence({
         ledger: captured,
