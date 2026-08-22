@@ -16056,6 +16056,7 @@
       "attentionCount": "{{value0}} çalışan ilgi bekliyor",
       "summary": "Ofis özeti:",
       "workers": "Çalışanlar",
+      "localHost": "Yerel",
       "workerStatus": "Durum: {{value0}}",
       "workerActiveWork": "{{value0}} için etkin işler",
       "currentTool": "Kullanılan araç:",

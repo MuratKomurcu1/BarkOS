@@ -55,7 +55,10 @@ export function BarkosLiveOfficeWorkerRow(props: {
           </div>
           {entry.workspaceId ? (
             <p className="max-w-full truncate font-mono text-[11px] text-muted-foreground">
-              {entry.executionHostId} · {entry.workspaceId}
+              {entry.executionHostId === 'local'
+                ? translate('barkos.office.localHost', 'Local')
+                : entry.executionHostId}{' '}
+              · {entry.workspaceId}
             </p>
           ) : null}
         </div>

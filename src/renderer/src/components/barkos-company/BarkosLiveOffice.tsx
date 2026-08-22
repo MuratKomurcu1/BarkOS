@@ -7,6 +7,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { translate } from '@/i18n/i18n'
 import type { BarkosLiveOfficeWorker } from '@/lib/barkos-live-office'
 import { BARKOS_LIVE_OFFICE_ATTENTION_STATUSES } from './barkos-live-office-presentation'
+import { barkosRoleName } from './barkos-role-presentation'
 import { BarkosLiveOfficeViewOptions } from './BarkosLiveOfficeViewOptions'
 import { BarkosLiveOfficeWorkerRow } from './BarkosLiveOfficeWorkerRow'
 import { BarkosPixelOfficeCanvas } from './BarkosPixelOfficeCanvas'
@@ -25,7 +26,7 @@ export function BarkosLiveOffice({ company, entries: workers }: Props): React.JS
     [company.workers]
   )
   const rolesById = useMemo(
-    () => new Map(company.roles.map((role) => [role.id, role.name])),
+    () => new Map(company.roles.map((role) => [role.id, barkosRoleName(role)])),
     [company.roles]
   )
   const activeCount = workers.filter((worker) => worker.work.length > 0).length
