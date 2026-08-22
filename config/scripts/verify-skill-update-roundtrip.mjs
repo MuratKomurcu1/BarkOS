@@ -27,16 +27,18 @@ const shape = option('shape')
 // generated shell command and pass them to Node through the environment.
 const source = option('source') ?? process.env.SKILL_UPDATE_SOURCE
 const ref = option('ref') ?? process.env.SKILL_UPDATE_REF
+const historySource = option('history-source') ?? process.env.SKILL_UPDATE_HISTORY_SOURCE
 if (
   !cliVersion ||
   (autocrlf !== 'true' && autocrlf !== 'false') ||
   (shape !== 'symlink' && shape !== 'copy') ||
   !source ||
   !ref ||
-  !/^[^/\s]+\/[^/\s]+$/.test(source)
+  !/^[^/\s]+\/[^/\s]+$/.test(source) ||
+  (historySource && !/^[^/\s]+\/[^/\s]+$/.test(historySource))
 ) {
   throw new Error(
-    'Usage: verify-skill-update-roundtrip.mjs --cli=<version> --autocrlf=true|false --shape=symlink|copy --source=<owner/repo> --ref=<git-ref>'
+    'Usage: verify-skill-update-roundtrip.mjs --cli=<version> --autocrlf=true|false --shape=symlink|copy --source=<owner/repo> --ref=<git-ref> [--history-source=<owner/repo>]'
   )
 }
 
@@ -73,7 +75,39 @@ function historicalRelease(name) {
   throw new Error(`No historical released snapshot is available for ${name}`)
 }
 
+const availableHistoricalTags = new Set()
+
+function ensureHistoricalTag(tag) {
+  if (availableHistoricalTags.has(tag)) {
+    return
+  }
+  if (!/^v[0-9A-Za-z._-]+$/.test(tag)) {
+    throw new Error(`Unsupported historical release tag: ${tag}`)
+  }
+  try {
+    execFileSync('git', ['rev-parse', '--verify', '--quiet', `refs/tags/${tag}^{commit}`], {
+      stdio: 'ignore'
+    })
+  } catch (error) {
+    if (!historySource) {
+      throw error
+    }
+    execFileSync(
+      'git',
+      [
+        'fetch',
+        '--no-tags',
+        `https://github.com/${historySource}.git`,
+        `refs/tags/${tag}:refs/tags/${tag}`
+      ],
+      { stdio: 'inherit' }
+    )
+  }
+  availableHistoricalTags.add(tag)
+}
+
 async function materializePackage(name, tag, destination) {
+  ensureHistoricalTag(tag)
   const prefix = `skills/${name}/`
   const entries = execFileSync('git', ['ls-tree', '-r', '-z', tag, '--', `skills/${name}`])
     .toString('utf8')

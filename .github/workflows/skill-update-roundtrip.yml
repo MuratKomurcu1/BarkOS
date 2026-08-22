@@ -13,6 +13,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'skills/**'
+      - 'resources/skills/**'
+      - 'config/scripts/verify-skill-update-roundtrip.mjs'
+      - 'src/main/skills/skill-freshness-eligibility.ts'
+      - 'src/shared/skill-freshness.ts'
+      - '.github/workflows/skill-update-roundtrip.yml'
 
 jobs:
   roundtrip:
@@ -43,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           SKILL_UPDATE_SOURCE: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           SKILL_UPDATE_REF: ${{ github.head_ref || github.ref_name }}
+          SKILL_UPDATE_HISTORY_SOURCE: stablyai/orca
         run: >-
           node config/scripts/verify-skill-update-roundtrip.mjs
           --cli=${{ matrix.skills-cli }}
