@@ -246,6 +246,10 @@ describe('BarkOS worker launch targets', () => {
 })
 
 describe('explainBarkosWorkerTargetGap', () => {
+  it('reports no gap when a compatible target can launch the worker', () => {
+    expect(explainBarkosWorkerTargetGap(state(), worker())).toBeNull()
+  })
+
   it('reports no-workspace when nothing is registered yet', () => {
     const empty = { ...state(), repos: [], worktreesByRepo: {}, folderWorkspaces: [] }
     expect(explainBarkosWorkerTargetGap(empty, worker())).toEqual({ kind: 'no-workspace' })

@@ -138,10 +138,17 @@ export type BarkosWorkerTargetGap =
 export function explainBarkosWorkerTargetGap(
   state: BarkosWorkerLaunchTargetState,
   worker: BarkosWorker
-): BarkosWorkerTargetGap {
+): BarkosWorkerTargetGap | null {
   const agent = isTuiAgent(worker.agentId) ? worker.agentId : null
   if (agent === null || !isTuiAgentEnabled(agent, state.disabledTuiAgents)) {
     return { kind: 'agent-disabled', agent: worker.agentId }
+  }
+  if (
+    collectBarkosWorkerLaunchTargets(state, worker).some(
+      (target) => target.agentAvailable && target.compatible
+    )
+  ) {
+    return null
   }
   const workspaces = collectActiveDashboardWorkspaces({
     repos: state.repos,

@@ -72,6 +72,9 @@ export function describeBarkosWorkerTargetGap(worker: BarkosWorker): string | nu
     },
     worker
   )
+  if (!gap) {
+    return null
+  }
   switch (gap.kind) {
     case 'no-workspace':
       return null
