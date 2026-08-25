@@ -22,6 +22,8 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-06b6d4" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/status-preview-f59e0b" alt="Preview status" />
   <img src="https://img.shields.io/badge/macOS-Apple%20Silicon-111827?logo=apple" alt="macOS Apple Silicon" />
+  <img src="https://img.shields.io/badge/Windows-10%2B-111827?logo=windows" alt="Windows 10+" />
+  <img src="https://img.shields.io/badge/Linux-AppImage%20%7C%20DEB-111827?logo=linux" alt="Linux AppImage and DEB" />
 </p>
 
 <p align="center">
@@ -80,9 +82,18 @@ Provider assignments are recorded in the staffing plan. Users can still add or r
 
 ## Install the preview
 
-Download the [Apple Silicon macOS preview](https://www.muratkomurrcu.com/urunler/barkos/indir/), open the DMG, and drag BarkOS into Applications. Release notes and previous builds are available under [GitHub Releases](https://github.com/MuratKomurcu1/BarkOS/releases).
+Download BarkOS directly for your platform:
 
-The current preview is not notarized. On macOS, right-click BarkOS and choose **Open** on first launch if Gatekeeper asks for confirmation.
+| Platform | Package |
+| --- | --- |
+| macOS Apple Silicon | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-macos-arm64.dmg) |
+| macOS Intel | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-macos-x64.dmg) |
+| Windows | [EXE installer](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-windows-setup.exe) |
+| Linux | [AppImage](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-linux.AppImage) |
+
+Release notes and previous builds are available under [GitHub Releases](https://github.com/MuratKomurcu1/BarkOS/releases).
+
+Unsigned preview packages can trigger an operating-system warning. On macOS, right-click BarkOS and choose **Open** on first launch. On Windows, choose **More info → Run anyway** only when the package came from the official BarkOS repository.
 
 ### Agent CLIs
 
@@ -126,8 +137,8 @@ pnpm build:mac
 - Stabilize autonomous project intake and evidence-based completion
 - Expand the pixel office with richer real-session movement and collaboration
 - Finish the BarkOS mobile companion and independent pairing service
-- Add signed and notarized macOS releases
-- Harden Windows and Linux installers
+- Add optional signed and notarized release channels
+- Harden Windows and Linux update paths
 - Add configurable provider routing, budgets, and local-model adapters
 
 ## Contributing

@@ -909,7 +909,7 @@ Bloklamayan mevcut notlar:
 
 - WSL live-hook fixture'ı platform güvenli `/bin/sh` executable override'ına
   geçirildi ve tam regresyonda geçti.
-- E2E sırasında görülen `/usr/local/bin/orca-dev` symlink yazma izni uyarısı
+- E2E sırasında görülen `/usr/local/bin/barkos-dev` symlink yazma izni uyarısı
   paketleme yolunda çözüldü; macOS build'i global dev CLI kurulumunu atlıyor.
 - Mevcut CSS `::highlight` optimizer uyarıları çıktı; BarkOS akışını
   engellemedi.
@@ -995,7 +995,7 @@ uygulamalarına dokunulmadı.
     geçerli ve paketli `barkos --help` çalıştı.
   - Yerel paket ücretsiz ad-hoc imzalıdır ve notarize edilmemiştir. M8 genel
     dağıtım imzası/notarizasyonu tamamlanmış sayılmaz.
-  - Yerel `build:mac` artık yalnız host mimarisini üretir, global `orca-dev`
+  - Yerel `build:mac` artık yalnız host mimarisini üretir, global `barkos-dev`
     symlink yazmaz, eski macOS/Linux Orca launcher kaynaklarını paketlemez ve
     paketli yardım metnini BarkOS olarak sunar.
   - İlk denemelerin eski ZIP/DMG dosyaları kaldırıldı; bunlar yeniden üretilebilir

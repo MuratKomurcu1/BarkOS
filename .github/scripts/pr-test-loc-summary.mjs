@@ -23,7 +23,7 @@ function githubHeaders(token) {
   return {
     Accept: 'application/vnd.github+json',
     Authorization: `Bearer ${token}`,
-    'User-Agent': 'orca-pr-test-loc',
+    'User-Agent': 'barkos-pr-test-loc',
     'X-GitHub-Api-Version': '2022-11-28'
   }
 }

@@ -1,6 +1,6 @@
 # Windows setup-runner shell
 
-On native Windows, Orca writes the `orca.yaml` setup script (and the issue command) to a generated
+On native Windows, Orca writes the `barkos.yaml` setup script (and the issue command) to a generated
 runner file and types a launch command into a terminal. The runner is a **`.cmd` batch file by
 default**, exactly as it has been since setup hooks shipped.
 
@@ -30,7 +30,7 @@ language a project's setup script is written in. Deriving the runner from it had
 
 - Windows users with batch-syntax setup scripts silently switched to bash on upgrade, so `copy`,
   `xcopy`, `set VAR=value`, and `if errorlevel 1` stopped working.
-- Two people on the same repo got different interpreters for the same `orca.yaml`, so no project
+- Two people on the same repo got different interpreters for the same `barkos.yaml`, so no project
   could write a setup script that worked for all of its Windows contributors.
 
 A `#!` line is per-project, explicit, and identical for everyone who checks the repo out.

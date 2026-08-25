@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: barkos-release-${{ github.ref }}
@@ -23,9 +23,16 @@ jobs:
           - label: macOS
             os: macos-15
             package_command: >-
-              CSC_IDENTITY_AUTO_DISCOVERY=false
-              pnpm exec electron-builder --config config/electron-builder.config.cjs
-              --mac dmg zip --publish never
+              if [[ -n "${CSC_LINK:-}" &&
+              ( -n "${APPLE_API_KEY:-}" || -n "${APPLE_ID:-}" ) ]]; then
+              ORCA_MAC_RELEASE=1 pnpm exec electron-builder
+              --config config/electron-builder.config.cjs
+              --mac dmg zip --publish never;
+              else
+              CSC_IDENTITY_AUTO_DISCOVERY=false pnpm exec electron-builder
+              --config config/electron-builder.config.cjs
+              --mac dmg zip --publish never;
+              fi
             smoke_command: >-
               APP_DIR=dist/mac/BarkOS.app;
               test -d "$APP_DIR" || APP_DIR=dist/mac-arm64/BarkOS.app;
@@ -34,6 +41,9 @@ jobs:
             artifact_path: |
               dist/barkos-macos-*.dmg
               dist/barkos-macos-*.zip
+              dist/barkos-macos-*.dmg.blockmap
+              dist/barkos-macos-*.zip.blockmap
+              dist/latest-mac.yml
           - label: Windows
             os: windows-2022
             package_command: >-
@@ -62,6 +72,14 @@ jobs:
       NODE_OPTIONS: --max-old-space-size=4096
       ORCA_REUSE_PREPARED_NATIVE_RUNTIME: '1'
       ORCA_SKIP_DEV_CLI_INSTALL: '1'
+      CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+      CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+      APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+      APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+      APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
     steps:
       - name: Kaynağı al
@@ -109,3 +127,25 @@ jobs:
           path: ${{ matrix.artifact_path }}
           if-no-files-found: error
           retention-days: 14
+
+  publish:
+    name: BarkOS sürümünü yayınla
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Paketleri indir
+        uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: BarkOS GitHub Release oluştur
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: >-
+          gh release create "$TAG" dist/*
+          --repo "${{ github.repository }}"
+          --title "BarkOS ${TAG#v}"
+          --generate-notes
