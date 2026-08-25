@@ -7,9 +7,15 @@ const workflow = parse(readFileSync('.github/workflows/barkos-cross-platform-rel
 describe('BarkOS cross-platform release workflow', () => {
   it('packages macOS, Windows, and Linux with BarkOS artifact names', () => {
     const rows = workflow.jobs.package.strategy.matrix.include
-    expect(rows.map((row) => row.os)).toEqual(['macos-15', 'windows-2022', 'ubuntu-latest'])
+    expect(rows.map((row) => row.os)).toEqual([
+      'macos-15',
+      'macos-15-intel',
+      'windows-2022',
+      'ubuntu-latest'
+    ])
     expect(rows.map((row) => row.artifact_name)).toEqual([
-      'barkos-macos',
+      'barkos-macos-arm64',
+      'barkos-macos-x64',
       'barkos-windows',
       'barkos-linux'
     ])

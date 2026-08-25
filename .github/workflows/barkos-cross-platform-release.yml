@@ -20,31 +20,53 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - label: macOS
+          - label: macOS Apple Silicon
             os: macos-15
             package_command: >-
               if [[ -n "${CSC_LINK:-}" &&
               ( -n "${APPLE_API_KEY:-}" || -n "${APPLE_ID:-}" ) ]]; then
-              ORCA_MAC_RELEASE=1 pnpm exec electron-builder
+              ORCA_MAC_RELEASE=1 ORCA_LOCAL_BUILD_ARCH=arm64 pnpm exec electron-builder
               --config config/electron-builder.config.cjs
-              --mac dmg zip --publish never;
+              --mac dmg zip --arm64 --publish never;
               else
               unset CSC_LINK CSC_KEY_PASSWORD APPLE_API_KEY APPLE_API_KEY_ID
               APPLE_API_ISSUER APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID;
-              CSC_IDENTITY_AUTO_DISCOVERY=false pnpm exec electron-builder
+              CSC_IDENTITY_AUTO_DISCOVERY=false ORCA_LOCAL_BUILD_ARCH=arm64
+              pnpm exec electron-builder
               --config config/electron-builder.config.cjs
-              --mac dmg zip --publish never;
+              --mac dmg zip --arm64 --publish never;
               fi
-            smoke_command: >-
-              APP_DIR=dist/mac/BarkOS.app;
-              test -d "$APP_DIR" || APP_DIR=dist/mac-arm64/BarkOS.app;
-              node config/scripts/smoke-packaged-cli.mjs --app-dir="$APP_DIR"
-            artifact_name: barkos-macos
+            smoke_command: node config/scripts/smoke-packaged-cli.mjs --app-dir=dist/mac-arm64/BarkOS.app
+            artifact_name: barkos-macos-arm64
             artifact_path: |
-              dist/barkos-macos-*.dmg
-              dist/barkos-macos-*.zip
-              dist/barkos-macos-*.dmg.blockmap
-              dist/barkos-macos-*.zip.blockmap
+              dist/barkos-macos-arm64.dmg
+              dist/barkos-macos-arm64.zip
+              dist/barkos-macos-arm64.dmg.blockmap
+              dist/barkos-macos-arm64.zip.blockmap
+              dist/latest-mac.yml
+          - label: macOS Intel
+            os: macos-15-intel
+            package_command: >-
+              if [[ -n "${CSC_LINK:-}" &&
+              ( -n "${APPLE_API_KEY:-}" || -n "${APPLE_ID:-}" ) ]]; then
+              ORCA_MAC_RELEASE=1 ORCA_LOCAL_BUILD_ARCH=x64 pnpm exec electron-builder
+              --config config/electron-builder.config.cjs
+              --mac dmg zip --x64 --publish never;
+              else
+              unset CSC_LINK CSC_KEY_PASSWORD APPLE_API_KEY APPLE_API_KEY_ID
+              APPLE_API_ISSUER APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID;
+              CSC_IDENTITY_AUTO_DISCOVERY=false ORCA_LOCAL_BUILD_ARCH=x64
+              pnpm exec electron-builder
+              --config config/electron-builder.config.cjs
+              --mac dmg zip --x64 --publish never;
+              fi
+            smoke_command: node config/scripts/smoke-packaged-cli.mjs --app-dir=dist/mac/BarkOS.app
+            artifact_name: barkos-macos-x64
+            artifact_path: |
+              dist/barkos-macos-x64.dmg
+              dist/barkos-macos-x64.zip
+              dist/barkos-macos-x64.dmg.blockmap
+              dist/barkos-macos-x64.zip.blockmap
               dist/latest-mac.yml
           - label: Windows
             os: windows-2022
