@@ -16091,10 +16091,25 @@
       "canvas": {
         "label": "BarkOS çalışanlarının canlı piksel ofisi"
       },
+      "collaboration": {
+        "title": "Ajan iletişim akışı",
+        "description": "Kalıcı görev gönderimleri ve çalışan raporları burada görünür.",
+        "count": "{{value0}} kayıt",
+        "empty": "İlk görev bir çalışana gönderildiğinde iletişim akışı burada başlayacak."
+      },
       "zone": {
         "analysis": "ANALİZ",
         "production": "ÜRETİM",
         "review": "İNCELEME"
+      },
+      "station": {
+        "analysis": "Analiz masası",
+        "research": "Araştırma alanı",
+        "planning": "Planlama masası",
+        "implementation": "Üretim masası",
+        "verification": "Test laboratuvarı",
+        "review": "İnceleme masası",
+        "communication": "Toplantı alanı"
       }
     },
     "featureTip": {

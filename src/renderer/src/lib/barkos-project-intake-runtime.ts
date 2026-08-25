@@ -12,9 +12,11 @@ import {
 } from './barkos-orchestration-runtime'
 import type { BarkosWorkerLaunchTarget } from './barkos-worker-launch-targets'
 import {
+  availableBarkosAgentsOnTarget,
   describeBarkosWorkerTargetGap,
   ensureBarkosProjectWorkerTarget,
-  resolveBarkosDefaultWorkerTarget
+  resolveBarkosDefaultWorkerTarget,
+  resolveBarkosWorkerTargetOnWorkspace
 } from './barkos-project-worker-target'
 import { launchBarkosWorkerSession } from './launch-barkos-worker-session'
 import {
@@ -176,10 +178,22 @@ async function startBarkosObjectiveTasksUnlocked(args: {
     if (!worker) {
       throw new Error(`Atanan BarkOS çalışanı bulunamadı: ${assignment.workerId}`)
     }
+    const workerTarget =
+      worker.id === lead.id ? target : resolveBarkosWorkerTargetOnWorkspace(worker, target)
+    if (!workerTarget) {
+      throw new Error(
+        describeBarkosWorkerTargetGap(worker) ??
+          `${worker.name} için seçili çalışma alanında kullanılabilir ajan bulunamadı`
+      )
+    }
     const workerRuntime =
       worker.id === lead.id
         ? coordinatorRuntime
-        : await ensureBarkosWorkerOnTarget({ company: args.company, worker, target })
+        : await ensureBarkosWorkerOnTarget({
+            company: args.company,
+            worker,
+            target: workerTarget
+          })
     await dispatchBarkosAssignmentOnRuntime({
       ledger: assignedLedger,
       assignmentId: assignment.id,
@@ -237,7 +251,9 @@ export async function startBarkosProjectIntake(args: {
 
   const plannedLedger = await useAppStore
     .getState()
-    .createBarkosObjectivePlan(createBarkosProjectIntakePlan(company, args.request))
+    .createBarkosObjectivePlan(
+      createBarkosProjectIntakePlan(company, args.request, availableBarkosAgentsOnTarget(target))
+    )
   const objective = plannedLedger.objectives.at(-1)
   const plan = plannedLedger.plans.find((entry) => entry.id === objective?.activePlanId)
   const analysisTask = plan?.tasks.find((task) =>

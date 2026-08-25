@@ -1,4 +1,4 @@
-import type { BarkosLiveOfficeStatus } from '@/lib/barkos-live-office'
+import type { BarkosLiveOfficeStation, BarkosLiveOfficeStatus } from '@/lib/barkos-live-office'
 import { translate } from '@/i18n/i18n'
 
 export const BARKOS_LIVE_OFFICE_ATTENTION_STATUSES = new Set<BarkosLiveOfficeStatus>([
@@ -54,4 +54,23 @@ export function barkosLiveOfficeStatusVariant(
     return 'secondary'
   }
   return status === 'idle' ? 'dot' : 'outline'
+}
+
+export function barkosLiveOfficeStationLabel(station: BarkosLiveOfficeStation): string {
+  switch (station) {
+    case 'analysis':
+      return translate('barkos.office.station.analysis', 'Analysis desk')
+    case 'research':
+      return translate('barkos.office.station.research', 'Research area')
+    case 'planning':
+      return translate('barkos.office.station.planning', 'Planning table')
+    case 'implementation':
+      return translate('barkos.office.station.implementation', 'Production desk')
+    case 'verification':
+      return translate('barkos.office.station.verification', 'Test lab')
+    case 'review':
+      return translate('barkos.office.station.review', 'Review desk')
+    case 'communication':
+      return translate('barkos.office.station.communication', 'Meeting area')
+  }
 }

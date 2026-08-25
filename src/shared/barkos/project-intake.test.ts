@@ -40,7 +40,11 @@ describe('BarkOS project intake', () => {
       2
     ).company
 
-    const plan = createBarkosProjectIntakePlan(company, 'Kimlik doğrulama akışını yenile.')
+    const plan = createBarkosProjectIntakePlan(company, 'Kimlik doğrulama akışını yenile.', [
+      'codex',
+      'claude',
+      'opencode'
+    ])
 
     expect(plan.title).toBe('Proje: Kimlik doğrulama akışını yenile.')
     expect(plan.tasks[0]).toMatchObject({
@@ -54,5 +58,8 @@ describe('BarkOS project intake', () => {
       dependencyDraftIds: ['project-analysis'],
       requiredCapabilities: ['planning', 'delegation', 'review']
     })
+    expect(plan.tasks[1].spec).toContain(
+      'Bu çalışma alanında başlatılabildiği doğrulanan ajanlar: codex, claude, opencode.'
+    )
   })
 })

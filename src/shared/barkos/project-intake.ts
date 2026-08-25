@@ -6,6 +6,7 @@ import {
   type BarkosWorker
 } from './company'
 import type { BarkosObjectivePlanInput } from './objective-planner'
+import { barkosProviderRoutingGuide } from './provider-capabilities'
 
 export const BARKOS_PROJECT_ANALYST_ROLE_ID = 'proje-analisti'
 export const BARKOS_PROJECT_ANALYST_CAPABILITIES = [
@@ -96,7 +97,8 @@ function objectiveTitle(request: string): string {
 
 export function createBarkosProjectIntakePlan(
   company: BarkosCompany,
-  request: string
+  request: string,
+  availableAgentIds?: readonly string[]
 ): Omit<BarkosObjectivePlanInput, 'createdByWorkerId'> {
   const normalizedRequest = request.trim()
   if (!normalizedRequest) {
@@ -106,6 +108,10 @@ export function createBarkosProjectIntakePlan(
   if (!lead) {
     throw new Error('barkos_company_lead_not_found')
   }
+  const providerGuide = barkosProviderRoutingGuide()
+  const availableProviders = availableAgentIds?.length
+    ? [...new Set(availableAgentIds)].join(', ')
+    : lead.agentId
   return {
     title: objectiveTitle(normalizedRequest),
     brief: normalizedRequest,
@@ -134,7 +140,8 @@ export function createBarkosProjectIntakePlan(
           'Proje analistinin raporunu ve tamamlanma mesajını incele.',
           'Gerekli iş paketlerini, bağımlılıkları, riskleri ve her paket için gereken çalışan yeteneklerini kararlaştır.',
           'Mevcut çalışanlar yeterliyse onları kullan; yetersizse hangi rollerin eklenmesi veya çıkarılması gerektiğini gerekçeli bir ekip önerisi olarak raporla.',
-          'Her yeni çalışan için görevin niteliğine göre agentId seç: genel uygulama, koordinasyon ve son karar için codex; derin inceleme, büyük refactor ve dokümantasyon için claude; bağımsız paralel uygulama veya sağlayıcı yedeği için opencode. Yalnız codex, claude veya opencode kullan. Kullanıcı izinleri ve risk kapıları her sağlayıcı seçiminden üstündür.',
+          `Her yeni çalışan için görevin niteliğine göre agentId seç. Denetlenmiş BarkOS yetenek matrisi: ${providerGuide}. Yalnız bu listedeki sağlayıcıları kullan. Kullanıcı izinleri ve risk kapıları her sağlayıcı seçiminden üstündür.`,
+          `Bu çalışma alanında başlatılabildiği doğrulanan ajanlar: ${availableProviders}. Yeni çalışanları yalnız bu listeden seç.`,
           'Uygulamaya başlamadan önce çakışmayan çalışma alanları ve doğrulama ölçütleri olan yürütülebilir planı hazırla.',
           'Kararını .barkos/staffing-proposal.json dosyasına version, summary, roles, workers ve tasks alanlarıyla yaz. Her rol key/name/mission/capabilities/definitionOfDone/instructions; her çalışan name/roleKey/agentId; her görev key/title/spec/roleKey/dependencyKeys/workspacePolicy/risk alanlarını içermeli.',
           'worker_done komutuna --staffing-proposal-file .barkos/staffing-proposal.json ekle. BarkOS yalnızca doğrulanan bu sözleşmedeki yeni çalışanları ve uygulama görevlerini oluşturur.'

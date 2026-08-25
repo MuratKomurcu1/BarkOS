@@ -154,6 +154,7 @@ describe('BarkOS live office projection', () => {
       status: 'working',
       toolName: 'Bash',
       toolInput: 'pnpm test',
+      station: 'verification',
       work: [{ taskTitle: 'Build release', dispatchId: 'dispatch-1' }]
     })
   })

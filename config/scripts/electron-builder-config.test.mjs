@@ -42,6 +42,7 @@ describe('electron-builder config', () => {
       ])
     )
     expect(electronBuilderConfig.dmg.artifactName).toBe('barkos-macos-${arch}.${ext}')
+    expect(electronBuilderConfig.mac.artifactName).toBe('barkos-macos-${arch}.${ext}')
     expect(electronBuilderConfig.nsis.artifactName).toBe('barkos-windows-setup.${ext}')
   })
 
@@ -208,8 +209,20 @@ describe('electron-builder config', () => {
         'out/package.json',
         'out/cli/**',
         'out/shared/**',
+        'out/main/agent-state-file-reader.js',
+        'out/main/amp/**',
         'out/main/skills/**',
-        'out/main/claude-accounts/keychain.js'
+        'out/main/claude-accounts/keychain.js',
+        'out/main/codex-accounts/**',
+        'out/main/codex-cli/**',
+        'out/main/command-code/**',
+        'out/main/devin/**',
+        'out/main/kimi/**',
+        'out/main/openclaude/**',
+        'out/main/rolling-file-backup.js',
+        'out/main/sqlite/**',
+        'out/main/startup/**',
+        'out/main/win32-utils.js'
       ])
     )
   })

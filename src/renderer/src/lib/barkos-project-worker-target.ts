@@ -3,6 +3,7 @@ import { barkosAgentDisplayName } from '../../../shared/barkos/company-agent-def
 import { getActiveSidebarWorkspaceId } from '../../../shared/workspace-scope'
 import { useAppStore } from '@/store'
 import {
+  barkosAvailableAgentsForHost,
   collectBarkosWorkerLaunchTargets,
   explainBarkosWorkerTargetGap,
   pickDefaultBarkosWorkerLaunchTarget,
@@ -34,6 +35,57 @@ export function resolveBarkosDefaultWorkerTarget(
     worker,
     getActiveSidebarWorkspaceId(state.activeWorkspaceKey, state.activeWorktreeId),
     state.activeWorkspaceExecutionHostId
+  )
+}
+
+export function resolveBarkosWorkerTargetOnWorkspace(
+  worker: BarkosWorker,
+  target: Pick<BarkosWorkerLaunchTarget, 'workspaceId' | 'executionHostId'>
+): BarkosWorkerLaunchTarget | null {
+  const state = useAppStore.getState()
+  return (
+    collectBarkosWorkerLaunchTargets(
+      {
+        detectedAgentIds: state.detectedAgentIds,
+        remoteDetectedAgentIds: state.remoteDetectedAgentIds,
+        runtimeDetectedAgentIds: state.runtimeDetectedAgentIds,
+        disabledTuiAgents: state.settings?.disabledTuiAgents ?? null,
+        repos: state.repos,
+        worktreesByRepo: state.worktreesByRepo,
+        folderWorkspaces: state.folderWorkspaces,
+        projectGroups: state.projectGroups,
+        runtimeEnvironments: state.runtimeEnvironments,
+        sshTargetLabels: state.sshTargetLabels
+      },
+      worker
+    ).find(
+      (candidate) =>
+        candidate.workspaceId === target.workspaceId &&
+        candidate.executionHostId === target.executionHostId &&
+        candidate.compatible &&
+        candidate.agentAvailable
+    ) ?? null
+  )
+}
+
+export function availableBarkosAgentsOnTarget(
+  target: Pick<BarkosWorkerLaunchTarget, 'executionHostId'>
+): readonly string[] {
+  const state = useAppStore.getState()
+  return barkosAvailableAgentsForHost(
+    {
+      detectedAgentIds: state.detectedAgentIds,
+      remoteDetectedAgentIds: state.remoteDetectedAgentIds,
+      runtimeDetectedAgentIds: state.runtimeDetectedAgentIds,
+      disabledTuiAgents: state.settings?.disabledTuiAgents ?? null,
+      repos: state.repos,
+      worktreesByRepo: state.worktreesByRepo,
+      folderWorkspaces: state.folderWorkspaces,
+      projectGroups: state.projectGroups,
+      runtimeEnvironments: state.runtimeEnvironments,
+      sshTargetLabels: state.sshTargetLabels
+    },
+    target.executionHostId
   )
 }
 

@@ -5,6 +5,7 @@ import {
   BARKOS_PIXEL_TILE_SIZE,
   barkosPixelOfficeEntrance,
   barkosPixelOfficeSeat,
+  barkosPixelOfficeStationTile,
   barkosPixelOfficeWanderTile,
   barkosPixelTileCenter,
   findBarkosPixelOfficePath,
@@ -102,7 +103,11 @@ function desiredMode(worker: BarkosLiveOfficeWorker): BarkosPixelAvatarMode {
   if (!isBarkosPixelOfficeWorkerActive(worker.status)) {
     return 'idle'
   }
-  return isReadingTool(worker.toolName) ? 'read' : 'type'
+  return isReadingTool(worker.toolName) ||
+    worker.station === 'analysis' ||
+    worker.station === 'review'
+    ? 'read'
+    : 'type'
 }
 
 function setDestination(avatar: BarkosPixelOfficeAvatar, destination: BarkosPixelTile): void {
@@ -165,7 +170,10 @@ export function updateBarkosPixelOfficeAvatar(args: {
   avatar.status = worker.status
 
   if (anchored) {
-    setDestination(avatar, avatar.seat)
+    setDestination(
+      avatar,
+      barkosPixelOfficeStationTile(worker.station, hashWorkerId(worker.workerId), avatar.seat)
+    )
   } else if (statusChanged || (avatar.path.length === 0 && avatar.wanderElapsed <= 0)) {
     avatar.wanderStep += 1
     setDestination(avatar, barkosPixelOfficeWanderTile(avatar.wanderStep))

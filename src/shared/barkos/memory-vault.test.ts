@@ -255,6 +255,38 @@ describe('BarkOS memory vault', () => {
     ).toMatchObject({ text: null, omittedSensitive: 1 })
   })
 
+  it('aynı kapsamdaki hafızayı görev metnine göre sıralar', () => {
+    const promoted = promoteBarkosMemoryCandidate({
+      vault: candidateVault(),
+      candidateId: 'build-evidence',
+      now: 10
+    })
+    const second = {
+      ...promoted.entries[0],
+      id: 'database-memory',
+      title: 'Veritabanı geçişi',
+      content: 'PostgreSQL şema geçişinde transaction kullan.',
+      confidence: 60,
+      promotedAt: 9
+    }
+    const first = {
+      ...promoted.entries[0],
+      title: 'Arayüz kuralı',
+      content: 'React bileşenlerinde erişilebilir etiketleri koru.',
+      confidence: 95
+    }
+    const selection = selectBarkosMemoryContext({
+      vault: parseBarkosMemoryVault({ ...promoted, entries: [first, second] }),
+      company,
+      worker: company.workers[0],
+      workspaceId: 'workspace-a',
+      query: 'PostgreSQL veritabanı şemasını güncelle',
+      now: 11
+    })
+
+    expect(selection.selectedMemoryIds).toEqual(['database-memory', 'build-evidence'])
+  })
+
   it('revokes active memory without deleting its provenance', () => {
     const promoted = promoteBarkosMemoryCandidate({
       vault: candidateVault(),

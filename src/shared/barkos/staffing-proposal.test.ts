@@ -91,6 +91,40 @@ describe('BarkOS staffing proposal', () => {
     ).toThrow()
   })
 
+  it('fails closed when an omitted provider would inherit an unsupported lead', () => {
+    const company = createBarkosCompany({
+      name: 'BarkOS',
+      mission: 'Güvenilir ürünler geliştir.',
+      leadName: 'Mira',
+      agentId: 'aider',
+      now: 1
+    })
+    expect(() =>
+      applyBarkosStaffingProposal({
+        company,
+        proposal: {
+          ...proposal,
+          workers: [{ name: 'Lina', roleKey: 'frontend', agentId: null }]
+        },
+        objectiveTitle: 'Kimlik doğrulama uygulaması',
+        objectiveBrief: 'Planı uygula.',
+        now: 2
+      })
+    ).toThrow('barkos_staffing_provider_not_supported:aider')
+  })
+
+  it('accepts managed Gemini and Droid workers', () => {
+    expect(
+      parseBarkosStaffingProposal({
+        ...proposal,
+        workers: [
+          { name: 'Gem', roleKey: 'frontend', agentId: 'gemini' },
+          { name: 'Dora', roleKey: 'frontend', agentId: 'droid' }
+        ]
+      }).workers.map((worker) => worker.agentId)
+    ).toEqual(['gemini', 'droid'])
+  })
+
   it('assigns the verified hosted free model to OpenCode workers', () => {
     const company = createBarkosCompany({
       name: 'BarkOS',

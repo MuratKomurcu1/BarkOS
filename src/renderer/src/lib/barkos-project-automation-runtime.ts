@@ -14,6 +14,8 @@ export type BarkosStaffingRuntimeResult = {
   awaitingApproval: number
 }
 
+const BARKOS_AUTOMATION_MAX_TRANSITIONS = 4
+
 export async function applyBarkosStaffingProposalOnRuntime(
   event: BarkosStaffingProposalEvent
 ): Promise<BarkosStaffingRuntimeResult> {
@@ -73,7 +75,7 @@ function newlyReadyTasks(
   return byObjective
 }
 
-export async function runBarkosProjectAutomationCycle(): Promise<boolean> {
+async function runBarkosProjectAutomationTransition(): Promise<boolean> {
   const state = useAppStore.getState()
   const company = state.barkosCompany
   const ledger = state.barkosWorkLedger
@@ -126,6 +128,18 @@ export async function runBarkosProjectAutomationCycle(): Promise<boolean> {
       taskIds
     })
     changed = changed || startup.started > 0 || startup.awaitingApproval > 0
+  }
+  return changed
+}
+
+export async function runBarkosProjectAutomationCycle(): Promise<boolean> {
+  let changed = false
+  for (let transition = 0; transition < BARKOS_AUTOMATION_MAX_TRANSITIONS; transition += 1) {
+    const transitionChanged = await runBarkosProjectAutomationTransition()
+    changed = changed || transitionChanged
+    if (!transitionChanged) {
+      break
+    }
   }
   return changed
 }

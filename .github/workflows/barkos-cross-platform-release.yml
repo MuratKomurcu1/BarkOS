@@ -1,0 +1,104 @@
+name: BarkOS Cross-Platform Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: barkos-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    name: ${{ matrix.label }} paketi
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: macOS
+            os: macos-15
+            package_command: >-
+              CSC_IDENTITY_AUTO_DISCOVERY=false
+              pnpm exec electron-builder --config config/electron-builder.config.cjs
+              --mac dmg zip --publish never
+            smoke_command: >-
+              APP_DIR=dist/mac/BarkOS.app;
+              test -d "$APP_DIR" || APP_DIR=dist/mac-arm64/BarkOS.app;
+              node config/scripts/smoke-packaged-cli.mjs --app-dir="$APP_DIR"
+            artifact_name: barkos-macos
+            artifact_path: |
+              dist/barkos-macos-*.dmg
+              dist/barkos-macos-*.zip
+          - label: Windows
+            os: windows-2022
+            package_command: >-
+              pnpm exec electron-builder --config config/electron-builder.config.cjs
+              --win nsis --publish never
+            smoke_command: node config/scripts/smoke-packaged-cli.mjs --app-dir=dist/win-unpacked
+            artifact_name: barkos-windows
+            artifact_path: |
+              dist/barkos-windows-setup.exe
+              dist/barkos-windows-setup.exe.blockmap
+              dist/latest.yml
+          - label: Linux
+            os: ubuntu-latest
+            package_command: >-
+              pnpm exec electron-builder --config config/electron-builder.config.cjs
+              --linux AppImage deb --x64 --publish never
+            smoke_command: node config/scripts/smoke-packaged-cli.mjs --app-dir=dist/linux-unpacked
+            artifact_name: barkos-linux
+            artifact_path: |
+              dist/barkos-linux.AppImage
+              dist/barkos_*.deb
+              dist/latest-linux.yml
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+      ORCA_REUSE_PREPARED_NATIVE_RUNTIME: '1'
+      ORCA_SKIP_DEV_CLI_INSTALL: '1'
+
+    steps:
+      - name: Kaynağı al
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/install-node-dependencies
+        with:
+          native-runtime: electron
+
+      - name: BarkOS birim testleri
+        run: >-
+          pnpm exec vitest run --config config/vitest.config.ts
+          src/shared/barkos
+          src/renderer/src/lib/barkos-live-office.test.ts
+          src/renderer/src/components/barkos-company/barkos-pixel-office-engine.test.ts
+
+      - name: Paket girdilerini derle
+        run: pnpm run build:release
+
+      - name: BarkOS paketini üret
+        shell: bash
+        run: ${{ matrix.package_command }}
+
+      - name: Paketlenmiş CLI doğrulaması
+        shell: bash
+        run: ${{ matrix.smoke_command }}
+
+      - name: Linux masaüstü açılış doğrulaması
+        if: runner.os == 'Linux'
+        run: xvfb-run --auto-servernum node config/scripts/smoke-packaged-hang-watchdog-worker.mjs --app-dir=dist/linux-unpacked
+
+      - name: Paketi arşivle
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact_name }}-${{ github.sha }}
+          path: ${{ matrix.artifact_path }}
+          if-no-files-found: error
+          retention-days: 14

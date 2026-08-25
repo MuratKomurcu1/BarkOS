@@ -356,6 +356,11 @@ test('manages a BarkOS company through the real desktop persistence boundary', a
       }
     )
   })
+  await orcaPage.getByRole('tab', { name: 'Live office' }).click()
+  const communicationFlow = orcaPage.getByRole('region', { name: 'Agent communication flow' })
+  await expect(communicationFlow).toBeVisible()
+  await expect(communicationFlow.getByText('Verify E2E release', { exact: true })).toBeVisible()
+  await expect(communicationFlow.getByText('Run the bounded release verification.')).toBeVisible()
   await orcaPage.getByRole('tab', { name: 'Capacity' }).click()
   await expect(orcaPage.getByText('Codex Dispatch recovery')).toBeVisible()
   await expect(orcaPage.getByRole('button', { name: 'Recover Dispatch' })).toBeVisible()

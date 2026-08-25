@@ -608,6 +608,50 @@ the local store replaces a legacy company or ledger snapshot, it writes a
 bounded, private pre-migration backup so a failed or incorrect upgrade remains
 recoverable.
 
+## Agent collaboration boundary
+
+BarkOS reuses the execution runtime's durable SQLite mailbox, delivery receipt,
+Run consumer fencing, worker wakeup, and exact Dispatch routing. It does not add
+a second filesystem mailbox or a second scheduler. Product-level agent traffic
+uses a strict v1 envelope inside the existing message payload: envelope and
+conversation identity, reply lineage, sender/recipient worker identity, exact
+Task/Dispatch identity, communication act, reply requirement, timestamp, and a
+bounded hop count. Questions map to `question`, responsibility transfer maps to
+`handoff`, progress maps to `status`, and task settlement remains exclusively
+`worker_done`.
+
+The four-hop limit prevents worker-to-worker forwarding loops. Reaching it
+requires escalation to the lead instead of another forward. Existing mailbox
+delivery acknowledgement remains authoritative; the product envelope never
+claims delivery by itself. This keeps native, WSL, SSH, and independently
+updated paired runtimes on the existing wire contract.
+
+Autonomous staffing is restricted to providers that already cross BarkOS's
+audited side-effect boundary. The provider capability matrix currently permits
+Codex, Claude, OpenCode, Gemini, and Droid and describes their appropriate work
+types. A staffing proposal may choose among them, but it cannot weaken a user
+approval, host boundary, control policy, or Dispatch identity check.
+
+Live Office is a projection, not an execution authority. Exact hook tool events
+and task/review state choose analysis, research, planning, implementation,
+verification, review, or communication stations. Missing hook evidence remains
+unconfirmed; animation never upgrades it into a claim that work happened.
+Its communication timeline is projected from the durable work ledger: dispatches
+become lead-to-worker handoffs, accepted evidence becomes worker-to-lead reports,
+and settled failures become explicit failure events. The UI creates no second
+mailbox and cannot manufacture delivery evidence.
+
+Worker placement is resolved per provider on the selected execution host. A
+Codex-capable target is never reused blindly for a Claude or OpenCode worker;
+each worker must have a compatible target on the same workspace and host before
+launch. The lead receives the exact provider roster observed on that target so
+staffing cannot select an unavailable local agent.
+
+Cross-platform release artifacts are produced by BarkOS's own matrix. Package
+assembly verifies the plain-Node CLI dependency closure, packaged daemon boot,
+and bundled plugin resources before upload. macOS, Windows, and Linux keep their
+native packaging formats while sharing the same durable orchestration contracts.
+
 ## Data placement
 
 Local by default:
@@ -677,6 +721,10 @@ Eligible for opt-in sync:
 21. Live Office never turns missing hook evidence into a claim that an agent is
     working and never refreshes provider capacity merely because the view is
     open.
+22. Agent-to-agent forwarding never exceeds four hops; task completion is never
+    inferred from a status or handoff message.
+23. Autonomous staffing cannot select a provider outside the audited BarkOS
+    side-effect-capable provider matrix.
 
 ## Upstream strategy
 

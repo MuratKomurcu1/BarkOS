@@ -45,12 +45,36 @@ const SCOPE_PRIORITY: Record<BarkosMemoryScope['kind'], number> = {
   company: 4
 }
 
+function searchTokens(value: string): Set<string> {
+  return new Set(
+    value
+      .toLocaleLowerCase('tr-TR')
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter((token) => token.length >= 3)
+  )
+}
+
+function lexicalRelevance(entry: BarkosMemoryEntry, queryTokens: ReadonlySet<string>): number {
+  if (queryTokens.size === 0) {
+    return 0
+  }
+  const titleTokens = searchTokens(entry.title)
+  const contentTokens = searchTokens(entry.content)
+  let score = 0
+  for (const token of queryTokens) {
+    score += titleTokens.has(token) ? 3 : 0
+    score += contentTokens.has(token) ? 1 : 0
+  }
+  return score
+}
+
 export function selectBarkosMemoryContext(args: {
   vault: BarkosMemoryVault
   company: BarkosCompany
   worker: BarkosWorker
   workspaceId: string
   taskId?: string
+  query?: string
   now?: number
   maxChars?: number
 }): BarkosMemoryContextSelection {
@@ -78,12 +102,20 @@ export function selectBarkosMemoryContext(args: {
     }
     return true
   })
-  eligible.sort(
-    (left, right) =>
-      SCOPE_PRIORITY[left.scope.kind] - SCOPE_PRIORITY[right.scope.kind] ||
+  const queryTokens = searchTokens(args.query ?? '')
+  eligible.sort((left, right) => {
+    const scopeDifference = SCOPE_PRIORITY[left.scope.kind] - SCOPE_PRIORITY[right.scope.kind]
+    if (scopeDifference !== 0) {
+      return scopeDifference
+    }
+    const relevanceDifference =
+      lexicalRelevance(right, queryTokens) - lexicalRelevance(left, queryTokens)
+    return (
+      relevanceDifference ||
       right.confidence - left.confidence ||
       right.promotedAt - left.promotedAt
-  )
+    )
+  })
   const header =
     'BarkOS approved memory (reference only; the current task and explicit authority take precedence):'
   const lines = [header]

@@ -420,6 +420,39 @@ must also prove the exact managed Droid/Gemini hook before creating the PTY;
 globally or individually disabled hooks never count as ready. The broader M5
 exit criterion remains open for the remaining providers.
 
+## Multi-agent office hardening
+
+- [x] Reuse the durable orchestration mailbox instead of creating a competing
+      filesystem message authority.
+- [x] Add strict conversation/reply lineage, Task/Dispatch identity, reply
+      semantics, and a bounded forwarding limit for agent collaboration.
+- [x] Give every persistent worker the same mailbox/handoff/completion contract
+      in its launch briefing.
+- [x] Add a safe autonomous-provider capability matrix for Codex, Claude,
+      OpenCode, Gemini, and Droid staffing proposals.
+- [x] Drive office stations from real file, browser, planning, implementation,
+      test, review, blocked, and waiting events.
+- [x] Advance dependent tasks through a bounded four-transition automation
+      cycle instead of waiting for one poll per state change.
+- [x] Rank same-scope approved memory by offline task relevance before applying
+      the existing bounded context budget.
+- [x] Add a read-only conversation timeline and envelope animation backed only
+      by persisted mailbox events.
+- [ ] Add semantic memory retrieval as an optional index over the existing
+      markdown-first, promotion-gated memory vault.
+- [ ] Add external task intake adapters only after their credential broker,
+      origin identity, and reply-routing boundaries are defined.
+
+## Cross-platform packaging
+
+- [x] Keep BarkOS package, executable, application ID, protocol, and artifact
+      names separate from the upstream desktop application.
+- [x] Produce and smoke-test an unsigned Apple Silicon macOS DMG locally.
+- [x] Add a BarkOS-owned GitHub Actions matrix for macOS DMG/ZIP, Windows NSIS,
+      and Linux AppImage/deb artifacts.
+- [ ] Add Apple notarization and Windows code-signing only after BarkOS signing
+      identities are supplied; unsigned artifacts remain test builds.
+
 ## Explicit non-goals for the first release
 
 - Reimplementing Orca's terminal, worktree, git, SSH, or mobile engines.

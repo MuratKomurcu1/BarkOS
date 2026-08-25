@@ -17157,10 +17157,25 @@
       "canvas": {
         "label": "BarkOS çalışanlarının canlı piksel ofisi"
       },
+      "collaboration": {
+        "title": "Agent communication flow",
+        "description": "Durable task dispatches and worker reports appear here.",
+        "count": "{{value0}} records",
+        "empty": "The communication flow begins when the first task is dispatched to a worker."
+      },
       "zone": {
         "analysis": "Analysis",
         "production": "Production",
         "review": "Review"
+      },
+      "station": {
+        "analysis": "Analysis desk",
+        "research": "Research area",
+        "planning": "Planning table",
+        "implementation": "Production desk",
+        "verification": "Test lab",
+        "review": "Review desk",
+        "communication": "Meeting area"
       }
     },
     "intake": {

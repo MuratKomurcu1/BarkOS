@@ -32,7 +32,8 @@ const entry: BarkosLiveOfficeWorker = {
   executionHostId: 'local',
   toolName: 'Bash',
   toolInput: 'pnpm test',
-  activityUpdatedAt: 10
+  activityUpdatedAt: 10,
+  station: 'verification'
 }
 
 describe('BarkosLiveOfficeWorkerRow', () => {

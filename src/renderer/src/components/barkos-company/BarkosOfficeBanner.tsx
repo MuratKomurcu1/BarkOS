@@ -4,7 +4,10 @@ import type { BarkosLiveOfficeWorker } from '@/lib/barkos-live-office'
 import { translate } from '@/i18n/i18n'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { barkosLiveOfficeStatusLabel } from './barkos-live-office-presentation'
+import {
+  barkosLiveOfficeStationLabel,
+  barkosLiveOfficeStatusLabel
+} from './barkos-live-office-presentation'
 import { barkosRoleName } from './barkos-role-presentation'
 import { BarkosProjectCommandBar } from './BarkosProjectCommandBar'
 import { BarkosPixelOfficeCanvas } from './BarkosPixelOfficeCanvas'
@@ -127,7 +130,8 @@ export function BarkosOfficeBanner({
                     {role ? barkosRoleName(role) : worker.roleId}
                   </p>
                   <p className="truncate text-[10px] text-muted-foreground">
-                    {barkosLiveOfficeStatusLabel(entry.status)}
+                    {barkosLiveOfficeStatusLabel(entry.status)} ·{' '}
+                    {barkosLiveOfficeStationLabel(entry.station)}
                   </p>
                 </div>
                 {entry.status === 'unbound' || entry.status === 'relaunch-required' ? (

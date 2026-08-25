@@ -32,6 +32,15 @@ export type BarkosLiveOfficeStatus =
   | 'offline'
   | 'idle'
 
+export type BarkosLiveOfficeStation =
+  | 'analysis'
+  | 'research'
+  | 'planning'
+  | 'implementation'
+  | 'verification'
+  | 'review'
+  | 'communication'
+
 export type BarkosLiveOfficeWorkItem = {
   assignmentId: string
   taskId: string
@@ -50,6 +59,38 @@ export type BarkosLiveOfficeWorker = {
   toolName: string | null
   toolInput: string | null
   activityUpdatedAt: number | null
+  station: BarkosLiveOfficeStation
+}
+
+export function resolveBarkosLiveOfficeStation(args: {
+  status: BarkosLiveOfficeStatus
+  toolName: string | null
+  toolInput?: string | null
+  taskStatus?: BarkosTask['status'] | null
+}): BarkosLiveOfficeStation {
+  if (args.status === 'blocked' || args.status === 'waiting') {
+    return 'communication'
+  }
+  if (args.taskStatus === 'review' || args.status === 'awaiting-review') {
+    return 'review'
+  }
+  const tool = `${args.toolName ?? ''} ${args.toolInput ?? ''}`
+  if (/browser|web|fetch|navigate|screenshot/i.test(tool)) {
+    return 'research'
+  }
+  if (/test|verify|lint|typecheck|build|diagnostic/i.test(tool)) {
+    return 'verification'
+  }
+  if (/read|search|find|list|grep|inspect|scan/i.test(tool)) {
+    return 'analysis'
+  }
+  if (/plan|task|delegate|dispatch|orchestrat/i.test(tool)) {
+    return 'planning'
+  }
+  if (/review|diff|commit|merge|git/i.test(tool)) {
+    return 'review'
+  }
+  return 'implementation'
 }
 
 function latestDispatchForAssignment(
@@ -167,22 +208,29 @@ export function projectBarkosLiveOffice(args: {
     })
     const session = args.workerSessions[worker.id]
     const agentStatus = args.agentStatuses[worker.id] ?? null
+    const status = liveStatus({
+      workerStatus: worker.status,
+      sessionState: args.workerSessionStates[worker.id] ?? 'unbound',
+      agentStatus,
+      assignments: scoped.map((entry) => entry.assignment),
+      tasks: scoped.map((entry) => entry.task),
+      dispatches: scoped.map((entry) => entry.dispatch)
+    })
     return {
       workerId: worker.id,
-      status: liveStatus({
-        workerStatus: worker.status,
-        sessionState: args.workerSessionStates[worker.id] ?? 'unbound',
-        agentStatus,
-        assignments: scoped.map((entry) => entry.assignment),
-        tasks: scoped.map((entry) => entry.task),
-        dispatches: scoped.map((entry) => entry.dispatch)
-      }),
+      status,
       work: scoped.map((entry) => workItem(entry.assignment, entry.task, entry.dispatch)),
       workspaceId: session?.workspaceId ?? null,
       executionHostId: session?.executionHostId ?? null,
       toolName: agentStatus?.toolName ?? null,
       toolInput: agentStatus?.toolInput ?? null,
-      activityUpdatedAt: agentStatus?.updatedAt ?? null
+      activityUpdatedAt: agentStatus?.updatedAt ?? null,
+      station: resolveBarkosLiveOfficeStation({
+        status,
+        toolName: agentStatus?.toolName ?? null,
+        toolInput: agentStatus?.toolInput ?? null,
+        taskStatus: scoped[0]?.task.status ?? null
+      })
     }
   })
 }

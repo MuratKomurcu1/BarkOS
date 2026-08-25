@@ -5,18 +5,18 @@ Bu dosya, BarkOS geliştirmesine ara verilen noktayı kaydeder. Eve geçince
 
 ## Oturum bilgisi
 
-- Tarih: 19 Ağustos 2026
+- Tarih: 25 Ağustos 2026
 - Saat dilimi: Europe/Istanbul
 - Çalışma alanı: `/Users/muratkomurcu/Desktop/orca`
-- Git dalı: `barkos/foundation`
-- Başlangıç HEAD'i: `7ae6aedc`
+- Git dalı: `barkos/main`
+- Başlangıç HEAD'i: `b25860c4f`
 - Paket adı ve sürümü: `barkos@1.4.178-rc.2`
 - Gerekli çalışma zamanı: Node.js 24, pnpm 10.24
-- Durum: BarkOS değişiklikleri çalışma ağacında commitlenmemiş olarak duruyor.
+- Durum: Munder incelemesinden uyarlanan BarkOS koordinasyon ve canlı ofis
+  değişiklikleri çalışma ağacında doğrulanmış, henüz commitlenmemiş durumda.
 
-> Önemli: Çalışma ağacı bilerek kirli bırakıldı. BarkOS'a ait değiştirilmiş ve
-> yeni dosyaları `reset`, `checkout`, `clean` veya benzeri işlemlerle silme.
-> Henüz BarkOS için commit oluşturulmadı.
+> Önemli: BarkOS'a ait değiştirilmiş ve yeni dosyaları `reset`, `checkout`,
+> `clean` veya benzeri işlemlerle silme.
 
 ## Ürün hedefi
 
@@ -1302,7 +1302,7 @@ ayrıştırma ve çalışırlık borcunu kapatmalıdır.
    Adım ancak ilgili CLI, skill, hesap veya entegrasyon health-check'i başarıyla
    geçince tamamlanmış sayılmalı.
 9. Paketlenmiş BarkOS terminalinde `codex` komutu `zsh: command not found:
-   codex` hatası veriyor. Makinedeki Codex yalnız VS Code eklentisinin özel
+codex` hatası veriyor. Makinedeki Codex yalnız VS Code eklentisinin özel
    dizininde bulunuyor; BarkOS terminalinin `PATH`'inde global/standalone CLI
    yok. Varsayılan ajan adımı bunu yanlışlıkla başarılı saymış. BarkOS;
    çalıştıracağı gerçek executable'ı resolve etmeli, terminale aynı `PATH`'i
@@ -1346,6 +1346,7 @@ ayrıştırma ve çalışırlık borcunu kapatmalıdır.
    klasör eklendikten sonra da hâlâ hedef yoksa aynı teşhisi raporluyor.
    Kalan: kullanıcının kendi makinesinde paketlenmiş uygulamayla elle doğrulama
    (gerçek CLI PATH'i ve ajan kurulumlarıyla).
+
 3. BarkOS CLI/skill kurulumunu dış `stablyai/orca` URL'sinden ayır ve gerçek
    health-check ile onboarding durumuna bağla.
 
@@ -1365,6 +1366,7 @@ ayrıştırma ve çalışırlık borcunu kapatmalıdır.
    (`feature-wall-setup-progress.ts` + `detectedTuiAgents`). Ayrıca settings
    içinde `notifications` eksikken oluşan latent TypeError giderildi.
    Kalan: paketlenmiş uygulamada kart akışının elle doğrulanması.
+
 4. Hesap ve tüm dış bağlantıları çalışır BarkOS endpoint'lerine bağla; henüz
    sunucusu olmayan akışları dürüstçe devre dışı bırak.
 
@@ -1380,6 +1382,7 @@ ayrıştırma ve çalışırlık borcunu kapatmalıdır.
    türetiliyor. BarkOS Hesabı Türkçe metinleri baştan yazıldı (bozuk cümleler,
    İngilizce kalan "Sign out" vb.). Kalan: gerçek BarkOS sunucusu hazır
    olduğunda env ile uçtan uca doğrulama.
+
 5. Yukarıdaki bozuk Türkçe ve layout ekranlarını tek tek düzelt; Electron
    render doğrulamasında ekran görüntüsü ve etkileşim kanıtı al.
 6. Son olarak BarkOS bağımsız Git remote/klasör adlandırmasını, yükseltme ve
@@ -1450,3 +1453,60 @@ hak bugün yeni geniş geliştirme dilimi başlatmak için kullanılmayacak.
 - Doğrulama: 103 hedef Vitest testi, TypeScript typecheck, React Doctor ve tam
   depo lint/yerelleştirme kontrolleri geçti. Sonraki adım yeni DMG'yi üretip
   kurulu uygulamada Playwright CDP ile başlangıç ve canlı ofisi doğrulamak.
+
+## 25 Ağustos 2026 — Munder desenlerinin BarkOS'a uyarlanması
+
+- Ayrı bir dosya posta kutusu kopyalanmadı. BarkOS'un zaten SQLite tabanlı,
+  kalıcı, teslim alındılı ve Run/Dispatch kimliğine bağlı orkestrasyon posta
+  kutusu korundu.
+- Bunun üstüne sürümlü ajan konuşma zarfı eklendi: conversation/reply zinciri,
+  worker/task/dispatch kimlikleri, iletişim edimi, yanıt gereksinimi ve dört
+  aktarımlık döngü sınırı katı biçimde doğrulanıyor.
+- Kalıcı çalışan brifingi; soru, durum, devir ve `worker_done` ayrımını her
+  sağlayıcıya aynı sözleşmeyle bildiriyor.
+- Baş ajanın ekip kurma sözleşmesi Codex/Claude/OpenCode kilidinden çıkarıldı.
+  Yalnız güvenli BarkOS yan-etki hattına bağlı Codex, Claude, OpenCode, Gemini
+  ve Droid kabul ediliyor; görev türü için denetlenmiş yetenek matrisi prompt'a
+  ekleniyor.
+- Canlı ofis artık araç adına ve girdisine göre analiz, araştırma, planlama,
+  üretim, test, inceleme ve toplantı istasyonlarını belirliyor. Karakterler
+  gerçek hook olayında ilgili istasyona yürüyor; işçi listesi aynı istasyonu
+  Türkçe gösteriyor.
+- Proje otomasyonu tek poll başına en fazla dört doğrulanmış geçiş çalıştırıyor.
+  Böylece rapor kabulü → bağımlı görevin hazır olması → ekip önerisi → yeni
+  işçilerin/görevlerin başlatılması gereksiz poll gecikmeleri olmadan ilerliyor;
+  sabit üst sınır runaway döngüsünü engelliyor.
+- Görev dispatch hafızası, aynı izinli kapsam içindeki kayıtları görev başlığı
+  ve spesifikasyonuyla çevrimdışı sözcüksel ilgisine göre sıralıyor. Kapsam,
+  hassas içerik, süre ve karakter bütçesi kapıları aynen korunuyor; dış servis
+  veya embedding zorunluluğu eklenmedi.
+- Munder'ın ayrı lisanslı piksel varlıkları, marka öğeleri, güvenlik atlatma
+  bayrakları ve ikinci bir Git/iş yürütme otoritesi alınmadı.
+- Doğrulama: ilgili dokuz test dosyasında 34 test geçti; Node, CLI ve web
+  TypeScript projelerinin tamamı hatasız typecheck edildi. Ortam Node 26.7
+  kullandığı için deponun beklediği Node 24 uyarısı sürüyor.
+
+## 25 Ağustos 2026 — Çoklu platform ve kalıcı ajan iletişimi
+
+- Codex, Claude ve OpenCode gerçek yerel CLI çağrılarıyla doğrulandı. Codex
+  ChatGPT oturumuyla, Claude Pro oturumuyla ve OpenCode kimlik bilgisi
+  gerektirmeyen `opencode/mimo-v2.5-free` modeliyle beklenen kısa yanıtı verdi.
+- Ekip kurma artık her çalışanı kendi sağlayıcısı için aynı çalışma alanı ve
+  yürütme sunucusunda yeniden çözüyor. Baş ajana yalnız o hedefte gerçekten
+  bulunan sağlayıcılar bildiriliyor; Codex hedefinin Claude/OpenCode için
+  yanlışlıkla yeniden kullanılması engellendi.
+- Canlı ofise kalıcı ajan iletişim akışı eklendi. Devirler, kanıt raporları ve
+  tamamlanmış hatalar yeni bir posta kutusu oluşturmadan iş defterinden
+  yansıtılıyor. Electron E2E testi gerçek kalıcılık sınırında bu akışı gördü.
+- BarkOS'a ait macOS/Windows/Linux yayın matrisi eklendi: DMG/ZIP, NSIS ve
+  AppImage/deb. Paket adları BarkOS olarak sabitlendi ve paketlenmiş CLI her
+  işletim sisteminde duman testine bağlandı.
+- macOS paketleme sırasında bulunan eksik düz-Node çalışma zamanı kapanışı
+  giderildi. Paket içi CLI, daemon, eklenti ve kod imzası doğrulamaları geçti;
+  `dist/barkos-macos-arm64.dmg` başarıyla üretildi. Paket ad-hoc imzalı ve
+  noterlenmemiş bir test paketidir; genel dağıtım için Apple/Windows imzalama
+  kimlikleri ayrıca gereklidir.
+- Doğrulama: 37 odaklı birim testi, tam TypeScript typecheck, masaüstü derleme,
+  BarkOS Electron E2E testi ve macOS paket içi CLI/daemon testleri geçti.
+  Windows ve Linux paketleri GitHub'ın kendi işletim sistemi runner'larında
+  doğrulanmak üzere yeni yayın iş akışına bağlandı.

@@ -1,3 +1,5 @@
+import type { BarkosLiveOfficeStation } from '@/lib/barkos-live-office'
+
 export const BARKOS_PIXEL_TILE_SIZE = 16
 export const BARKOS_PIXEL_OFFICE_COLUMNS = 40
 export const BARKOS_PIXEL_OFFICE_ROWS = 18
@@ -50,6 +52,53 @@ export function barkosPixelOfficeSeat(index: number): BarkosPixelOfficeSeat {
 
 export function barkosPixelOfficeEntrance(offset = 0): BarkosPixelTile {
   return { col: 19 + (offset % 2), row: BARKOS_PIXEL_OFFICE_ROWS - 1 }
+}
+
+const STATION_TILES: Readonly<
+  Record<Exclude<BarkosLiveOfficeStation, 'implementation'>, readonly BarkosPixelTile[]>
+> = {
+  analysis: [
+    { col: 5, row: 3 },
+    { col: 10, row: 3 },
+    { col: 15, row: 3 }
+  ],
+  research: [
+    { col: 3, row: 10 },
+    { col: 8, row: 10 },
+    { col: 13, row: 10 }
+  ],
+  planning: [
+    { col: 18, row: 7 },
+    { col: 20, row: 7 },
+    { col: 22, row: 7 }
+  ],
+  verification: [
+    { col: 26, row: 3 },
+    { col: 31, row: 3 },
+    { col: 36, row: 3 }
+  ],
+  review: [
+    { col: 26, row: 10 },
+    { col: 31, row: 10 },
+    { col: 36, row: 10 }
+  ],
+  communication: [
+    { col: 17, row: 13 },
+    { col: 20, row: 15 },
+    { col: 23, row: 13 }
+  ]
+}
+
+export function barkosPixelOfficeStationTile(
+  station: BarkosLiveOfficeStation,
+  offset: number,
+  seat: BarkosPixelOfficeSeat
+): BarkosPixelTile {
+  if (station === 'implementation') {
+    return seat
+  }
+  const candidates = STATION_TILES[station]
+  return candidates[offset % candidates.length]
 }
 
 export function barkosPixelOfficeBlockedTiles(): Set<string> {

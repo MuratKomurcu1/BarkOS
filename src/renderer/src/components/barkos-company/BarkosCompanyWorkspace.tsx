@@ -226,7 +226,11 @@ export function BarkosCompanyWorkspace({
         />
       </TabsContent>
       <TabsContent value="office">
-        <BarkosLiveOffice company={company} entries={officeEntries} />
+        <BarkosLiveOffice
+          company={company}
+          entries={officeEntries}
+          ledger={workLedger?.companyId === company.id ? workLedger : null}
+        />
       </TabsContent>
       <TabsContent value="decisions">
         <BarkosDecisionInboxView

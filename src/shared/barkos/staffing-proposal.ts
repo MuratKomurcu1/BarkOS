@@ -10,6 +10,7 @@ import {
 } from './company'
 import type { BarkosObjectivePlanInput } from './objective-planner'
 import { OPENCODE_FREE_MODEL_ID } from '../opencode-free-model'
+import { barkosAutonomousAgentSchema, type BarkosAutonomousAgent } from './provider-capabilities'
 
 const capabilitySchema = z.string().trim().min(1).max(80)
 
@@ -28,7 +29,7 @@ const staffingWorkerSchema = z
   .object({
     name: barkosLabelSchema,
     roleKey: barkosEntityIdSchema,
-    agentId: z.enum(['codex', 'claude', 'opencode']).nullable().optional()
+    agentId: barkosAutonomousAgentSchema.nullable().optional()
   })
   .strict()
 
@@ -104,6 +105,14 @@ function roleCapabilityMap(roleByKey: ReadonlyMap<string, BarkosRole>): Map<stri
   return new Map([...roleByKey].map(([key, role]) => [key, [...new Set(role.capabilities)]]))
 }
 
+function staffingAgentId(value: unknown): BarkosAutonomousAgent {
+  const parsed = barkosAutonomousAgentSchema.safeParse(value)
+  if (!parsed.success) {
+    throw new Error(`barkos_staffing_provider_not_supported:${String(value)}`)
+  }
+  return parsed.data
+}
+
 export function applyBarkosStaffingProposal(args: {
   company: BarkosCompany
   proposal: BarkosStaffingProposal
@@ -157,16 +166,17 @@ export function applyBarkosStaffingProposal(args: {
     if (duplicate) {
       continue
     }
+    const agentId = staffingAgentId(proposalWorker.agentId ?? lead.agentId)
     company = addBarkosWorker(
       company,
       {
         name: proposalWorker.name,
         roleId: role.id,
-        agentId: proposalWorker.agentId ?? lead.agentId,
+        agentId,
         model:
-          proposalWorker.agentId === 'opencode'
+          agentId === 'opencode'
             ? OPENCODE_FREE_MODEL_ID
-            : proposalWorker.agentId && proposalWorker.agentId !== lead.agentId
+            : agentId !== lead.agentId
               ? null
               : lead.model,
         preferredEnvironmentId: lead.preferredEnvironmentId,

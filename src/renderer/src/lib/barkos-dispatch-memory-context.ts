@@ -35,7 +35,8 @@ export function selectBarkosDispatchMemoryContext(args: {
     company: args.company,
     worker,
     workspaceId: args.workspaceId,
-    taskId: task.id
+    taskId: task.id,
+    query: `${task.title}\n${task.spec}`
   })
   return selection.text
     ? { text: selection.text, selectedMemoryIds: selection.selectedMemoryIds }

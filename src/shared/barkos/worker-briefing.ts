@@ -1,4 +1,5 @@
 import type { BarkosCompany, BarkosRole, BarkosWorker } from './company'
+import { barkosAgentCollaborationInstructions } from './agent-collaboration'
 
 export const BARKOS_WORKER_BRIEFING_MAX_CHARS = 12_000
 
@@ -36,6 +37,7 @@ export function buildBarkosWorkerBriefing(
       '- İşi tamamlandı saymadan önce kanıtları, riskleri ve çözülemeyen kararları bildir.',
       '- Bu bilgilendirmeyi aldıktan sonra gönderilen BarkOS görevini doğrudan uygula.'
     ].join('\n'),
+    barkosAgentCollaborationInstructions(worker.id),
     memoryContext ?? null
   ].filter((section): section is string => section !== null)
 

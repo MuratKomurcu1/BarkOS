@@ -6,6 +6,7 @@ import type { BarkosLiveOfficeWorker } from '@/lib/barkos-live-office'
 import { cn } from '@/lib/utils'
 import {
   BARKOS_LIVE_OFFICE_ATTENTION_STATUSES,
+  barkosLiveOfficeStationLabel,
   barkosLiveOfficeStatusLabel,
   barkosLiveOfficeStatusVariant
 } from './barkos-live-office-presentation'
@@ -21,6 +22,7 @@ export function BarkosLiveOfficeWorkerRow(props: {
   const { compact, entry, roleName, worker } = props
   const headingId = `barkos-office-${worker.id}`
   const statusLabel = barkosLiveOfficeStatusLabel(entry.status)
+  const stationLabel = barkosLiveOfficeStationLabel(entry.station)
   const workLabel = translate(
     'barkos.office.workerActiveWork',
     '{{value0}} adlı çalışanın etkin işleri',
@@ -50,7 +52,7 @@ export function BarkosLiveOfficeWorkerRow(props: {
               </Badge>
             </div>
             <p className={cn('text-xs text-muted-foreground', compact ? 'mt-0.5' : 'mt-1')}>
-              {roleName} · {worker.agentId}
+              {roleName} · {worker.agentId} · {stationLabel}
             </p>
           </div>
           {entry.workspaceId ? (

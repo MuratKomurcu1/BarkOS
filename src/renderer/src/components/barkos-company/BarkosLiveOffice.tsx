@@ -11,14 +11,17 @@ import { barkosRoleName } from './barkos-role-presentation'
 import { BarkosLiveOfficeViewOptions } from './BarkosLiveOfficeViewOptions'
 import { BarkosLiveOfficeWorkerRow } from './BarkosLiveOfficeWorkerRow'
 import { BarkosPixelOfficeCanvas } from './BarkosPixelOfficeCanvas'
+import { BarkosCollaborationTimeline } from './BarkosCollaborationTimeline'
 import { useBarkosLiveOfficeViewPreferences } from './use-barkos-live-office-view-preferences'
+import type { BarkosWorkLedger } from '../../../../shared/barkos/work-ledger'
 
 type Props = {
   company: BarkosCompany
   entries: readonly BarkosLiveOfficeWorker[]
+  ledger: BarkosWorkLedger | null
 }
 
-export function BarkosLiveOffice({ company, entries: workers }: Props): React.JSX.Element {
+export function BarkosLiveOffice({ company, entries: workers, ledger }: Props): React.JSX.Element {
   const preferences = useBarkosLiveOfficeViewPreferences()
   const prefersReducedMotion = usePrefersReducedMotion()
   const workersById = useMemo(
@@ -109,6 +112,7 @@ export function BarkosLiveOffice({ company, entries: workers }: Props): React.JS
           </div>
           <BarkosPixelOfficeCanvas company={company} entries={workers} />
         </div>
+        <BarkosCollaborationTimeline company={company} ledger={ledger} motionOff={motionOff} />
         <ul
           className={compact ? 'space-y-1.5' : 'space-y-2'}
           aria-label={translate('barkos.office.workers', 'Çalışanlar')}

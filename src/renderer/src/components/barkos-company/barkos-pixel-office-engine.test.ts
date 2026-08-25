@@ -22,6 +22,7 @@ function worker(overrides: Partial<BarkosLiveOfficeWorker> = {}): BarkosLiveOffi
     toolName: null,
     toolInput: null,
     activityUpdatedAt: null,
+    station: 'implementation',
     ...overrides
   }
 }
@@ -40,19 +41,24 @@ describe('BarkOS piksel ofis motoru', () => {
   })
 
   it('dosya arayan ajanı okuma animasyonuna geçirir', () => {
-    const entry = worker({ toolName: 'ReadFile' })
+    const entry = worker({ toolName: 'ReadFile', station: 'analysis' })
     const avatar = createBarkosPixelOfficeAvatar(entry, 0)
-    avatar.x = avatar.seat.x
-    avatar.y = avatar.seat.y
-    avatar.tileCol = avatar.seat.col
-    avatar.tileRow = avatar.seat.row
-    avatar.targetCol = avatar.seat.col
-    avatar.targetRow = avatar.seat.row
 
-    updateBarkosPixelOfficeAvatar({ avatar, worker: entry, dt: 0.3, motionEnabled: true })
+    updateBarkosPixelOfficeAvatar({ avatar, worker: entry, dt: 0.3, motionEnabled: false })
 
     expect(avatar.mode).toBe('read')
     expect(barkosPixelSpriteFrame(avatar).column).toBeGreaterThanOrEqual(5)
+  })
+
+  it('gerçek araç olayında ajanı ilgili ofis istasyonuna yollar', () => {
+    const entry = worker({ toolName: 'runTests', station: 'verification' })
+    const avatar = createBarkosPixelOfficeAvatar(entry, 0)
+
+    updateBarkosPixelOfficeAvatar({ avatar, worker: entry, dt: 0.1, motionEnabled: true })
+
+    expect(avatar.mode).toBe('walk')
+    expect(avatar.targetCol).toBeGreaterThan(24)
+    expect(avatar.targetRow).toBe(3)
   })
 
   it('boştaki ajan için ofis içinde yeni bir gezinme hedefi seçer', () => {

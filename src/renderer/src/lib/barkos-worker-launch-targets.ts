@@ -43,7 +43,7 @@ export function barkosWorkerLaunchTargetId(
   return `${executionHostId.length}:${executionHostId}${workspaceId}`
 }
 
-function availableAgentsForHost(
+export function barkosAvailableAgentsForHost(
   state: BarkosWorkerLaunchTargetState,
   executionHostId: ExecutionHostId
 ): readonly string[] {
@@ -82,7 +82,9 @@ export function collectBarkosWorkerLaunchTargets(
       worker.workspacePolicy !== 'isolated-worktree' ||
       (workspace.workspaceKind === 'worktree' && workspace.worktree.isMainWorktree === false)
     const agentAvailable =
-      enabled && agent !== null && availableAgentsForHost(state, executionHostId).includes(agent)
+      enabled &&
+      agent !== null &&
+      barkosAvailableAgentsForHost(state, executionHostId).includes(agent)
     return {
       id: barkosWorkerLaunchTargetId(executionHostId, workspace.worktree.id),
       workspaceId: workspace.worktree.id,
@@ -164,7 +166,7 @@ export function explainBarkosWorkerTargetGap(
   const detectedSomewhere = new Set<string>()
   let availableOnSomeWorkspace = false
   for (const workspace of workspaces) {
-    const detectedOnHost = availableAgentsForHost(
+    const detectedOnHost = barkosAvailableAgentsForHost(
       state,
       getWorktreeExecutionHostId(workspace.worktree, workspace.repo ?? undefined)
     )
