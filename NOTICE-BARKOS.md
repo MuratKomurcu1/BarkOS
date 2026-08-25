@@ -9,10 +9,6 @@ its name, logos, hosted services, and upstream release infrastructure are not
 part of the BarkOS brand. Compatibility identifiers that still use the Orca
 name are retained temporarily and will be migrated behind explicit adapters.
 
-No Muratify or AgentSpace source code, visual assets, branding, or private
-interfaces are included. BarkOS implements independently designed product
-behaviors based on public product research.
-
 ## Pixel Agents
 
 The BarkOS pixel office includes code concepts and visual assets adapted from

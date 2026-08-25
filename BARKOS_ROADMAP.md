@@ -14,7 +14,7 @@ only work backed by evidence.
   and an auditable decision.
 - Existing Orca worktree, SSH, folder-workspace, mobile, and review workflows
   must remain functional.
-- BarkOS branding must not depend on Orca or Muratify hosted infrastructure.
+- BarkOS branding and infrastructure must remain independently owned.
 
 ## Milestones
 
@@ -423,7 +423,7 @@ exit criterion remains open for the remaining providers.
 ## Explicit non-goals for the first release
 
 - Reimplementing Orca's terminal, worktree, git, SSH, or mobile engines.
-- Copying AgentSpace visual assets, code, prompts, or branding.
+- Copying third-party visual assets, code, prompts, or branding.
 - Cloud-storing provider credentials.
 - Unbounded autonomous purchasing, deployment, messaging, or deletion.
 - Pretending technical validation limits are safe recommended agent counts.
