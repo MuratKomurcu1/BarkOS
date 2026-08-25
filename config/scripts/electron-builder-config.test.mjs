@@ -34,7 +34,14 @@ describe('electron-builder config', () => {
       appId: 'com.barkos.desktop',
       productName: 'BarkOS',
       protocols: [{ name: 'BarkOS', schemes: ['barkos'] }],
-      publish: []
+      publish: [
+        {
+          provider: 'github',
+          owner: 'MuratKomurcu1',
+          repo: 'BarkOS',
+          releaseType: 'draft'
+        }
+      ]
     })
     expect(electronBuilderConfig.protocols).not.toEqual(
       expect.arrayContaining([
@@ -98,7 +105,7 @@ describe('electron-builder config', () => {
       to: 'plugins/launch',
       filter: expect.arrayContaining([
         'bundled-plugins.json',
-        'orca-marketplace.json',
+        'barkos-marketplace.json',
         'barkos.barkos-navigation-shortcuts/**/*'
       ])
     })
@@ -615,7 +622,7 @@ describe('electron-builder config', () => {
           join(unpackedCliDir, 'index.js'),
           [
             'const args = process.argv.slice(2)',
-            "if (args[1] === 'list') console.log(JSON.stringify({ topics: [{ name: 'orca-cli' }, { name: 'computer-use' }] }))",
+            "if (args[1] === 'list') console.log(JSON.stringify({ topics: [{ name: 'barkos-cli' }, { name: 'computer-use' }] }))",
             "else if (args[1] === 'get') console.log(`---\\nname: ${args[2]}\\n---`)",
             'else console.log(JSON.stringify({ executed: false }))'
           ].join('\n'),

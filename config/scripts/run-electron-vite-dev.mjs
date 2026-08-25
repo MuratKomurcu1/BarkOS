@@ -142,7 +142,7 @@ function prepareMacDevElectronApp() {
   // electron-vite's direct binary launch path, even when Info.plist is patched.
   const appBundleName = `${sanitizeMacAppBundleName(title)}.app`
   const appPath = path.join(distDir, appBundleName)
-  const markerPath = path.join(distDir, 'orca-dev-electron-app.json')
+  const markerPath = path.join(distDir, 'barkos-dev-electron-app.json')
   // Why: one stable id for every dev instance. Per-instance ids registered a
   // new macOS Notification Settings entry for each branch × Electron version,
   // piling up "Orca: <branch>" rows forever and breaking the notification
@@ -240,7 +240,7 @@ function prepareMacDevElectronApp() {
     )
   } catch (error) {
     console.warn(
-      `[orca-dev] notification-status helper build failed (permission card falls back to probes): ${error?.message ?? error}`
+      `[barkos-dev] notification-status helper build failed (permission card falls back to probes): ${error?.message ?? error}`
     )
   }
 
@@ -257,7 +257,7 @@ function prepareMacDevElectronApp() {
     )
   } catch (error) {
     console.warn(
-      `[orca-dev] keyboard-layout helper build failed (shifted Option composition stays conservative): ${error?.message ?? error}`
+      `[barkos-dev] keyboard-layout helper build failed (shifted Option composition stays conservative): ${error?.message ?? error}`
     )
   }
 
@@ -272,7 +272,7 @@ function prepareMacDevElectronApp() {
     execFileSync('/usr/bin/codesign', ['--force', '--deep', '--sign', '-', appPath])
   } catch (error) {
     console.warn(
-      `[orca-dev] ad-hoc codesign failed (dev notifications will not deliver): ${error?.message ?? error}`
+      `[barkos-dev] ad-hoc codesign failed (dev notifications will not deliver): ${error?.message ?? error}`
     )
   }
   writeFileSync(markerPath, expectedMarker, 'utf8')
@@ -326,17 +326,17 @@ function getDevUserDataPath() {
     return process.env.ORCA_DEV_USER_DATA_PATH
   }
   if (process.platform === 'darwin') {
-    return path.join(process.env.HOME ?? '', 'Library', 'Application Support', 'orca-dev')
+    return path.join(process.env.HOME ?? '', 'Library', 'Application Support', 'barkos-dev')
   }
   if (process.platform === 'win32') {
     return path.join(
       process.env.APPDATA ?? path.join(process.env.USERPROFILE ?? '', 'AppData', 'Roaming'),
-      'orca-dev'
+      'barkos-dev'
     )
   }
   return path.join(
     process.env.XDG_CONFIG_HOME ?? path.join(process.env.HOME ?? '', '.config'),
-    'orca-dev'
+    'barkos-dev'
   )
 }
 
@@ -349,7 +349,7 @@ function prepareDevCliWrapper() {
   })
 
   process.env.PATH = `${binDir}${path.delimiter}${process.env.PATH ?? ''}`
-  console.log(`[orca-dev] Prepared wrapper in ${binDir}`)
+  console.log(`[barkos-dev] Prepared wrapper in ${binDir}`)
 }
 
 function getElectronExecutable() {
@@ -435,14 +435,14 @@ function prepareDevWebClient() {
   // falls back to non-browser URLs when the optional web bundle is unavailable.
   if (!existsSync(getDevWebClientIndexPath()) && process.env.ORCA_DEV_WEB_PREPARE !== '1') {
     console.error(
-      '[orca-dev] Web client bundle missing; skipping pairing web build. Run `pnpm run build:web` or set ORCA_DEV_WEB_PREPARE=1 when you need browser pairing.'
+      '[barkos-dev] Web client bundle missing; skipping pairing web build. Run `pnpm run build:web` or set ORCA_DEV_WEB_PREPARE=1 when you need browser pairing.'
     )
     return
   }
   if (isDevWebClientFresh()) {
     return
   }
-  console.error('[orca-dev] Building web client for pairing...')
+  console.error('[barkos-dev] Building web client for pairing...')
   execFileSync(
     process.execPath,
     [viteCli, 'build', '--config', path.join(repoRoot, 'vite.web.config.ts')],
@@ -507,7 +507,7 @@ const userPassedPort = forwardedRaw.some(
 // a debug-port line would be noise.
 const isHelpOrVersion = forwardedRaw.some((a) => a === '--help' || a === '-h' || a === '--version')
 if (!isHelpOrVersion && process.env.ORCA_DEV_INSTANCE_LABEL) {
-  console.error(`[orca-dev] Instance: ${process.env.ORCA_DEV_INSTANCE_LABEL}`)
+  console.error(`[barkos-dev] Instance: ${process.env.ORCA_DEV_INSTANCE_LABEL}`)
 }
 let forwardedExtras = []
 if (!userPassedPort && !isHelpOrVersion) {
@@ -517,7 +517,7 @@ if (!userPassedPort && !isHelpOrVersion) {
     port = parseDebugPortEnv(envPortRaw)
     if (port === null) {
       console.error(
-        `[orca-dev] Ignoring invalid REMOTE_DEBUGGING_PORT=${JSON.stringify(envPortRaw)}; falling back to probe.`
+        `[barkos-dev] Ignoring invalid REMOTE_DEBUGGING_PORT=${JSON.stringify(envPortRaw)}; falling back to probe.`
       )
     }
   }
@@ -529,10 +529,10 @@ if (!userPassedPort && !isHelpOrVersion) {
     // Why: stderr keeps stdout clean for downstream parsing; log uses
     // 127.0.0.1 to match the interface we actually probed (localhost may
     // resolve to ::1 on IPv6-first hosts).
-    console.error(`[orca-dev] Remote debugging on http://127.0.0.1:${port}`)
+    console.error(`[barkos-dev] Remote debugging on http://127.0.0.1:${port}`)
   } else {
     console.error(
-      '[orca-dev] No free debug port found in sweep; starting without --remote-debugging-port.'
+      '[barkos-dev] No free debug port found in sweep; starting without --remote-debugging-port.'
     )
   }
 }

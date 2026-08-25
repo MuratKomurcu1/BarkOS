@@ -141,7 +141,7 @@ describe('locale-translation-policy ja relocalization', () => {
     for (const value of [
       'Open Settings > Git and try again.',
       'Show live workspace ports. Click it for workspace-scoped ports and external listeners.',
-      'orca.yaml + local',
+      'barkos.yaml + local',
       '.gitignore',
       'Status:',
       'Done.',

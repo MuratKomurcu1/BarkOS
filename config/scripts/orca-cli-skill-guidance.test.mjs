@@ -3,21 +3,21 @@ import { join, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const projectDir = resolve(import.meta.dirname, '../..')
-// Why: orca-cli now ships a hybrid discovery stub, so its version-sensitive command
+// Why: barkos-cli now ships a hybrid discovery stub, so its version-sensitive command
 // guidance lives in the authoritative guide source — assert that content there. The
 // installable stub projection is checked separately below.
-const guidePath = join(projectDir, 'skill-guides', 'orca-cli.md')
-const stubPath = join(projectDir, 'skills', 'orca-cli', 'SKILL.md')
-// Why: orchestration and orca-emulator also ship hybrid stubs now, so their version-sensitive
+const guidePath = join(projectDir, 'skill-guides', 'barkos-cli.md')
+const stubPath = join(projectDir, 'skills', 'barkos-cli', 'SKILL.md')
+// Why: orchestration and barkos-emulator also ship hybrid stubs now, so their version-sensitive
 // command guidance lives in the guide sources — read the cross-guide worktree-id contract there.
 const orchestrationSkillPath = join(projectDir, 'skill-guides', 'orchestration.md')
-const emulatorSkillPath = join(projectDir, 'skill-guides', 'orca-emulator.md')
+const emulatorSkillPath = join(projectDir, 'skill-guides', 'barkos-emulator.md')
 
 function readSkill(path = guidePath) {
   return readFileSync(path, 'utf8')
 }
 
-describe('orca CLI skill guidance', () => {
+describe('BarkOS CLI skill guidance', () => {
   it('keeps independent worktree lineage separate from Git base selection', () => {
     const skill = readSkill()
 
@@ -123,15 +123,15 @@ describe('orca CLI skill guidance', () => {
   })
 })
 
-describe('orca CLI install stub', () => {
+describe('BarkOS CLI install stub', () => {
   it('points at the version-matched guide and preserves the safe resolver', () => {
     const stub = readSkill(stubPath)
 
     expect(stub).toContain('discovery stub')
-    expect(stub).toContain('ORCA skills get orca-cli')
+    expect(stub).toContain('ORCA skills get barkos-cli')
     // The safe CLI-resolution contract must survive in the stub, never a bare `orca`.
     expect(stub).toContain('ORCA_CLI_COMMAND')
-    expect(stub).toContain('orca-dev')
+    expect(stub).toContain('barkos-dev')
     expect(stub).toContain('orca-ide')
     expect(stub).toContain('GNOME Orca screen reader')
     expect(stub).not.toMatch(/^orca /mu)

@@ -12,12 +12,12 @@ const cliEntry =
   process.env.ORCA_DEV_CLI_ENTRY_PATH ?? path.join(repoRoot, 'out', 'cli', 'index.js')
 
 if (!existsSync(cliEntry)) {
-  console.error("orca-dev: CLI not built yet. Run 'pnpm run build:cli' first.")
+  console.error("barkos-dev: CLI not built yet. Run 'pnpm run build:cli' first.")
   process.exit(1)
 }
 
 process.env.ORCA_USER_DATA_PATH = process.env.ORCA_DEV_USER_DATA_PATH ?? getDefaultDevUserDataPath()
-// Why: custom dev profiles do not necessarily contain "orca-dev" in their path; carry explicit provenance into the CLI.
+// Why: custom dev profiles do not necessarily contain "barkos-dev" in their path; carry explicit provenance into the CLI.
 process.env.ORCA_DEV_CLI_INVOCATION = '1'
 
 const electronExecutable = getElectronExecutable()
@@ -26,7 +26,7 @@ if (!process.env.ORCA_APP_EXECUTABLE && isRunnableFile(electronExecutable)) {
   process.env.ORCA_APP_EXECUTABLE_NEEDS_APP_ROOT = '1'
 }
 
-// Why: headless `orca-dev serve` skips the Electron dev runner that normally installs terminal CLI shims.
+// Why: headless `barkos-dev serve` skips the Electron dev runner that normally installs terminal CLI shims.
 prepareDevCliTerminalWrappers({
   repoRoot,
   userDataPath: process.env.ORCA_USER_DATA_PATH,
@@ -45,17 +45,17 @@ process.exit(result.status ?? (result.error ? 1 : 0))
 
 function getDefaultDevUserDataPath() {
   if (process.platform === 'darwin') {
-    return path.join(process.env.HOME ?? '', 'Library', 'Application Support', 'orca-dev')
+    return path.join(process.env.HOME ?? '', 'Library', 'Application Support', 'barkos-dev')
   }
   if (process.platform === 'win32') {
     return path.join(
       process.env.APPDATA ?? path.join(process.env.USERPROFILE ?? '', 'AppData', 'Roaming'),
-      'orca-dev'
+      'barkos-dev'
     )
   }
   return path.join(
     process.env.XDG_CONFIG_HOME ?? path.join(process.env.HOME ?? '', '.config'),
-    'orca-dev'
+    'barkos-dev'
   )
 }
 

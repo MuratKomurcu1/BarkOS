@@ -6,7 +6,7 @@
 #   bash config/scripts/macos-launch-diagnostics.sh --tag v1.4.42-rc.1
 set -euo pipefail
 
-REPO="${ORCA_DIAGNOSTIC_REPO:-stablyai/orca}"
+REPO="${ORCA_DIAGNOSTIC_REPO:-MuratKomurcu1/BarkOS}"
 TAG="${ORCA_DIAGNOSTIC_TAG:-}"
 KEEP=0
 

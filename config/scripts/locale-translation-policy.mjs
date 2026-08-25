@@ -209,7 +209,7 @@ export const NEVER_TRANSLATE_VALUES = new Set([
   '/signup',
   'npm run dev',
   'nbformat',
-  'orca.yaml',
+  'barkos.yaml',
   'upstream',
   'LIN-329',
   'GH #1799',

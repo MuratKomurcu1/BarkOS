@@ -76,16 +76,16 @@ describe('bundled skill guide generator', () => {
     const expectedFallbackCommands = {
       'computer-use': ['ORCA computer capabilities --json', 'ORCA computer list-apps --json'],
       'linear-tickets': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
-      'orca-emulator': ['ORCA emulator list --json'],
-      'orca-emulator-android': ['ORCA emulator devices --json'],
-      'orca-linear': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
-      'orca-per-workspace-env': ['ORCA vm recipe doctor <recipe-id> --repo-path <repo> --json'],
+      'barkos-emulator': ['ORCA emulator list --json'],
+      'barkos-emulator-android': ['ORCA emulator devices --json'],
+      'barkos-linear': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
+      'barkos-per-workspace-env': ['ORCA vm recipe doctor <recipe-id> --repo-path <repo> --json'],
       orchestration: ['ORCA orchestration task-list --json', 'ORCA terminal list --json']
     }
 
     for (const [name, commands] of Object.entries(expectedFallbackCommands)) {
       const stub = await readFile(path.join(projectDir, 'skill-stubs', `${name}.md`), 'utf8')
-      const fallback = stub.split('## If an older Orca does not recognize `skills get`')[1]
+      const fallback = stub.split('## If an older BarkOS does not recognize `skills get`')[1]
 
       expect(fallback, name).toBeDefined()
       for (const command of commands) {
@@ -97,7 +97,7 @@ describe('bundled skill guide generator', () => {
 
   it('uses the exported recipe id variable in per-workspace environment examples', async () => {
     const source = await readFile(
-      path.join(projectDir, 'skill-guides', 'orca-per-workspace-env.md'),
+      path.join(projectDir, 'skill-guides', 'barkos-per-workspace-env.md'),
       'utf8'
     )
 
@@ -112,7 +112,7 @@ describe('bundled skill guide generator', () => {
     'keeps Vercel sandbox names valid while preserving the instance suffix',
     async () => {
       const source = await readFile(
-        path.join(projectDir, 'skill-guides', 'orca-per-workspace-env.md'),
+        path.join(projectDir, 'skill-guides', 'barkos-per-workspace-env.md'),
         'utf8'
       )
       const startMarker = 'recipe_id="${ORCA_RECIPE_ID:-vercel-sandbox}"'
@@ -164,12 +164,17 @@ describe('bundled skill guide generator', () => {
   })
 
   it('keeps CLI guide examples safe across shells and Linux command names', async () => {
-    for (const name of ['orca-cli', 'computer-use', 'orca-emulator', 'orca-emulator-android']) {
+    for (const name of [
+      'barkos-cli',
+      'computer-use',
+      'barkos-emulator',
+      'barkos-emulator-android'
+    ]) {
       const source = await readFile(path.join(projectDir, 'skill-guides', `${name}.md`), 'utf8')
 
       expect(source).toContain('ORCA_CLI_COMMAND')
-      expect(source).toContain('orca-dev')
-      expect(source).toContain('orca-ide')
+      expect(source).toContain('barkos-dev')
+      expect(source).toContain('barkos')
       expect(source).toContain('PowerShell')
       expect(source).toContain('cmd.exe')
       expect(source).toMatch(/^ORCA .+--json$/mu)

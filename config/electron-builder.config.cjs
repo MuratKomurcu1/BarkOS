@@ -69,7 +69,7 @@ const bundledPluginResources = {
   to: 'plugins/launch',
   filter: [
     'bundled-plugins.json',
-    'orca-marketplace.json',
+    'barkos-marketplace.json',
     'barkos.barkos-navigation-shortcuts/**/*'
   ]
 }
@@ -131,6 +131,9 @@ module.exports = {
     '!Casks{,/**/*}',
     '!{AGENTS.md,CLAUDE.md,DEVELOPING.md,bundle-size-progress.md,ORCHESTRATION_IMPLEMENTATION_CHECKLIST.md,ORCHESTRATION_STRUCTURED_OUTPUT_DESIGN.md}',
     '!out/**/*.test.js',
+    '!out/bin{,/**/*}',
+    '!out/electron-dev{,/**/*}',
+    '!out/shared/mobile-relay-pairing-fixtures.js',
     // Why: Vite's manifest is only used to project the paired web client.
     '!out/renderer/.vite{,/**/*}',
     '!electron.vite.config.{js,ts,mjs,cjs}',
@@ -328,11 +331,6 @@ module.exports = {
   },
   win: {
     executableName: 'BarkOS',
-    // Why: Windows installers are signed after electron-builder packaging by
-    // SignPath, so the packager cannot infer the updater publisherName.
-    signtoolOptions: {
-      publisherName: 'SignPath Foundation'
-    },
     extraResources: [
       ...commonExtraResources,
       ...createPackagedRuntimeNodeModuleResources('win32'),
@@ -461,7 +459,7 @@ module.exports = {
     artifactName: 'barkos-macos-${arch}.${ext}'
   },
   linux: {
-    // Why: Ubuntu desktop ships GNOME Orca as the `orca` package and /usr/bin/orca.
+    // Why: Ubuntu desktop already reserves the `orca` package and /usr/bin/orca.
     // The Linux installer should not claim those system package/file names.
     executableName: 'barkos',
     // Why: the icns source lets electron-builder emit standard hicolor PNG
@@ -493,7 +491,7 @@ module.exports = {
       featureWallResources
     ],
     target: ['AppImage', 'deb'],
-    maintainer: 'stablyai',
+    maintainer: 'Murat Komurcu',
     category: 'Utility'
   },
   appImage: {
@@ -502,7 +500,7 @@ module.exports = {
   deb: {
     packageName: 'barkos',
     artifactName: 'barkos_${version}_${arch}.${ext}',
-    // Why: xvfb lets the bundled `orca serve` CLI run browser panes on a headless
+    // Why: xvfb lets the bundled `barkos serve` CLI run browser panes on a headless
     // Linux host — Chromium needs a display server even for offscreen rendering,
     // and serve starts Xvfb itself when present (see ensure-virtual-display.ts).
     depends: [
@@ -543,11 +541,17 @@ module.exports = {
   // (node-pty) for each target architecture when producing dual-arch macOS
   // builds (x64 + arm64). With npmRebuild disabled, CI on an arm64 runner
   // packages arm64 binaries into the x64 DMG, causing "posix_spawnp failed"
-  // on Intel Macs. The beforeBuild hook performs Orca's targeted rebuild and
+  // on Intel Macs. The beforeBuild hook performs the targeted rebuild and
   // returns false so electron-builder does not rebuild optional cpu-features.
   npmRebuild: true,
-  // BarkOS has no public update channel yet; never publish fork artifacts to Orca repositories.
-  publish: []
+  publish: [
+    {
+      provider: 'github',
+      owner: 'MuratKomurcu1',
+      repo: 'BarkOS',
+      releaseType: 'draft'
+    }
+  ]
 }
 
 function chmodUnixCliLaunchers(resourcesDir, electronPlatformName) {

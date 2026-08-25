@@ -2442,7 +2442,7 @@
     "ko": "# 예: pnpm install cp \"$ORCA_ROOT_PATH/.env\" \"$ORCA_WORKTREE_PATH/.env\""
   },
   "auto.components.settings.RepositoryHooksSection.b20c5df6ca": {
-    "ko": "이 repo의 공유 설정, 아카이브 또는 이슈 자동화 기본값을 사용하려면 `orca.yaml` 파일을 추가하세요. 예제 템플릿:"
+    "ko": "이 repo의 공유 설정, 아카이브 또는 이슈 자동화 기본값을 사용하려면 `barkos.yaml` 파일을 추가하세요. 예제 템플릿:"
   },
   "auto.components.settings.RepositoryHooksSection.b5e3e77e89": {
     "ko": "작업"
@@ -4229,13 +4229,13 @@
   "auto.components.sidebar.NonGitFolderDialog.c49fb13492": {
     "ko": "이 호스트에 폴더를 추가하지 못했습니다."
   },
-  "auto.components.sidebar.OrcaYamlTrustDialog.43b7bec4cd": {
+  "auto.components.sidebar.BarkosYamlTrustDialog.43b7bec4cd": {
     "ko": "실행 안 함"
   },
-  "auto.components.sidebar.OrcaYamlTrustDialog.531689199b": {
+  "auto.components.sidebar.BarkosYamlTrustDialog.531689199b": {
     "ko": "항상 신뢰"
   },
-  "auto.components.sidebar.OrcaYamlTrustDialog.831f2cd9f0": {
+  "auto.components.sidebar.BarkosYamlTrustDialog.831f2cd9f0": {
     "ko": "내 컴퓨터에서 실행"
   },
   "auto.components.sidebar.PendingWorktreeRow.af21e953d1": {

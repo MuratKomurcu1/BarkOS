@@ -2,7 +2,7 @@
 # Dev CLI wrapper — uses a separate userData path to avoid clobbering production Orca data.
 set -euo pipefail
 
-# Resolve through symlinks so this works when called via /usr/local/bin/orca-dev
+# Resolve through symlinks so this works when called via /usr/local/bin/barkos-dev
 SOURCE="$0"
 while [ -L "$SOURCE" ]; do
   DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
@@ -14,14 +14,14 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 CLI_ENTRY="$REPO_ROOT/out/cli/index.js"
 
 if [ ! -f "$CLI_ENTRY" ]; then
-  echo "orca-dev: CLI not built yet. Run 'pnpm run build:cli' first." >&2
+  echo "barkos-dev: CLI not built yet. Run 'pnpm run build:cli' first." >&2
   exit 1
 fi
 
 case "$(uname -s)" in
-  Darwin)       default_data="$HOME/Library/Application Support/orca-dev" ;;
-  MINGW*|MSYS*) default_data="${APPDATA:-$HOME/AppData/Roaming}/orca-dev" ;;
-  *)            default_data="${XDG_CONFIG_HOME:-$HOME/.config}/orca-dev" ;;
+  Darwin)       default_data="$HOME/Library/Application Support/barkos-dev" ;;
+  MINGW*|MSYS*) default_data="${APPDATA:-$HOME/AppData/Roaming}/barkos-dev" ;;
+  *)            default_data="${XDG_CONFIG_HOME:-$HOME/.config}/barkos-dev" ;;
 esac
 
 export ORCA_USER_DATA_PATH="${ORCA_DEV_USER_DATA_PATH:-$default_data}"

@@ -60,8 +60,8 @@ const TILES = [
   },
   {
     id: 'tile-09',
-    gifRelativePath: 'public/whats-new/orca-cli-demo.gif',
-    posterRelativePath: 'public/whats-new/posters/orca-cli-demo.jpg'
+    gifRelativePath: 'public/whats-new/barkos-cli-demo.gif',
+    posterRelativePath: 'public/whats-new/posters/barkos-cli-demo.jpg'
   },
   {
     id: 'tile-10',

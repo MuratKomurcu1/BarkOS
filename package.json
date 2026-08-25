@@ -1,6 +1,6 @@
 {
   "name": "barkos",
-  "version": "1.4.178-rc.2",
+  "version": "0.2.0-preview.1",
   "private": true,
   "description": "Local-first AI company operating system for autonomous work",
   "homepage": "https://muratkomurcu.com",
@@ -15,7 +15,7 @@
   },
   "bin": {
     "barkos": "./out/cli/index.js",
-    "orca-dev": "./config/scripts/orca-dev.mjs"
+    "barkos-dev": "./config/scripts/barkos-dev.mjs"
   },
   "main": "./out/main/index.js",
   "scripts": {
@@ -76,7 +76,7 @@
     "verify:localization-extraction": "node config/scripts/verify-localization-extraction.mjs",
     "verify:localization-coverage": "node config/scripts/audit-localization-coverage.mjs --check",
     "audit:localization": "node config/scripts/audit-localization-coverage.mjs",
-    "build:cli": "tsc -p config/tsconfig.cli.json --outDir out --composite false --incremental false && node config/scripts/verify-cli-bin.mjs --fix-executable --fix-package-json && node config/scripts/install-dev-cli.mjs",
+    "build:cli": "node config/scripts/clean-cli-output.mjs && tsc -p config/tsconfig.cli.json --outDir out --composite false --incremental false && node config/scripts/verify-cli-bin.mjs --fix-executable --fix-package-json && node config/scripts/install-dev-cli.mjs",
     "test:repro:skills-cli-runtime": "pnpm run build:cli && pnpm run build:electron-vite && pnpm run verify:built-skills-cli",
     "build:electron-vite": "node config/scripts/run-electron-vite-build.mjs",
     "build:electron-vite:parallel": "node config/scripts/run-electron-vite-targets-in-parallel.mjs",

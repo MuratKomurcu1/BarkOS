@@ -1,4 +1,4 @@
 provider: github
-owner: stablyai
-repo: orca
+owner: MuratKomurcu1
+repo: BarkOS
 updaterCacheDirName: orca-updater
