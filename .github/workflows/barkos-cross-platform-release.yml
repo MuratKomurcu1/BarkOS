@@ -73,6 +73,13 @@ jobs:
         with:
           native-runtime: electron
 
+      - name: Linux masaüstü bağımlılıklarını kur
+        if: runner.os == 'Linux'
+        run: >-
+          sudo apt-get update && sudo apt-get install -y
+          python3 python3-gi gir1.2-atspi-2.0 at-spi2-core
+          xvfb xclip xdotool
+
       - name: BarkOS birim testleri
         run: >-
           pnpm exec vitest run --config config/vitest.config.ts

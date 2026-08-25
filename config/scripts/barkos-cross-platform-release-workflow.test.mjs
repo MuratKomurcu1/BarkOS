@@ -20,5 +20,10 @@ describe('BarkOS cross-platform release workflow', () => {
     const steps = workflow.jobs.package.steps
     expect(steps.some((step) => step.run === 'pnpm run build:release')).toBe(true)
     expect(steps.some((step) => step.run === '${{ matrix.smoke_command }}')).toBe(true)
+    expect(
+      steps.some(
+        (step) => step.if === "runner.os == 'Linux'" && step.run.includes('gir1.2-atspi-2.0')
+      )
+    ).toBe(true)
   })
 })
