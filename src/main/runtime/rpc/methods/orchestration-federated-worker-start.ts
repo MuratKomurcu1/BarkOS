@@ -293,8 +293,8 @@ function federatedUnknownReceipt(
     effects: [],
     residualResources: [],
     nextCommands: [
-      `orca orchestration worker-show --dispatch ${worker.dispatch_id} --json`,
-      `orca orchestration worker-abandon --dispatch ${worker.dispatch_id} --json`
+      `barkos orchestration worker-show --dispatch ${worker.dispatch_id} --json`,
+      `barkos orchestration worker-abandon --dispatch ${worker.dispatch_id} --json`
     ]
   }
 }

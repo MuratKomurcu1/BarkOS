@@ -57,7 +57,8 @@ describe('legacy orchestration CLI inspection', () => {
         }
       ],
       count: 1,
-      formatted: '[Reply: orca orchestration reply --id msg_legacy --from term_coord --body "..."]'
+      formatted:
+        '[Reply: barkos orchestration reply --id msg_legacy --from term_coord --body "..."]'
     }
     callMock.mockResolvedValue({ result })
 
@@ -98,7 +99,7 @@ describe('legacy orchestration CLI inspection', () => {
         }
       ],
       count: 1,
-      formatted: '[Reply: orca orchestration reply --id msg_legacy --body "..."]'
+      formatted: '[Reply: barkos orchestration reply --id msg_legacy --body "..."]'
     }
     callMock.mockResolvedValue({ result })
 
@@ -189,9 +190,9 @@ describe('legacy orchestration CLI inspection', () => {
       count: 2,
       formatted: [
         'LEGACY_RUNTIME_SENTINEL',
-        '[Reply: orca orchestration reply --id msg_legacy --from term_coord --body "..."]',
+        '[Reply: barkos orchestration reply --id msg_legacy --from term_coord --body "..."]',
         'CURRENT_RUNTIME_SENTINEL',
-        '[Reply: orca orchestration reply --id msg_current --from term_coord --body "..."]'
+        '[Reply: barkos orchestration reply --id msg_current --from term_coord --body "..."]'
       ].join('\n\n')
     }
     callMock.mockResolvedValue({ result })
@@ -218,7 +219,7 @@ describe('legacy orchestration CLI inspection', () => {
     expect(response.result.formatted).not.toContain('RUNTIME_SENTINEL')
     expect(
       response.result.formatted.split('\n').filter((line) => line.startsWith('[Reply:'))
-    ).toEqual(['[Reply: orca orchestration reply --id msg_current --body "..."]'])
+    ).toEqual(['[Reply: barkos orchestration reply --id msg_current --body "..."]'])
     expect(response.result.formatted).not.toContain('--from run:run_current')
   })
 

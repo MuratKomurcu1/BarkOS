@@ -12,7 +12,7 @@ const specs: CommandSpec[] = [
     ],
     destructive: true,
     summary: 'Remove a worktree',
-    usage: 'orca worktree rm',
+    usage: 'barkos worktree rm',
     allowedFlags: []
   },
   {
@@ -118,7 +118,7 @@ describe('unknownCommandData', () => {
     const data = unknownCommandData(specs, ['worktree', 'remov'])
     expect(data.suggestions).toContain('worktree rm')
     expect(data.nextSteps[0]).toContain('Did you mean')
-    expect(data.nextSteps[0]).toContain('orca worktree rm')
+    expect(data.nextSteps[0]).toContain('barkos worktree rm')
   })
 
   it('produces empty nextSteps when nothing is close', () => {

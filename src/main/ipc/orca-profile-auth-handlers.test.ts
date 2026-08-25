@@ -35,18 +35,18 @@ vi.mock('../tray/system-tray', () => ({
   destroySystemTray: vi.fn()
 }))
 
-vi.mock('../orca-profiles/profile-index-store', () => ({
+vi.mock('../barkos-profiles/profile-index-store', () => ({
   createLocalOrcaProfile: vi.fn(),
   getOrcaProfileListState: vi.fn(),
   seedNewOrcaProfileTelemetryConsent: vi.fn(),
   setActiveOrcaProfile: vi.fn()
 }))
 
-vi.mock('../orca-profiles/profile-project-transfer', () => ({
+vi.mock('../barkos-profiles/profile-project-transfer', () => ({
   transferOrcaProfileProject: vi.fn()
 }))
 
-vi.mock('../orca-profiles/profile-cloud-service', () => ({
+vi.mock('../barkos-profiles/profile-cloud-service', () => ({
   createCloudLinkedOrcaProfile: createCloudLinkedOrcaProfileMock,
   connectCurrentOrcaProfile: connectCurrentOrcaProfileMock,
   getCurrentOrcaProfileAuthStatus: getCurrentOrcaProfileAuthStatusMock,
@@ -55,7 +55,7 @@ vi.mock('../orca-profiles/profile-cloud-service', () => ({
   signOutCurrentOrcaProfile: signOutCurrentOrcaProfileMock
 }))
 
-import { registerOrcaProfileHandlers } from './orca-profiles'
+import { registerOrcaProfileHandlers } from './barkos-profiles'
 
 describe('registerOrcaProfileHandlers auth channels', () => {
   beforeEach(() => {

@@ -357,7 +357,7 @@ vi.mock('./ai-vault', () => ({
   registerAiVaultHandlers: registerAiVaultHandlersMock
 }))
 
-vi.mock('./orca-profiles', () => ({
+vi.mock('./barkos-profiles', () => ({
   registerOrcaProfileHandlers: registerOrcaProfileHandlersMock
 }))
 

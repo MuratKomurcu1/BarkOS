@@ -1997,7 +1997,7 @@ export class AgentHookServer {
     }
     // Why: the OSC 9999 wire payload has no providerSession field at all, so an OSC observation is
     // never evidence that the session ended — yet overwriting the row dropped the cached identity.
-    // That erased it from persisted rows (lost across restart) and from headless `orca serve`, which
+    // That erased it from persisted rows (lost across restart) and from headless `barkos serve`, which
     // serves these rows to mobile directly instead of the renderer store, blanking Chat UI (#10630).
     // A new turn after `done` still starts clean so a reused pane cannot inherit a finished session.
     // Why: mirror resolveAgentStatusIdentity, which treats a literal 'unknown' exactly like an

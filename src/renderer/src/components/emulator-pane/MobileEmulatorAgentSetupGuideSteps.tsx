@@ -33,7 +33,7 @@ export function MobileEmulatorAgentSetupGuideSteps({
   // Why: skill detection here scans the local host only, so keep building host
   // commands; routing them to a WSL runtime would install where we never look.
   const skillInstallCommand = buildSkillCommandForRuntime(ORCA_CLI_SKILL_INSTALL_COMMAND)
-  const terminalWorktreeId = `mobile-emulator-${worktreeId}-orca-cli-skill-terminal`
+  const terminalWorktreeId = `mobile-emulator-${worktreeId}-barkos-cli-skill-terminal`
   const showSkillPreInstallNotice = shouldShowMobileEmulatorSkillPreInstallNotice({
     cliEnabled: setup.cliEnabled,
     cliSkillInstalled: setup.cliSkillInstalled
@@ -83,7 +83,7 @@ export function MobileEmulatorAgentSetupGuideSteps({
             <p className="text-[11px] leading-snug text-muted-foreground">
               {translate(
                 'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.3d34423e88',
-                'Registering the Orca CLI'
+                'Registering the BarkOS CLI'
               )}{' '}
               {setup.cliInstallStatus?.commandPath ? (
                 <code className="rounded bg-muted px-1 py-0.5">
@@ -140,7 +140,7 @@ export function MobileEmulatorAgentSetupGuideSteps({
           <p className="text-sm font-medium">
             {translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.21f5687c07',
-              'Orca CLI skill'
+              'BarkOS CLI skill'
             )}
           </p>
           <AgentSkillSetupPanel
@@ -149,7 +149,7 @@ export function MobileEmulatorAgentSetupGuideSteps({
             className="min-w-0"
             title={translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.21f5687c07',
-              'Orca CLI skill'
+              'BarkOS CLI skill'
             )}
             description={translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.64fb057667',
@@ -158,11 +158,11 @@ export function MobileEmulatorAgentSetupGuideSteps({
             command={skillInstallCommand}
             terminalTitle={translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.5c59ea96ca',
-              'Mobile emulator Orca CLI skill setup'
+              'Mobile emulator BarkOS CLI skill setup'
             )}
             terminalAriaLabel={translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.bff5341ac3',
-              'Mobile emulator Orca CLI skill install terminal'
+              'Mobile emulator BarkOS CLI skill install terminal'
             )}
             terminalWorktreeId={terminalWorktreeId}
             terminalShellOverride={activeSkillRuntime.terminalShellOverride}
@@ -177,7 +177,7 @@ export function MobileEmulatorAgentSetupGuideSteps({
             }
             openingHint={translate(
               'auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.3941719a56',
-              'Checking Orca CLI before opening skill setup.'
+              'Checking BarkOS CLI before opening skill setup.'
             )}
             onBeforeOpenTerminal={async () => {
               recordFeatureInteraction('mobile-emulator-agent-setup')

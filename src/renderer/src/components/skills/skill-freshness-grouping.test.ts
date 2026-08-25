@@ -31,13 +31,13 @@ function placement(
 
 describe('groupSkillFreshness', () => {
   it('marks an eligible outdated skill as update-available with one location', () => {
-    const groups = groupSkillFreshness([placement('orca-cli')], ['orca-cli'])
+    const groups = groupSkillFreshness([placement('barkos-cli')], ['barkos-cli'])
     expect(groups).toHaveLength(1)
-    expect(groups[0]).toMatchObject({ name: 'orca-cli', status: 'update-available' })
+    expect(groups[0]).toMatchObject({ name: 'barkos-cli', status: 'update-available' })
     expect(groups[0]?.locations).toEqual([
       {
         id: expect.any(String),
-        path: '/home/.agents/skills/orca-cli',
+        path: '/home/.agents/skills/barkos-cli',
         chip: null,
         participatesInGlobalFreshness: true
       }
@@ -47,8 +47,8 @@ describe('groupSkillFreshness', () => {
   it('hides skills whose every copy is current', () => {
     const groups = groupSkillFreshness(
       [
-        placement('orca-cli', { status: 'current' }),
-        placement('orca-cli', { status: 'current', topology: 'provider-alias' })
+        placement('barkos-cli', { status: 'current' }),
+        placement('barkos-cli', { status: 'current', topology: 'provider-alias' })
       ],
       []
     )

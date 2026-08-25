@@ -264,7 +264,7 @@ export function discoverBarkosDecisionRequests(args: {
   const gateResponse = gateListResponseSchema.parse(args.gateListResponse)
   const messageResponse = messageListResponseSchema.parse(args.messageListResponse)
   if (gateResponse.runId !== args.runId || messageResponse.runId !== args.runId) {
-    throw new Error('Orca decision inbox response does not match the current Run')
+    throw new Error('BarkOS decision inbox response does not match the current Run')
   }
   const tasks = taskContexts(args.ledger, args.runId)
   const now = args.now ?? Date.now()

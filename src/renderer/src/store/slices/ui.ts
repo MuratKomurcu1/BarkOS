@@ -9,7 +9,7 @@ import {
 import type { GitHubWorkItem } from '../../../../shared/github/work-item-types'
 import type { JiraIssue } from '../../../../shared/jira-types'
 import type { LinearIssue } from '../../../../shared/linear/issue-types'
-import type { PersistedTrustedOrcaHooks } from '../../../../shared/orca-yaml-hook-types'
+import type { PersistedTrustedOrcaHooks } from '../../../../shared/barkos-yaml-hook-types'
 import type { PersistedUIState } from '../../../../shared/persisted-ui-state-types'
 import type { CustomPet } from '../../../../shared/pet-types'
 import type { TaskProvider } from '../../../../shared/task-providers'
@@ -753,7 +753,7 @@ export type UISlice = {
     | 'feature-wall'
     | 'feature-tips'
     | 'new-workspace-composer'
-    | 'confirm-orca-yaml-hooks'
+    | 'confirm-barkos-yaml-hooks'
   modalData: Record<string, unknown>
   openModal: (modal: UISlice['activeModal'], data?: Record<string, unknown>) => void
   closeModal: () => void

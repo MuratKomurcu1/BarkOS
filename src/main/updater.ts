@@ -667,12 +667,12 @@ function deferHeadlessServeInstall(phase: 'download' | 'install', version: strin
       { phase, version: version || null },
       {
         level: 'warn',
-        message: 'Update install deferred while hosting orca serve'
+        message: 'Update install deferred while hosting barkos serve'
       }
     )
   }
   sendErrorStatus(
-    'This orca serve process was not started by an update-capable supervisor. Keep it running and update Orca through its service manager.',
+    'This barkos serve process was not started by an update-capable supervisor. Keep it running and update BarkOS through its service manager.',
     true
   )
   return true
@@ -763,7 +763,7 @@ async function performQuitAndInstall(): Promise<void> {
           }
         )
         sendErrorStatus(
-          'Could not prepare the supervised server restart. Orca remains running.',
+          'Could not prepare the supervised server restart. BarkOS remains running.',
           true
         )
         resetQuitForUpdateState()
@@ -868,7 +868,7 @@ async function performQuitAndInstall(): Promise<void> {
         // A synchronous throw out of quitAndInstall carries the same installer text the 'error' event would have.
         message: quitAndInstallNativeInvokedBeforeReset
           ? withInstallFailureCause(getPreCommitInstallFailureMessage(), error)
-          : 'Could not restart to install the update. Quit and reopen Orca, then try again.'
+          : 'Could not restart to install the update. Quit and reopen BarkOS, then try again.'
       }
     )
   }
@@ -890,8 +890,8 @@ function resetQuitForUpdateState(): void {
  */
 function getPreCommitInstallFailureMessage(): string {
   return process.platform === 'darwin'
-    ? 'Could not restart to install the update. Quit and reopen Orca, then try again.'
-    : 'Could not start the update installer. Orca remains open.'
+    ? 'Could not restart to install the update. Quit and reopen BarkOS, then try again.'
+    : 'Could not start the update installer. BarkOS remains open.'
 }
 
 /**
@@ -1438,7 +1438,7 @@ async function pinDefaultReleaseFeed(
   } else {
     clearPrereleaseFallbackContext()
     clearPublishingWindowLastGoodCheck()
-    const url = 'https://github.com/stablyai/orca/releases/latest/download'
+    const url = 'https://github.com/MuratKomurcu1/BarkOS/releases/latest/download'
     console.info(
       `[updater] release feed fallback: current=${currentVersion} includePrerelease=${includePrerelease} → ${url}`
     )
@@ -1825,16 +1825,16 @@ const LINUX_PACKAGE_RECOVERY_MESSAGES: Record<LinuxPackageRecoveryUnavailableRea
   'not-regular':
     'The downloaded package is no longer a valid file in the update cache. Download the update again, or get it from the official release page.',
   'hash-mismatch':
-    'The downloaded package no longer matches the verified release, so Orca will not hand it to a package manager. Download the update again, or get it from the official release page.',
+    'The downloaded package no longer matches the verified release, so BarkOS will not hand it to a package manager. Download the update again, or get it from the official release page.',
   'read-failed':
-    'Orca could not read the downloaded package. Download the update again, or get it from the official release page.',
+    'BarkOS could not read the downloaded package. Download the update again, or get it from the official release page.',
   'no-sudo':
-    'No sudo command was found in the system directories, so Orca cannot build a safe install command. Show the package and install it with your package manager.',
+    'No sudo command was found in the system directories, so BarkOS cannot build a safe install command. Show the package and install it with your package manager.',
   'no-package-manager':
-    'No supported package manager was found in the system directories, so Orca cannot build a safe install command. Show the package and install it with your package manager.',
+    'No supported package manager was found in the system directories, so BarkOS cannot build a safe install command. Show the package and install it with your package manager.',
   // Defensive: capture only ever tracks absolute cache paths, so this reports a bug rather than a machine state.
   'invalid-package-path':
-    'The downloaded package is not at a usable path, so Orca cannot build a safe install command. Show the package and install it with your package manager.'
+    'The downloaded package is not at a usable path, so BarkOS cannot build a safe install command. Show the package and install it with your package manager.'
 }
 
 // Why: clearing the artifact alone would leave the renderer's actions enabled; the status must lose its recovery too.
@@ -2216,7 +2216,7 @@ export function setupAutoUpdater(
   if (activeUpdateSource === 'release') {
     autoUpdater.setFeedURL({
       provider: 'generic',
-      url: 'https://github.com/stablyai/orca/releases/latest/download'
+      url: 'https://github.com/MuratKomurcu1/BarkOS/releases/latest/download'
     })
   }
 

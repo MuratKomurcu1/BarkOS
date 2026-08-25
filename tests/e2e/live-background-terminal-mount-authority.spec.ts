@@ -113,7 +113,7 @@ function createSourceRepo(): string {
     path.join(repoPath, 'canary-live.js'),
     `const { appendFileSync } = require('node:fs')\nappendFileSync(process.env.ORCA_E2E_CANARY_LEDGER, JSON.stringify({ pid: process.pid }) + '\\n')\nconsole.log('CANARY_READY:' + process.pid)\nlet inputBuffer = ''\nprocess.stdin.on('data', chunk => {\n  inputBuffer += chunk.toString()\n  const lines = inputBuffer.split(/[\\r\\n]+/)\n  inputBuffer = lines.pop() || ''\n  for (const line of lines) if (line) console.log('CANARY_INPUT:' + process.pid + ':' + line)\n})\nfor (const signal of ['SIGINT', 'SIGHUP', 'SIGTERM']) process.on(signal, () => appendFileSync(process.env.ORCA_E2E_SIGNAL_LEDGER, JSON.stringify({ kind: 'canary', pid: process.pid, signal }) + '\\n'))\nprocess.stdin.resume()\nsetInterval(() => {}, 60000)\n`
   )
-  writeFileSync(path.join(repoPath, 'orca.yaml'), 'scripts:\n  setup: node setup-live.js\n')
+  writeFileSync(path.join(repoPath, 'barkos.yaml'), 'scripts:\n  setup: node setup-live.js\n')
   execFileSync('git', ['init'], { cwd: repoPath })
   execFileSync('git', ['checkout', '-b', 'main'], { cwd: repoPath })
   execFileSync('git', ['add', '.'], { cwd: repoPath })

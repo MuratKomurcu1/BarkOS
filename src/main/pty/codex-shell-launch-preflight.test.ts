@@ -231,7 +231,7 @@ describe('Codex shell launch preflight command', () => {
 
   it('carries the verified dev launcher as an absolute path', () => {
     const { userDataPath, resourcesPath } = makeCliRoot()
-    const launcherPath = join(userDataPath, 'cli', 'bin', 'orca-dev')
+    const launcherPath = join(userDataPath, 'cli', 'bin', 'barkos-dev')
     writeExecutable(launcherPath, '#!/bin/sh\nexit 0\n')
 
     expect(
@@ -249,7 +249,7 @@ describe('Codex shell launch preflight command', () => {
   it('never returns an unqualified command name that a profile-rewritten PATH could hijack', () => {
     const { userDataPath, resourcesPath } = makeCliRoot()
     writeExecutable(join(resourcesPath, 'bin', 'barkos'), '#!/bin/sh\nexit 0\n')
-    writeExecutable(join(userDataPath, 'cli', 'bin', 'orca-dev'), '#!/bin/sh\nexit 0\n')
+    writeExecutable(join(userDataPath, 'cli', 'bin', 'barkos-dev'), '#!/bin/sh\nexit 0\n')
 
     for (const isPackaged of [true, false]) {
       const command = resolveCodexShellLaunchPreflightCommand({

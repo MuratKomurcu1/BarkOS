@@ -2,7 +2,7 @@ import { getSetupConfig } from '@/lib/new-workspace'
 import { checkRuntimeHooks } from '@/runtime/runtime-hooks-client'
 import { resolveGitHubPrStartPointForRepo } from '@/lib/github-pr-start-point'
 import type { GlobalSettings } from '../../../shared/global-settings-types'
-import type { OrcaHooks, RepoHookSettings } from '../../../shared/orca-yaml-hook-types'
+import type { OrcaHooks, RepoHookSettings } from '../../../shared/barkos-yaml-hook-types'
 import type { SetupDecision } from '../../../shared/worktree/create-types'
 import type { GitHubPrStartPoint } from '../../../shared/worktree/types'
 

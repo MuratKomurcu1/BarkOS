@@ -31,7 +31,7 @@ vi.mock('../ipc/ssh-pty-output-intake-registry', () => ({
   installSshPtySourceCancellationPublisher: vi.fn(() => () => {})
 }))
 vi.mock('./ssh-relay-deploy-helpers', () => ({ execCommand: vi.fn().mockResolvedValue('') }))
-vi.mock('./ssh-remote-orca-cli', () => ({
+vi.mock('./ssh-remote-barkos-cli', () => ({
   runRemoteOrcaCli: vi.fn().mockResolvedValue({ exitCode: 0, stdout: '', stderr: '' })
 }))
 vi.mock('./ssh-channel-multiplexer', () => ({

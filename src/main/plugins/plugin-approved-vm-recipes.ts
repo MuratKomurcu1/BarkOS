@@ -1,4 +1,4 @@
-import type { OrcaVmRecipe } from '../../shared/orca-yaml-hook-types'
+import type { OrcaVmRecipe } from '../../shared/barkos-yaml-hook-types'
 import type { PluginService } from './plugin-service'
 
 export async function getApprovedPluginVmRecipes(

@@ -103,7 +103,7 @@ __orca_run_prompt_command_array() {
   done
   if (( __orca_user_count > 0 )); then
     __orca_prompt_part="\${__orca_prompt_command_array[__orca_user_count - 1]}"
-    # Why: keep the final user hook and Orca suffixes in one status-preserving eval.
+    # Why: keep the final user hook and BarkOS suffixes in one status-preserving eval.
     __orca_final_prompt_command='eval "$__orca_prompt_part"'
     for __orca_suffix_part in "\${__orca_prompt_command_suffix[@]+"\${__orca_prompt_command_suffix[@]}"}"; do
       __orca_final_prompt_command+=$'\\n'"$__orca_suffix_part"

@@ -63,7 +63,7 @@ export function getPiAgentStatusWslCurlSourceLines(): string[] {
     "        '-o', 'NUL',",
     "        '-X', 'POST',",
     "        '-H', 'Content-Type: application/json',",
-    "        '-H', `X-Orca-Agent-Hook-Token: ${windowsToken}`,",
+    "        '-H', `X-BarkOS-Agent-Hook-Token: ${windowsToken}`,",
     "        '--data-binary', '@-',",
     '        windowsUrl',
     '      ],',

@@ -53,7 +53,7 @@ export async function materializeBarkosPlanInOrca(args: {
   if (!objective || !plan || !MATERIALIZABLE_PLAN_STATUSES.has(plan.status)) {
     throw barkosAdapterError(
       'precondition-failed',
-      'Objective requires an approved active plan before Orca materialization',
+      'Objective requires an approved active plan before BarkOS materialization',
       'plan-precondition'
     )
   }
@@ -154,7 +154,7 @@ export async function materializeBarkosPlanInOrca(args: {
       if (dependencyIds.some((id) => !id)) {
         throw barkosAdapterError(
           'precondition-failed',
-          `Task ${task.id} has an unbound Orca dependency`,
+          `Task ${task.id} has an unbound BarkOS dependency`,
           'task-binding'
         )
       }

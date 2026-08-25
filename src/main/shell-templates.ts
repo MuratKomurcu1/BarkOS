@@ -14,8 +14,8 @@ fi`
 export { BASH_PROMPT_COMMAND_COMPOSITION_BLOCK } from './bash-prompt-command-composition'
 export function getZshEnvTemplate(zshDir: string, headerPrefix = ''): string {
   const header = headerPrefix
-    ? `Orca ${headerPrefix} zsh shell-ready wrapper`
-    : 'Orca zsh shell-ready wrapper'
+    ? `BarkOS ${headerPrefix} zsh shell-ready wrapper`
+    : 'BarkOS zsh shell-ready wrapper'
   return `# ${header}
 ${SHELL_STARTUP_IDENTITY_MARKER_BLOCK}
 # Why: capture the runtime wrapper dir before it is unset below. On WSL this
@@ -42,7 +42,7 @@ _orca_zshenv_path=""
 unset ORCA_ZSHENV_SOURCE_DIR
 
 # Normalize fallback and source roots before reading user .zshenv so nested
-# Orca PTYs never source another Orca wrapper recursively.
+# BarkOS PTYs never source another BarkOS wrapper recursively.
 while [[ "\${_orca_user_zdotdir}" == */ ]]; do
   _orca_user_zdotdir="\${_orca_user_zdotdir%/}"
 done
@@ -118,7 +118,7 @@ unset _orca_spawn_orig_zdotdir _orca_user_zdotdir _orca_zshenv_source_dir _orca_
 export const ZSH_HISTFILE_RESTORE_BLOCK = `if [[ -n "\${ORCA_HISTFILE:-}" ]]; then
   HISTFILE="$ORCA_HISTFILE"
 elif [[ "\${HISTFILE:-}" == "$ZDOTDIR/.zsh_history" ]]; then
-  # Why also when Orca injected nothing: /etc/zshrc derived this from Orca's
+  # Why also when BarkOS injected nothing: /etc/zshrc derived this from BarkOS's
   # wrapper ZDOTDIR, so history would accumulate INSIDE the wrapper dir and the
   # user's real history would be invisible — the plain #11044 bug, with no
   # per-worktree scoping involved. Matching the exact clobbered value means a
@@ -146,7 +146,7 @@ esac
 if [[ ${checks.join(' && ')} ]]; then
   _orca_wrapper_zdotdir="$ZDOTDIR"
   # Why: user startup files resolve plugin/config paths from their own ZDOTDIR;
-  # Orca restores its wrapper dir afterward so zsh still loads wrapper files.
+  # BarkOS restores its wrapper dir afterward so zsh still loads wrapper files.
   export ZDOTDIR="$_orca_home"
   source "$_orca_home/${options.fileName}"
   export ZDOTDIR="$_orca_wrapper_zdotdir"
@@ -212,7 +212,7 @@ export function getZshFinalZdotdirRestoreBlock(homeExpression = '"${ORCA_ORIG_ZD
 case "\${_orca_home%/}" in
   */shell-ready/zsh) _orca_home="$HOME" ;;
 esac
-# Why: after Orca's last wrapper file has loaded, the interactive shell should
+# Why: after BarkOS's last wrapper file has loaded, the interactive shell should
 # expose the same ZDOTDIR a normal zsh startup would expose.
 export ZDOTDIR="$_orca_home"
 unset _orca_home

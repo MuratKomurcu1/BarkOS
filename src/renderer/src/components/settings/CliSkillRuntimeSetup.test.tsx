@@ -170,7 +170,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
 
   it('keeps bundled BarkOS skill installs bare on Windows hosts', () => {
     // Why: the BarkOS CLI ships with the app, so there is no npx prerequisite.
-    const installCommand = buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration'])
+    const installCommand = buildAgentFeatureSkillInstallCommand(['barkos-cli', 'orchestration'])
 
     expect(
       buildSkillCommandForRuntime(
@@ -208,10 +208,10 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   })
 
   it('treats missing runtime as a bare bundled-install fallback for skill updates', () => {
-    const installCommand = buildAgentFeatureSkillInstallCommand(['orca-cli'])
+    const installCommand = buildAgentFeatureSkillInstallCommand(['barkos-cli'])
 
     expect(
-      buildSkillCommandForRuntime('npx skills update orca-cli --global', undefined, 'win32')
+      buildSkillCommandForRuntime('npx skills update barkos-cli --global', undefined, 'win32')
     ).toBe(installCommand)
   })
 

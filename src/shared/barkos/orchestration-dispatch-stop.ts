@@ -146,7 +146,7 @@ export async function stopBarkosDispatchAuthority(args: {
       dispatchId: dispatch.id,
       error: barkosAdapterError(
         'invalid-rpc-response',
-        'Orca did not prove that the exact Dispatch authority was stopped',
+        'BarkOS did not prove that the exact Dispatch authority was stopped',
         'dispatch-stop-authority',
         'possible',
         stopped.success ? undefined : stopped.error
@@ -190,7 +190,7 @@ export async function stopBarkosDispatchAuthority(args: {
       dispatchId: dispatch.id,
       error: barkosAdapterError(
         'invalid-rpc-response',
-        'Orca did not prove that the exact worker PTY was terminated',
+        'BarkOS did not prove that the exact worker PTY was terminated',
         'dispatch-stop-terminal',
         'applied',
         close.success ? undefined : close.error

@@ -206,7 +206,7 @@ export class RuntimeClient {
     if (!response.result.capabilities?.includes(ORCHESTRATION_CONTRACT_RUNTIME_CAPABILITY)) {
       throw new RuntimeClientError(
         'orchestration_migration_required',
-        'The connected Orca runtime does not support the current orchestration contract. No effects were applied.',
+        'The connected BarkOS runtime does not support the current orchestration contract. No effects were applied.',
         orchestrationMigrationData('runtime_capability_missing')
       )
     }
@@ -242,7 +242,7 @@ export class RuntimeClient {
 
     throw new RuntimeClientError(
       'runtime_open_timeout',
-      'Timed out waiting for an Orca desktop window. The runtime may still be running headlessly.'
+      'Timed out waiting for a BarkOS desktop window. The runtime may still be running headlessly.'
     )
   }
 }
@@ -264,7 +264,7 @@ function attachMutationRecovery(error: unknown, requestId: string | undefined): 
 function throwDesktopActivationBlocked(): never {
   throw new RuntimeClientError(
     'desktop_activation_blocked',
-    'Orca is running headlessly, but it cannot open a desktop window safely because the persistent terminal provider is unavailable. Quit Orca normally and start the app again; do not use open -n.'
+    'BarkOS is running headlessly, but it cannot open a desktop window safely because the persistent terminal provider is unavailable. Quit BarkOS normally and start the app again; do not use open -n.'
   )
 }
 
@@ -289,7 +289,7 @@ function resolveRemotePairing(
   if (!pairing) {
     throw new RuntimeClientError(
       'invalid_argument',
-      'Invalid remote pairing code. Expected an orca://pair?... URL or bare pairing payload.'
+      'Geçersiz uzak eşleştirme kodu. barkos://pair?... bağlantısı veya yalın eşleştirme verisi bekleniyor.'
     )
   }
   return pairing

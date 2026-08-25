@@ -27,7 +27,7 @@ describe('DevinHookService', () => {
   let homeDir: string
 
   beforeEach(() => {
-    homeDir = mkdtempSync(join(tmpdir(), 'orca-devin-home-'))
+    homeDir = mkdtempSync(join(tmpdir(), 'barkos-devin-home-'))
     homedirMock.mockReturnValue(homeDir)
     vi.stubEnv('APPDATA', join(homeDir, 'AppData', 'Roaming'))
   })

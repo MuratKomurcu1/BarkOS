@@ -5,7 +5,7 @@ import type { ContextualTourId } from './contextual-tours'
 import type { FeatureInteractionState } from './feature-interactions'
 import type { UsagePercentageDisplay } from './usage-percentage-display'
 import type { StatusBarUsageMode } from './status-bar-usage-mode'
-import type { PersistedTrustedOrcaHooks } from './orca-yaml-hook-types'
+import type { PersistedTrustedOrcaHooks } from './barkos-yaml-hook-types'
 import type { CustomPet } from './pet-types'
 import type {
   AgentActivityDisplayMode,
@@ -59,7 +59,7 @@ export type PersistedUIState = {
   hideDefaultBranchWorkspace: boolean
   /** Hide workspaces created by automation new-per-run dispatches. */
   hideAutomationGeneratedWorkspaces?: boolean
-  /** Hide workspaces created through `orca worktree create`. */
+  /** Hide workspaces created through `barkos worktree create`. */
   hideCliCreatedWorkspaces?: boolean
   /** Hide workspaces sitting on a detached HEAD; folder workspaces (no head at all) are unaffected. */
   hideDetachedHeadWorkspaces?: boolean

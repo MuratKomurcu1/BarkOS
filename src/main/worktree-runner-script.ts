@@ -89,7 +89,7 @@ function createWorktreeRunnerScript(args: {
   const nativeWindowsWorktree = process.platform === 'win32' && !wslWorktree
   // Why: the terminal-shell preference says nothing about the language a project's script is
   // written in, and every pre-existing Windows script was authored against the cmd runner. Only a
-  // `#!` line opts a script into bash, so the same orca.yaml runs identically for every Windows
+  // `#!` line opts a script into bash, so the same barkos.yaml runs identically for every Windows
   // user of the repo instead of following whichever terminal each of them happens to prefer.
   const runnerShell: SetupRunnerShell = nativeWindowsWorktree
     ? setupShell?.family === 'posix' && scriptDeclaresPosixShell(script)

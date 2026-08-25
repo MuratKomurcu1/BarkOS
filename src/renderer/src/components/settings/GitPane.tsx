@@ -259,7 +259,7 @@ export function GitPane({
           <p className="text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.GitPane.976afc6b3e',
-              'When you create a workspace, Orca refreshes the remote base and safely fast-forwards your matching local branch, such as'
+              'When you create a workspace, BarkOS refreshes the remote base and safely fast-forwards your matching local branch, such as'
             )}{' '}
             <code>{translate('auto.components.settings.GitPane.ffba483bae', 'main')}</code>{' '}
             {translate('auto.components.settings.GitPane.5bf885be48', 'or')}{' '}
@@ -273,7 +273,7 @@ export function GitPane({
             </code>{' '}
             {translate(
               'auto.components.settings.GitPane.36e3de3619',
-              'from comparing against stale history. Orca skips the update if that branch has uncommitted changes or local-only commits.'
+              'from comparing against stale history. BarkOS skips the update if that branch has uncommitted changes or local-only commits.'
             )}
           </p>
         </div>

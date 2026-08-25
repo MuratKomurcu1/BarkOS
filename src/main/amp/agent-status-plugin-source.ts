@@ -1,5 +1,5 @@
 export const AMP_PLUGIN_FILE = 'orca-agent-status.ts'
-export const AMP_PLUGIN_MARKER = 'Managed by Orca. Do not edit; changes may be overwritten.'
+export const AMP_PLUGIN_MARKER = 'Managed by BarkOS. Do not edit; changes may be overwritten.'
 
 export function getAmpPluginSource(): string {
   return [
@@ -48,7 +48,7 @@ export function getAmpPluginSource(): string {
     '}',
     '',
     'function resolveHookCoords(): HookCoords {',
-    '  // Why: Amp sessions can outlive an Orca restart; the endpoint file is',
+    '  // Why: Amp sessions can outlive a BarkOS restart; the endpoint file is',
     '  // rewritten on each start, so read it per event before falling back to env.',
     '  const fileEnv = readEndpointFile() ?? {}',
     '  return {',
@@ -101,7 +101,7 @@ export function getAmpPluginSource(): string {
     '      signal: controller.signal,',
     '      headers: {',
     '        "Content-Type": "application/json",',
-    '        "X-Orca-Agent-Hook-Token": coords.token',
+    '        "X-BarkOS-Agent-Hook-Token": coords.token',
     '      },',
     '      body: JSON.stringify({',
     '        paneKey,',
@@ -115,7 +115,7 @@ export function getAmpPluginSource(): string {
     '      })',
     '    })',
     '  } catch {',
-    '    // Why: Orca status reporting must never affect the Amp run.',
+    '    // Why: BarkOS status reporting must never affect the Amp run.',
     '  } finally {',
     '    clearTimeout(timeout)',
     '  }',
@@ -144,7 +144,7 @@ export function getAmpPluginSource(): string {
     '}',
     'function enqueuePost(hookEventName: string, payload: Record<string, unknown>): void {',
     '  // Why: keep hook callbacks non-blocking without retaining unbounded',
-    '  // payload closures when Orca is down and each POST waits for timeout.',
+    '  // payload closures when BarkOS is down and each POST waits for timeout.',
     '  if (postQueue.length >= MAX_PENDING_POSTS) {',
     '    postQueue.shift()',
     '  }',

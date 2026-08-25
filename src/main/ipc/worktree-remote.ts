@@ -1148,7 +1148,7 @@ async function readRemoteOrcaYaml(
   hooksRootPath: string
 ): Promise<ReturnType<typeof parseOrcaYaml>> {
   try {
-    const result = await fsProvider.readFile(joinWorktreeRelativePath(hooksRootPath, 'orca.yaml'))
+    const result = await fsProvider.readFile(joinWorktreeRelativePath(hooksRootPath, 'barkos.yaml'))
     return result.isBinary ? null : parseOrcaYaml(result.content)
   } catch {
     return null
@@ -1882,7 +1882,7 @@ export async function createRemoteWorktree(
   })
   const workspaceLineage = recordWorkspaceLineageForCreatedWorktree(store, args, worktree, now)
 
-  // Why: shared/symlink paths, `orca.yaml` shared directories, and `.worktreeinclude` copies are local-only; remote (SSH) support needs a new relay method + auth surface, so all are skipped here.
+  // Why: shared/symlink paths, `barkos.yaml` shared directories, and `.worktreeinclude` copies are local-only; remote (SSH) support needs a new relay method + auth surface, so all are skipped here.
 
   let setup: CreateWorktreeResult['setup']
   let defaultTabs: CreateWorktreeResult['defaultTabs']
@@ -2535,7 +2535,7 @@ export async function createLocalWorktree(
     })
   }
 
-  // Why: project-level `orca.yaml` shared directories add to (never replace) the per-user
+  // Why: project-level `barkos.yaml` shared directories add to (never replace) the per-user
   // setting, so a repo's shared dirs reach every teammate (issue #10451).
   const sharedDirectories = await timing.time('resolve_shared_directories', () =>
     resolveWorktreeSharedDirectories(repo.path, localWorktreeGitOptions)
@@ -2566,7 +2566,7 @@ export async function createLocalWorktree(
     })
   }
 
-  // Why: the worktree's base-branch `orca.yaml` is authoritative; we don't re-gate on content parity with the primary checkout since benign divergence silently disabled setup (#1280).
+  // Why: the worktree's base-branch `barkos.yaml` is authoritative; we don't re-gate on content parity with the primary checkout since benign divergence silently disabled setup (#1280).
   let setup: CreateWorktreeResult['setup']
   let defaultTabs: CreateWorktreeResult['defaultTabs']
   await timing.time('prepare_setup', async () => {

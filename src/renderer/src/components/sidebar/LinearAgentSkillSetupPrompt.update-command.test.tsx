@@ -72,14 +72,14 @@ function cliStatus(): CliInstallStatus {
 function discoveredSkill(overrides: Partial<DiscoveredSkill>): DiscoveredSkill {
   return {
     id: 'skill-1',
-    name: 'orca-linear',
+    name: 'barkos-linear',
     description: null,
     providers: ['agent-skills'],
     sourceKind: 'home',
     sourceLabel: 'Agent skills home',
     rootPath: '/Users/test/.agents/skills',
-    directoryPath: '/Users/test/.agents/skills/orca-linear',
-    skillFilePath: '/Users/test/.agents/skills/orca-linear/SKILL.md',
+    directoryPath: '/Users/test/.agents/skills/barkos-linear',
+    skillFilePath: '/Users/test/.agents/skills/barkos-linear/SKILL.md',
     installed: true,
     updatedAt: null,
     ...overrides
@@ -151,13 +151,13 @@ describe('LinearAgentSkillSetupPrompt update command', () => {
   })
 
   it('uses the canonical update command when the canonical Linear skill is installed', async () => {
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' })]
+    mocks.skillState.skills = [discoveredSkill({ name: 'barkos-linear' })]
 
     await renderPrompt()
 
     expect(mocks.panelProps.at(-1)).toEqual(
       expect.objectContaining({
-        installedCommand: 'barkos skills update --skill orca-linear --global'
+        installedCommand: 'barkos skills update --skill barkos-linear --global'
       })
     )
   })
@@ -175,13 +175,13 @@ describe('LinearAgentSkillSetupPrompt update command', () => {
   })
 
   it('prefers the canonical update command when both Linear skill names are installed', async () => {
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' }), legacyLinearSkillPath()]
+    mocks.skillState.skills = [discoveredSkill({ name: 'barkos-linear' }), legacyLinearSkillPath()]
 
     await renderPrompt()
 
     expect(mocks.panelProps.at(-1)).toEqual(
       expect.objectContaining({
-        installedCommand: 'barkos skills update --skill orca-linear --global'
+        installedCommand: 'barkos skills update --skill barkos-linear --global'
       })
     )
   })

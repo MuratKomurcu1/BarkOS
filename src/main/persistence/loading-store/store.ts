@@ -66,7 +66,7 @@ import { sanitizeWorkspaceSessionTerminalRetirements } from '../../runtime/mobil
 import {
   removeRepoFromHostWorkspaceSessions,
   removeRepoFromWorkspaceSession
-} from '../../orca-profiles/profile-project-session-state'
+} from '../../barkos-profiles/profile-project-session-state'
 import type {
   RemovedSshTargetTombstone,
   SshPtyConsumerRecovery,

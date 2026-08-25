@@ -176,7 +176,7 @@ const CheckParams = z
     ack: OptionalString,
     compatibilityAck: OptionalString,
     compatibilityQuestionAck: OptionalString,
-    compatibilityCliCommand: z.enum(['barkos', 'orca', 'orca-ide', 'orca-dev']).optional(),
+    compatibilityCliCommand: z.enum(['barkos', 'orca', 'orca-ide', 'barkos-dev']).optional(),
     run: OptionalString,
     wait: OptionalBoolean,
     timeoutMs: OptionalFiniteNumber
@@ -292,7 +292,7 @@ const AskParams = z
     timeoutMs: OptionalFiniteNumber,
     from: OptionalString,
     run: OptionalString,
-    compatibilityCliCommand: z.enum(['barkos', 'orca', 'orca-ide', 'orca-dev']).optional(),
+    compatibilityCliCommand: z.enum(['barkos', 'orca', 'orca-ide', 'barkos-dev']).optional(),
     compatibilityWindowsCommand: z.enum(['barkos', 'orca', 'orca-ide']).optional()
   })
   .superRefine((params, ctx) => {
@@ -655,7 +655,7 @@ export const ORCHESTRATION_METHODS: RpcMethod[] = [
           ) {
             throw new OrchestrationError(
               'capability_unsupported',
-              `Federated Dispatch ${dispatchId} does not support coordinator control mail; start a fresh worker after updating its Orca server.`
+              `Federated Dispatch ${dispatchId} does not support coordinator control mail; start a fresh worker after updating its BarkOS server.`
             )
           }
           if (db.getWorkerDispatch(dispatchId)?.state !== 'ready') {

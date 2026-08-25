@@ -5,7 +5,7 @@ import {
 } from '../../shared/skill-freshness'
 import { eligibleSkillUpdateNames } from './skill-freshness-eligibility'
 
-const globallyUpdatableNames = new Set(['computer-use', 'orca-cli', 'orchestration'])
+const globallyUpdatableNames = new Set(['computer-use', 'barkos-cli', 'orchestration'])
 
 function eligible(installations: SkillFreshnessInstallation[]): string[] {
   return eligibleSkillUpdateNames(installations, globallyUpdatableNames)
@@ -42,15 +42,15 @@ describe('skill freshness name-scoped update eligibility', () => {
   it('offers a name when at least one supported placement is outdated and all are official', () => {
     expect(
       eligible([
-        placement('orca-cli'),
-        placement('orca-cli', {
-          id: 'orca-cli-claude',
+        placement('barkos-cli'),
+        placement('barkos-cli', {
+          id: 'barkos-cli-claude',
           rootId: 'home-claude',
           topology: 'provider-alias',
           status: 'current'
         })
       ])
-    ).toEqual(['orca-cli'])
+    ).toEqual(['barkos-cli'])
   })
 
   it.each([
@@ -69,10 +69,10 @@ describe('skill freshness name-scoped update eligibility', () => {
       // stake. The canonical copy converges and the outlier is reported separately.
       expect(
         eligible([
-          placement('orca-cli'),
-          placement('orca-cli', { id: `outlier-${status}-${topology}`, status, topology })
+          placement('barkos-cli'),
+          placement('barkos-cli', { id: `outlier-${status}-${topology}`, status, topology })
         ])
-      ).toEqual(['orca-cli'])
+      ).toEqual(['barkos-cli'])
     }
   )
 
@@ -83,9 +83,9 @@ describe('skill freshness name-scoped update eligibility', () => {
       // real data-loss case the rail exists to avoid.
       expect(
         eligible([
-          placement('orca-cli', { id: 'blocked-canonical', status }),
-          placement('orca-cli', {
-            id: 'orca-cli-claude',
+          placement('barkos-cli', { id: 'blocked-canonical', status }),
+          placement('barkos-cli', {
+            id: 'barkos-cli-claude',
             rootId: 'home-claude',
             topology: 'provider-alias',
             status: 'outdated'
@@ -100,17 +100,17 @@ describe('skill freshness name-scoped update eligibility', () => {
     // and the duplicate row is flagged as maybe-not-reached rather than blocking.
     expect(
       eligible([
-        placement('orca-cli'),
-        placement('orca-cli', {
-          id: 'orca-cli-gemini',
+        placement('barkos-cli'),
+        placement('barkos-cli', {
+          id: 'barkos-cli-gemini',
           rootId: 'home-gemini',
-          unresolvedPath: '/home/.gemini/skills/orca-cli',
-          resolvedPath: '/home/.gemini/skills/orca-cli',
+          unresolvedPath: '/home/.gemini/skills/barkos-cli',
+          resolvedPath: '/home/.gemini/skills/barkos-cli',
           topology: 'independent-copy',
           status: 'current'
         })
       ])
-    ).toEqual(['orca-cli'])
+    ).toEqual(['barkos-cli'])
   })
 
   it('does not promise an update when only an unreachable duplicate is outdated', () => {
@@ -138,10 +138,10 @@ describe('skill freshness name-scoped update eligibility', () => {
     // reliable target, so a duplicate-only skill stays unoffered.
     expect(
       eligible([
-        placement('orca-cli', {
+        placement('barkos-cli', {
           rootId: 'home-gemini',
-          unresolvedPath: '/home/.gemini/skills/orca-cli',
-          resolvedPath: '/home/.gemini/skills/orca-cli',
+          unresolvedPath: '/home/.gemini/skills/barkos-cli',
+          resolvedPath: '/home/.gemini/skills/barkos-cli',
           topology: 'independent-copy',
           status: 'outdated'
         })
@@ -166,14 +166,14 @@ describe('skill freshness name-scoped update eligibility', () => {
   })
 
   it('does not offer an official canonical copy missing from the updater lock (#10791)', () => {
-    expect(eligibleSkillUpdateNames([placement('orca-cli')], new Set())).toEqual([])
+    expect(eligibleSkillUpdateNames([placement('barkos-cli')], new Set())).toEqual([])
   })
 
   it('builds only an explicit, deterministic global command', () => {
-    expect(buildTargetedSkillUpdateCommand(['orchestration', 'orca-cli', 'orca-cli'])).toBe(
-      'npx skills update orca-cli orchestration --global'
+    expect(buildTargetedSkillUpdateCommand(['orchestration', 'barkos-cli', 'barkos-cli'])).toBe(
+      'npx skills update barkos-cli orchestration --global'
     )
     expect(buildTargetedSkillUpdateCommand([])).toBeNull()
-    expect(buildTargetedSkillUpdateCommand(['orca-cli;echo unsafe'])).toBeNull()
+    expect(buildTargetedSkillUpdateCommand(['barkos-cli;echo unsafe'])).toBeNull()
   })
 })

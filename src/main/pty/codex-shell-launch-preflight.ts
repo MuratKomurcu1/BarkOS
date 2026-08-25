@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { getBundledLauncherPath } from '../cli/bundled-cli-launcher-path'
 
 const DEV_LAUNCHER_DIR = ['cli', 'bin']
-const DEV_COMMAND_NAME = 'orca-dev'
+const DEV_COMMAND_NAME = 'barkos-dev'
 
 export type CodexShellLaunchPreflightCommandOptions = {
   hooksEnabled: boolean

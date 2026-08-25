@@ -30,7 +30,7 @@ export type LegacyCheckParams = {
   timeoutMs?: number
   compatibilityAck?: string
   compatibilityQuestionAck?: string
-  compatibilityCliCommand?: 'barkos' | 'orca' | 'orca-ide' | 'orca-dev'
+  compatibilityCliCommand?: 'barkos' | 'orca' | 'orca-ide' | 'barkos-dev'
 }
 
 export type LegacyAskParams = {
@@ -41,7 +41,7 @@ export type LegacyAskParams = {
   resume?: string
   options?: string
   timeoutMs?: number
-  compatibilityCliCommand?: 'barkos' | 'orca' | 'orca-ide' | 'orca-dev'
+  compatibilityCliCommand?: 'barkos' | 'orca' | 'orca-ide' | 'barkos-dev'
   compatibilityWindowsCommand?: 'barkos' | 'orca' | 'orca-ide'
 }
 
@@ -162,7 +162,7 @@ export function parseLegacyOptions(raw: string | undefined): string[] {
 export function supportedLegacyHints(
   message: MessageRow,
   principal: LegacyCompatibilityPrincipalRow,
-  cliCommand: 'barkos' | 'orca' | 'orca-ide' | 'orca-dev'
+  cliCommand: 'barkos' | 'orca' | 'orca-ide' | 'barkos-dev'
 ): string[] {
   if (
     principal.role !== 'coordinator' ||

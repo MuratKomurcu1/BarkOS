@@ -1,4 +1,4 @@
-import type { OrcaCloudAuthConfig } from '../../orca-profiles/profile-cloud-auth-config'
+import type { OrcaCloudAuthConfig } from '../../barkos-profiles/profile-cloud-auth-config'
 import type { MobilePairingConnectionContext, OrcaRuntimeRpcServer } from '../runtime-rpc'
 import type {
   DeviceCredentialInstalled,

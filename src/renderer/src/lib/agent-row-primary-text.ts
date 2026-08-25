@@ -4,7 +4,7 @@ import {
   isOrcaDispatchStatusPrompt,
   ORCA_DISPATCH_STATUS_PREAMBLE_PREFIX,
   ORCA_DISPATCH_STATUS_TASK_MARKER
-} from '../../../shared/orca-dispatch-status-prompt'
+} from '../../../shared/barkos-dispatch-status-prompt'
 
 export const ORCA_DISPATCH_PREAMBLE_PREFIX = ORCA_DISPATCH_STATUS_PREAMBLE_PREFIX
 const ORCA_DISPATCH_TASK_MARKER = ORCA_DISPATCH_STATUS_TASK_MARKER

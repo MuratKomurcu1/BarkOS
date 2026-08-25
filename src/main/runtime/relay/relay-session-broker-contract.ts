@@ -1,5 +1,5 @@
 import type WebSocket from 'ws'
-import type { OrcaCloudAuthConfig } from '../../orca-profiles/profile-cloud-auth-config'
+import type { OrcaCloudAuthConfig } from '../../barkos-profiles/profile-cloud-auth-config'
 import type { MobileRelayStatus } from '../../../shared/mobile-relay-status'
 import type { E2EEKeypair } from '../e2ee-keypair'
 import type { MobileSocketWiring } from '../rpc/mobile-socket-wiring'

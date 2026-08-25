@@ -24,7 +24,7 @@ import {
 let didEnsureShellReadyWrappers = false
 
 export function getZshShellReadyRcfileContent(): string {
-  return `# Orca zsh shell-ready wrapper
+  return `# BarkOS zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({
   fileName: '.zshrc',
   interactiveOnly: true,
@@ -43,7 +43,7 @@ if [[ ! -o login ]]; then
   [[ -n "\${ORCA_OPENCODE_CONFIG_DIR:-}" ]] && export OPENCODE_CONFIG_DIR="\${ORCA_OPENCODE_CONFIG_DIR}"
 [[ -n "\${ORCA_MIMOCODE_HOME:-}" ]] && export MIMOCODE_HOME="\${ORCA_MIMOCODE_HOME}"
   ${getPosixOmpShellWrapper()}
-  # Why: Codex must keep using Orca's runtime CODEX_HOME after rc files.
+  # Why: Codex must keep using BarkOS's runtime CODEX_HOME after rc files.
   [[ -n "\${ORCA_CODEX_HOME:-}" ]] && export CODEX_HOME="\${ORCA_CODEX_HOME}"
 ${ZSH_HISTFILE_RESTORE_BLOCK}
   ${getPosixCodexShellLaunchPreflight()}
@@ -60,7 +60,7 @@ __orca_osc133_preexec() {
   printf "\\033]133;C\\007"
   __orca_in_command=1
 }
-# Why: prepend so Orca captures $? before user prompt hooks can overwrite it.
+# Why: prepend so BarkOS captures $? before user prompt hooks can overwrite it.
 precmd_functions=(__orca_osc133_precmd \${precmd_functions[@]})
 preexec_functions=(__orca_osc133_preexec \${preexec_functions[@]})
 if [[ ! -o login ]]; then
@@ -79,11 +79,11 @@ export function ensureShellReadyWrappersAt(root = getShellReadyWrapperRoot()): v
   const bashDir = `${root}/bash`
 
   const zshEnv = getZshEnvTemplate(zshDir)
-  const zshProfile = `# Orca zsh shell-ready wrapper
+  const zshProfile = `# BarkOS zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({ fileName: '.zprofile' })}
 `
   const zshRc = getZshShellReadyRcfileContent()
-  const zshLogin = `# Orca zsh shell-ready wrapper
+  const zshLogin = `# BarkOS zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({ fileName: '.zlogin', interactiveOnly: true })}
 __orca_restore_agent_teams_path() {
   [[ -n "\${ORCA_AGENT_TEAMS_SHIM_DIR:-}" ]] || return 0

@@ -1,6 +1,6 @@
-import type { OrcaCloudAuthConfig } from '../../orca-profiles/profile-cloud-auth-config'
-import { ensureActiveOrcaProfile } from '../../orca-profiles/profile-index-store'
-import { readFreshOrcaCloudSession } from '../../orca-profiles/profile-cloud-session-refresh'
+import type { OrcaCloudAuthConfig } from '../../barkos-profiles/profile-cloud-auth-config'
+import { ensureActiveOrcaProfile } from '../../barkos-profiles/profile-index-store'
+import { readFreshOrcaCloudSession } from '../../barkos-profiles/profile-cloud-session-refresh'
 import type { RelayAuthContext } from './relay-auth-coordinator'
 
 export async function readRelayAuthContext(

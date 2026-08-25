@@ -30,7 +30,7 @@ export function BrowserUseCliStep({
       title={translate('auto.components.settings.BrowserUsePane.c6065d205d', 'Enable BarkOS CLI')}
       description={translate(
         'auto.components.settings.BrowserUsePane.c79eff0213',
-        'Register the Orca CLI so agents can drive the browser.'
+        'Register the BarkOS CLI so agents can drive the browser.'
       )}
       keywords={getBrowserUsePaneSearchEntries()[0].keywords}
       className="rounded-xl border border-border/60 bg-card/50 p-4"
@@ -44,7 +44,7 @@ export function BrowserUseCliStep({
           <p className="text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.BrowserUsePane.9fca1f7f5d',
-              'Registers the Orca CLI command so agents can orchestrate the browser from their shell.'
+              'Registers the BarkOS CLI command so agents can orchestrate the browser from their shell.'
             )}
           </p>
           {cliStatus?.commandPath && cliEnabled ? (

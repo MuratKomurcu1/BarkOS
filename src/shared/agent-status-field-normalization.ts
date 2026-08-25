@@ -7,7 +7,7 @@
 import {
   compactDispatchPromptForStatus,
   isOrcaDispatchStatusPrompt
-} from './orca-dispatch-status-prompt'
+} from './barkos-dispatch-status-prompt'
 
 /** Maximum character length for the prompt field. Truncated on parse. */
 export const AGENT_STATUS_MAX_FIELD_LENGTH = 200

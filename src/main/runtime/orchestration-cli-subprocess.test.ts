@@ -67,7 +67,7 @@ async function runBuiltCli(
 
 describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
   it('emits newline-flushed JSON keepalives to stderr while waiting', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-cli-sub-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'barkos-cli-sub-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)
@@ -194,7 +194,7 @@ describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
 
 describeIfBuilt('orca orchestration reset subprocess', () => {
   it('validates reset scopes against an isolated runtime through the built CLI', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-cli-reset-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'barkos-cli-reset-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)
@@ -320,7 +320,7 @@ describeIfBuilt('orca orchestration reset subprocess', () => {
 
 describeIfBuilt('orca orchestration task readiness subprocess', () => {
   it('creates a late dependent as ready through the built CLI and runtime', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-cli-task-readiness-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'barkos-cli-task-readiness-'))
     const dbPath = join(userDataPath, 'orchestration.db')
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(dbPath)

@@ -94,7 +94,7 @@ describe('registerWorktreeHandlers', () => {
     setupWorktreeHandlers()
   })
 
-  it('reads remote orca.yaml and returns a setup launch payload during SSH create', async () => {
+  it('reads remote barkos.yaml and returns a setup launch payload during SSH create', async () => {
     const repo = {
       id: 'repo-ssh',
       path: '/remote/repo',
@@ -160,8 +160,8 @@ describe('registerWorktreeHandlers', () => {
       setupDecision: 'run'
     })
 
-    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/orca.yaml')
-    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo-improve-dashboard/orca.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/barkos.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo-improve-dashboard/barkos.yaml')
     expect(provider.exec).toHaveBeenCalledWith(
       ['rev-parse', '--git-path', 'orca/setup-runner.sh'],
       '/remote/repo-improve-dashboard'

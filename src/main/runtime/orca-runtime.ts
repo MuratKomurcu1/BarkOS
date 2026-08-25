@@ -2097,8 +2097,8 @@ function createTerminalRevealWarning(handle: string, error?: unknown): string {
       ? ` Reason: ${error.message.trim()}.`
       : ''
   return [
-    `Terminal ${handle} is running, but Orca could not make it discoverable.${reason}`,
-    `Run \`orca terminal focus --terminal ${handle}\` to reveal and focus it.`
+    `Terminal ${handle} is running, but BarkOS could not make it discoverable.${reason}`,
+    `Run \`barkos terminal focus --terminal ${handle}\` to reveal and focus it.`
   ].join(' ')
 }
 
@@ -2436,7 +2436,7 @@ function assertProjectHostSetupHostIsSupported(hostId: ExecutionHostId | null | 
     return
   }
   throw new Error(
-    'SSH hosts are not supported by this operation. Set the project up from the Orca desktop app, which owns the SSH connection.'
+    'SSH hosts are not supported by this operation. Set the project up from the BarkOS desktop app, which owns the SSH connection.'
   )
 }
 
@@ -2831,7 +2831,7 @@ class WorktreeIdRequiresFullPathError extends Error {
 
   constructor() {
     super(
-      'Worktree id selectors must use the full <repo-id>::<path> value. Use the id from `orca worktree list --json`, or target by path:<path>, branch:<branch>, or issue:<number>.'
+      'Worktree id selectors must use the full <repo-id>::<path> value. Use the id from `barkos worktree list --json`, or target by path:<path>, branch:<branch>, or issue:<number>.'
     )
   }
 }
@@ -3684,7 +3684,7 @@ export class OrcaRuntimeService {
       canRecoverPersistentLocalPtys?: () => boolean
       // Why: codex-home paths for the Agent Session History scan must be sourced
       // here, not via the window-only registerCoreHandlers path — that path never
-      // runs under `orca serve`, so remote/SSH hosts would silently drop
+      // runs under `barkos serve`, so remote/SSH hosts would silently drop
       // managed-Codex sessions. The runtime ctor runs in BOTH window and serve.
       getAdditionalAiVaultCodexHomePaths?: () => readonly string[]
       prepareAiVaultSessionResume?: (
@@ -3732,7 +3732,7 @@ export class OrcaRuntimeService {
     this.canRecoverPersistentLocalPtysFn = deps?.canRecoverPersistentLocalPtys ?? (() => true)
     // Why: configure the shared AiVault scan cache from a serve-mode-reachable
     // seam so the aiVault.listSessions RPC includes managed-Codex + WSL sessions
-    // even on headless `orca serve` hosts where registerCoreHandlers never runs.
+    // even on headless `barkos serve` hosts where registerCoreHandlers never runs.
     if (deps?.getAdditionalAiVaultCodexHomePaths) {
       configureAiVaultSessionSources({
         getAdditionalCodexHomePaths: deps.getAdditionalAiVaultCodexHomePaths
@@ -6087,7 +6087,7 @@ export class OrcaRuntimeService {
       liveLeafCount: this.leaves.size,
       runtimeProtocolVersion: RUNTIME_PROTOCOL_VERSION,
       minCompatibleRuntimeClientVersion: MIN_COMPATIBLE_RUNTIME_CLIENT_VERSION,
-      // Why: headless orca serve cannot create/stream BrowserViews, so clients
+      // Why: headless barkos serve cannot create/stream BrowserViews, so clients
       // must not treat browser panes as supported just because runtime RPC is up.
       capabilities,
       hostPlatform: process.platform,
@@ -14574,7 +14574,7 @@ export class OrcaRuntimeService {
   }
 
   // Why: register a managed Claude account from a CLAUDE_CONFIG_DIR the caller
-  // already logged into. Lets the `orca account add` CLI drive `claude login` in
+  // already logged into. Lets the `barkos account add` CLI drive `claude login` in
   // the user's terminal on a headless host, then capture the credentials here —
   // the desktop GUI's interactive add flow is unreachable over a remote runtime.
   addClaudeAccountFromConfigDir(
@@ -14594,7 +14594,7 @@ export class OrcaRuntimeService {
 
   // Why: Codex counterpart of addClaudeAccountFromConfigDir — register a managed
   // Codex account from a CODEX_HOME the caller already logged into, so headless
-  // hosts can add accounts via `orca account add --agent codex`.
+  // hosts can add accounts via `barkos account add --agent codex`.
   addCodexAccountFromHome(
     sourceHome: string,
     target?: { runtime?: 'host' | 'wsl'; wslDistro?: string | null }
@@ -20541,7 +20541,7 @@ export class OrcaRuntimeService {
     }
     if (!isAbsolute(path)) {
       // Why: remote clients may run in a different cwd than the server. Require
-      // server-side repo paths to be explicit so `orca serve` cwd is irrelevant.
+      // server-side repo paths to be explicit so `barkos serve` cwd is irrelevant.
       throw new Error('Project path must be an absolute path')
     }
     if (kind === 'git') {
@@ -22456,13 +22456,13 @@ export class OrcaRuntimeService {
         }
       }
       try {
-        const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+        const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'barkos.yaml'))
         const hooks = result.isBinary ? null : parseOrcaYaml(result.content)
         return {
           hasHooksFile: Boolean(hooks),
           hooks,
           setupRunPolicy: getEffectiveSetupRunPolicy(repo),
-          source: hooks ? 'orca.yaml' : null,
+          source: hooks ? 'barkos.yaml' : null,
           setupTrust: this.getSharedSetupHookTrustPayload(
             repo,
             getDefaultTabCommandTrustContent(hooks)
@@ -22485,7 +22485,7 @@ export class OrcaRuntimeService {
       hasHooksFile: hasFile,
       hooks,
       setupRunPolicy,
-      source: hasFile ? 'orca.yaml' : hooks ? 'legacy' : null,
+      source: hasFile ? 'barkos.yaml' : hooks ? 'legacy' : null,
       setupTrust: this.getSharedSetupHookTrustPayload(
         repo,
         getDefaultTabCommandTrustContent(sharedHooks)
@@ -22508,7 +22508,7 @@ export class OrcaRuntimeService {
         return { status: 'error' as const, hasHooks: false, hooks: null, mayNeedUpdate: false }
       }
       try {
-        const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+        const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'barkos.yaml'))
         if (result.isBinary) {
           return { status: 'ok' as const, hasHooks: false, hooks: null, mayNeedUpdate: false }
         }
@@ -22633,7 +22633,7 @@ export class OrcaRuntimeService {
     repoPath: string
   ): Promise<string | null> {
     try {
-      const result = await fsProvider.readFile(joinWorktreeRelativePath(repoPath, 'orca.yaml'))
+      const result = await fsProvider.readFile(joinWorktreeRelativePath(repoPath, 'barkos.yaml'))
       if (result.isBinary) {
         return null
       }
@@ -23041,7 +23041,7 @@ export class OrcaRuntimeService {
     worktreeId: string
     activated: boolean
     /** Mobile-scoped slept-agent wake outcome. `unsupported-headless` means no
-     *  renderer holds the sleeping records (headless `orca serve`), so nothing
+     *  renderer holds the sleeping records (headless `barkos serve`), so nothing
      *  woke — clients must not present the worktree's agents as resumed. */
     sleepingAgentWake: 'requested' | 'unsupported-headless' | 'not-applicable'
   }> {
@@ -23402,7 +23402,7 @@ export class OrcaRuntimeService {
       warnings.push({
         code: 'LINEAGE_PARENT_CONTEXT_MISSING',
         message:
-          'Worktree created, but Orca could not record lineage because instance identity was unavailable.',
+          'Worktree created, but BarkOS could not record lineage because instance identity was unavailable.',
         details: {
           childHasInstanceId: Boolean(childInstanceId),
           parentHasInstanceId: Boolean(parentInstanceId),
@@ -24489,7 +24489,7 @@ export class OrcaRuntimeService {
       await createWorktreeLinkedPaths(repo.path, created.path, symlinkPaths)
     }
 
-    // Why: project-level `orca.yaml` shared directories add to (never replace) the
+    // Why: project-level `barkos.yaml` shared directories add to (never replace) the
     // per-user setting, so a repo's shared dirs reach every teammate (issue #10451).
     const sharedDirectories = await resolveWorktreeSharedDirectories(
       repo.path,
@@ -24527,7 +24527,7 @@ export class OrcaRuntimeService {
     const hooks = getEffectiveHooks(repo, worktreePath)
     // Why: setupDecision lets mobile/CLI callers control whether the setup
     // script runs. 'skip' suppresses it, 'run' forces it, 'inherit' (default)
-    // defers to the repo's orca.yaml setupRunPolicy. runHooks === true maps
+    // defers to the repo's barkos.yaml setupRunPolicy. runHooks === true maps
     // to 'run' for backwards compatibility with the desktop create flow.
     const effectiveDecision = args.runHooks ? 'run' : (args.setupDecision ?? 'inherit')
     let defaultTabs: CreateWorktreeResult['defaultTabs']
@@ -24584,7 +24584,7 @@ export class OrcaRuntimeService {
       }
     } else if (hooks?.scripts.setup && effectiveDecision !== 'skip') {
       // Runtime RPC calls have no renderer trust prompt, so hooks require explicit CLI opt-in.
-      const setupSkipped = `orca.yaml setup hook skipped for ${worktreePath}; pass --setup run to run it.`
+      const setupSkipped = `barkos.yaml setup hook skipped for ${worktreePath}; pass --setup run to run it.`
       warning = warning ? `${warning} Also ${setupSkipped}` : setupSkipped
       console.warn(`[hooks] ${setupSkipped}`)
     }
@@ -24639,7 +24639,7 @@ export class OrcaRuntimeService {
       try {
         // Why: automation startup must not depend on a renderer TerminalPane
         // mounting. Runtime-spawned PTYs run immediately and the UI adopts the
-        // session later, matching `orca terminal create` background semantics.
+        // session later, matching `barkos terminal create` background semantics.
         const startupTrustAgent = effectiveDraftPaste?.agent ?? effectiveCreatedWithAgent
         if (startupTrustAgent) {
           this.markLocalWorkspaceTrustedForAgent(startupTrustAgent, worktreePath)
@@ -26773,7 +26773,7 @@ export class OrcaRuntimeService {
           }
         } else if (hooks?.scripts.archive) {
           // Runtime RPC calls have no renderer trust prompt, so hooks require explicit CLI opt-in.
-          warning = `orca.yaml archive hook skipped for ${canonicalWorktreePath}; pass --run-hooks to run it.`
+          warning = `barkos.yaml archive hook skipped for ${canonicalWorktreePath}; pass --run-hooks to run it.`
           console.warn(`[hooks] ${warning}`)
         }
 
@@ -26798,7 +26798,7 @@ export class OrcaRuntimeService {
           throw new Error(formatWorktreeRemovalError(error, canonicalWorktreePath, force))
         }
 
-        // Why: `orca.yaml` shared directories are symlinked in too, and a
+        // Why: `barkos.yaml` shared directories are symlinked in too, and a
         // directory-only ignore rule leaves those links untracked, so removal must
         // tolerate and unlink them exactly like the per-user shared paths.
         const linkedPaths = getWorktreeSharedLinkPaths(repo)
@@ -27494,7 +27494,7 @@ export class OrcaRuntimeService {
       worktreeSelector !== undefined &&
       (Boolean(opts.agentSessionClaim) ||
         (!requiresRendererFocus && opts.rendererBacked !== true) ||
-        // Why: `orca serve` exposes the local runtime without a renderer
+        // Why: `barkos serve` exposes the local runtime without a renderer
         // window. Renderer-backed and focus-requested creates are preferred on
         // the renderer, but with no window a background spawn is the only
         // usable path — otherwise getAuthoritativeWindow() below throws and the
@@ -31050,7 +31050,8 @@ export class OrcaRuntimeService {
       } catch {
         warnings.push({
           code: 'LINEAGE_PARENT_CONTEXT_MISSING',
-          message: 'Worktree created, but Orca could not validate the environment parent context.',
+          message:
+            'Worktree created, but BarkOS could not validate the environment parent context.',
           details: { envParentWorkspace: input.envParentWorkspace }
         })
       }
@@ -31117,7 +31118,7 @@ export class OrcaRuntimeService {
         warnings.push({
           code: 'LINEAGE_PARENT_CONTEXT_MISSING',
           message:
-            'Worktree created, but Orca could not validate the caller terminal as a parent context.',
+            'Worktree created, but BarkOS could not validate the caller terminal as a parent context.',
           details: { callerTerminalHandle: input.callerTerminalHandle }
         })
       }
@@ -31133,7 +31134,7 @@ export class OrcaRuntimeService {
         warnings.push({
           code: 'LINEAGE_PARENT_CONTEXT_MISSING',
           message:
-            'Worktree created, but Orca could not validate the current directory as a parent context.',
+            'Worktree created, but BarkOS could not validate the current directory as a parent context.',
           details: { cwdParentWorktree: input.cwdParentWorktree }
         })
       }
@@ -31157,7 +31158,7 @@ export class OrcaRuntimeService {
         warnings: [
           {
             code: 'LINEAGE_PARENT_CONTEXT_CONFLICT',
-            message: 'Worktree created, but Orca could not prove which parent context caused it.',
+            message: 'Worktree created, but BarkOS could not prove which parent context caused it.',
             details: {
               terminalParentWorkspaceKey: candidates.find((c) => c.source === 'terminal-context')
                 ?.parent.workspaceKey,
@@ -35481,7 +35482,7 @@ export class OrcaRuntimeService {
       if (!worktree) {
         throw new LinearAgentAccessError(
           'linear_issue_required',
-          'Run --current from inside an Orca-managed worktree or pass an issue id.'
+          'Run --current from inside a BarkOS-managed worktree or pass an issue id.'
         )
       }
     }
@@ -35489,7 +35490,7 @@ export class OrcaRuntimeService {
     if (!worktree) {
       throw new LinearAgentAccessError(
         'linear_issue_required',
-        'Run --current from inside an Orca-managed worktree or pass an issue id.'
+        'Run --current from inside a BarkOS-managed worktree or pass an issue id.'
       )
     }
 
@@ -35633,7 +35634,7 @@ export class OrcaRuntimeService {
         (cause) =>
           linearError(
             'linear_write_unconfirmed',
-            'Linear may have applied the state change, but Orca could not confirm it.',
+            'Linear may have applied the state change, but BarkOS could not confirm it.',
             {
               nextSteps: [
                 `Run \`orca linear issue ${target.issue.identifier} --workspace ${target.workspaceId} --json\` and check the current state before retrying.`
@@ -35681,7 +35682,7 @@ export class OrcaRuntimeService {
         (cause) =>
           linearError(
             'linear_write_unconfirmed',
-            'Linear may have applied the relation change, but Orca could not confirm it.',
+            'Linear may have applied the relation change, but BarkOS could not confirm it.',
             {
               nextSteps: [
                 `Run \`orca linear issue ${target.issue.identifier} --relations --workspace ${target.workspaceId} --json\` before retrying.`
@@ -35760,7 +35761,7 @@ export class OrcaRuntimeService {
           (cause) =>
             linearError(
               'linear_write_unconfirmed',
-              'Linear may have applied the issue save, but Orca could not confirm it.',
+              'Linear may have applied the issue save, but BarkOS could not confirm it.',
               {
                 nextSteps: [
                   `Run \`orca linear issue ${target.issue.identifier} --workspace ${target.workspaceId} --json\` before retrying.`
@@ -35809,7 +35810,7 @@ export class OrcaRuntimeService {
         (cause) =>
           linearError(
             'linear_write_unconfirmed',
-            'Linear may have applied the task update, but Orca could not confirm it.',
+            'Linear may have applied the task update, but BarkOS could not confirm it.',
             {
               nextSteps: [
                 `Run \`orca linear issue ${target.issue.identifier} --workspace ${target.workspaceId} --json\` and check the updated field before retrying.`
@@ -36823,7 +36824,7 @@ export class OrcaRuntimeService {
     }
     if (isLinearAuthError(error)) {
       return linearError('linear_auth_expired', 'Linear authentication expired.', {
-        nextSteps: ['Reconnect Linear from Orca settings.']
+        nextSteps: ['Reconnect Linear from BarkOS settings.']
       })
     }
     return linearError(classifyLinearError(error), linearMessage(error))
@@ -37145,7 +37146,7 @@ export class OrcaRuntimeService {
     }
     if (teams.length === 0 && (getLinearStatus().workspaces?.length ?? 0) === 0) {
       throw linearError('linear_not_connected', 'Linear is not connected.', {
-        nextSteps: ['Connect Linear from Orca settings, then retry the issue create.']
+        nextSteps: ['Connect Linear from BarkOS settings, then retry the issue create.']
       })
     }
     const matches = teams.filter(
@@ -37350,7 +37351,7 @@ export class OrcaRuntimeService {
           : ''
     return linearError(
       'linear_write_unconfirmed',
-      'Linear may have applied the write, but Orca could not confirm it.',
+      'Linear may have applied the write, but BarkOS could not confirm it.',
       {
         writeId,
         workspaceId,

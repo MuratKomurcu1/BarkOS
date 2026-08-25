@@ -10,10 +10,10 @@ import type {
   ArtifactWriteRequest
 } from '../../shared/artifacts'
 import { assertArtifactSharingAllowed } from '../../shared/artifact-sharing-gate'
-import { ensureActiveOrcaProfile } from '../orca-profiles/profile-index-store'
-import { getOrcaCloudAuthConfig } from '../orca-profiles/profile-cloud-auth-config'
-import { prepareArtifactCloudUse } from '../orca-profiles/profile-artifact-cloud-cleanup'
-import { runWithFreshOrcaCloudSession } from '../orca-profiles/profile-cloud-session-refresh'
+import { ensureActiveOrcaProfile } from '../barkos-profiles/profile-index-store'
+import { getOrcaCloudAuthConfig } from '../barkos-profiles/profile-cloud-auth-config'
+import { prepareArtifactCloudUse } from '../barkos-profiles/profile-artifact-cloud-cleanup'
+import { runWithFreshOrcaCloudSession } from '../barkos-profiles/profile-cloud-session-refresh'
 import {
   allowsArtifactCloudAuthOverride,
   resolveArtifactCloudApiUrl
@@ -26,10 +26,10 @@ import {
   refreshArtifactShareRecordExpiration,
   removeArtifactShareRecords
 } from './artifact-share-record-store'
-import type { ActiveOrcaProfileState } from '../orca-profiles/profile-index-store'
+import type { ActiveOrcaProfileState } from '../barkos-profiles/profile-index-store'
 import { artifactRequest, artifactWriteBody } from './artifact-cloud-request'
 import { ArtifactPublisher } from './artifact-publisher'
-import { OrcaCloudRequestError } from '../orca-profiles/profile-cloud-client'
+import { OrcaCloudRequestError } from '../barkos-profiles/profile-cloud-client'
 
 type ArtifactAuthContext = {
   profileId: string
@@ -86,7 +86,7 @@ function authContext(
         !isArtifactShareLifecycleCurrent(active.profile.id, userDataPath, lifecycleGeneration)
       ) {
         throw new Error(
-          'The signed-in Orca account changed while the artifact request was running.'
+          'The signed-in BarkOS account changed while the artifact request was running.'
         )
       }
     }
@@ -99,7 +99,7 @@ function storedSessionAuthContext(
   userDataPath: string
 ): ArtifactAuthContext {
   if (!active.profile.cloud) {
-    throw new Error('The active Orca profile is not linked to a cloud account.')
+    throw new Error('The active BarkOS profile is not linked to a cloud account.')
   }
   return authContext(
     active,
@@ -205,7 +205,7 @@ export class ArtifactCloudService {
           auth.scope
         )
         if (!record) {
-          throw new Error('This file has not been shared from the active Orca profile.')
+          throw new Error('This file has not been shared from the active BarkOS profile.')
         }
         return this.publisher.runForSlug(record.slug, auth, async () => {
           auth.assertCurrent()
@@ -247,7 +247,7 @@ export class ArtifactCloudService {
           auth.scope
         )
         if (!record) {
-          throw new Error('This file has not been shared from the active Orca profile.')
+          throw new Error('This file has not been shared from the active BarkOS profile.')
         }
         return this.publisher.runForSlug(record.slug, auth, async () => {
           auth.assertCurrent()

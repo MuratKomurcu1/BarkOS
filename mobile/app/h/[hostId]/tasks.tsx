@@ -2017,8 +2017,8 @@ function getRepoBadgeColor(repo: RepoSummary | undefined, fallbackName: string):
 }
 
 function setupSourceLabel(source: string | null): string {
-  if (source === 'orca.yaml') {
-    return 'orca.yaml'
+  if (source === 'barkos.yaml') {
+    return 'barkos.yaml'
   }
   if (source === 'legacy') {
     return 'local hooks'
@@ -5473,7 +5473,7 @@ export default function MobileTasksScreen() {
             setupResolution.setupTrust.contentHash
           )
         ) {
-          // Why: desktop prompts before running repo-owned orca.yaml hooks. Mobile
+          // Why: desktop prompts before running repo-owned barkos.yaml hooks. Mobile
           // stores the same trust hash in persisted UI state so either surface can
           // approve the script version for future workspace creates.
           setSetupPrompt(null)
@@ -11486,7 +11486,7 @@ export default function MobileTasksScreen() {
                   : `Run setup from ${orcaYamlTrustPrompt.repoName}?`}
               </Text>
               <Text style={styles.sheetSubtitle}>
-                This repository's orca.yaml runs on your machine before the workspace starts. Only
+                This repository's barkos.yaml runs on your machine before the workspace starts. Only
                 run it if you trust this repository.
               </Text>
             </View>

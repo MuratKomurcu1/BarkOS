@@ -47,7 +47,7 @@ function buildFixture(): Fixture {
   // The CLI Orca ships, at the absolute path Orca controls.
   writeStub(getBundledLauncherPath(process.platform, resourcesPath) as string, intendedMarker)
   // The impostor a user's own bin directory could hold under every CLI name Orca uses.
-  for (const name of ['orca', 'orca-ide', 'orca-dev']) {
+  for (const name of ['orca', 'orca-ide', 'barkos-dev']) {
     writeStub(join(hijackDir, name), hijackMarker)
   }
   writeStub(join(codexDir, 'codex'), codexMarker)

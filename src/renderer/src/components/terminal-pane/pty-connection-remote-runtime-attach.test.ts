@@ -568,7 +568,7 @@ describe('connectPanePty', () => {
     const transport = createMockTransport()
     transportFactoryQueue.push(transport)
     const setupWorktreeId =
-      'ephemeral-setup-terminal:settings-mobile-emulator-orca-cli-skill-terminal'
+      'ephemeral-setup-terminal:settings-mobile-emulator-barkos-cli-skill-terminal'
     mockStoreState = {
       ...mockStoreState,
       tabsByWorktree: { [setupWorktreeId]: [{ id: 'tab-1', ptyId: null }] },
@@ -594,7 +594,7 @@ describe('connectPanePty', () => {
     const transport = createMockTransport()
     transportFactoryQueue.push(transport)
     const setupWorktreeId =
-      'ephemeral-setup-terminal:settings-mobile-emulator-orca-cli-skill-terminal'
+      'ephemeral-setup-terminal:settings-mobile-emulator-barkos-cli-skill-terminal'
     mockStoreState = {
       ...mockStoreState,
       tabsByWorktree: { [setupWorktreeId]: [{ id: 'tab-1', ptyId: null }] },

@@ -95,7 +95,7 @@ export async function replaceBarkosCodexDispatchAuthority(args: {
   if (!stopped.success || stopped.data.dispatchId !== sourceDispatchId) {
     throw barkosAdapterError(
       'invalid-rpc-response',
-      'Orca did not prove that the previous Dispatch authority was stopped',
+      'BarkOS did not prove that the previous Dispatch authority was stopped',
       'failover-dispatch-stop',
       'possible',
       stopped.success ? undefined : stopped.error
@@ -113,7 +113,7 @@ export async function replaceBarkosCodexDispatchAuthority(args: {
   if (!close.success || close.data.close.handle !== args.sourceWorkerTerminalHandle) {
     throw barkosAdapterError(
       'invalid-rpc-response',
-      'Orca did not prove that the previous Codex process was stopped',
+      'BarkOS did not prove that the previous Codex process was stopped',
       'failover-terminal-close',
       'applied',
       close.success ? undefined : close.error
@@ -159,7 +159,7 @@ export async function replaceBarkosCodexDispatchAuthority(args: {
     if (!runUse.success || runUse.data.run.id !== runId) {
       throw barkosAdapterError(
         'invalid-rpc-response',
-        'Orca did not confirm the replacement coordinator binding',
+        'BarkOS did not confirm the replacement coordinator binding',
         'failover-coordinator-rebind',
         'applied',
         runUse.success ? undefined : runUse.error
@@ -183,7 +183,7 @@ export async function replaceBarkosCodexDispatchAuthority(args: {
   if (!ready.success || ready.data.task.id !== taskId) {
     throw barkosAdapterError(
       'invalid-rpc-response',
-      'Orca did not confirm that the failover Task is ready',
+      'BarkOS did not confirm that the failover Task is ready',
       'failover-task-reset',
       'applied',
       ready.success ? undefined : ready.error
@@ -257,7 +257,7 @@ function requireRunningBoundDispatch(ledger: BarkosWorkLedger, dispatchId: strin
   ) {
     throw barkosAdapterError(
       'precondition-failed',
-      'Codex failover requires a running Orca-bound BarkOS Dispatch',
+      'Codex failover requires a running BarkOS-bound BarkOS Dispatch',
       'failover-dispatch-precondition'
     )
   }

@@ -103,11 +103,11 @@ function ensureShellReadyWrappers(): void {
   const bashDir = join(root, 'bash')
 
   const zshEnv = getZshEnvTemplate(zshDir, 'daemon')
-  const zshProfile = `# Orca daemon zsh shell-ready wrapper
+  const zshProfile = `# BarkOS daemon zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({ fileName: '.zprofile' })}
 `
   const zshRc = getDaemonZshShellReadyRcfileContent()
-  const zshLogin = `# Orca daemon zsh shell-ready wrapper
+  const zshLogin = `# BarkOS daemon zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({ fileName: '.zlogin', interactiveOnly: true })}
 __orca_restore_agent_teams_path() {
   [[ -n "\${ORCA_AGENT_TEAMS_SHIM_DIR:-}" ]] || return 0

@@ -36,7 +36,7 @@ import {
  * Process-wide cache for branch review lookups (#11532).
  *
  * `hostedReview:forBranch` is polled by every desktop window, the mobile client
- * and `orca serve` alike, and each one used to reach the provider directly. The
+ * and `barkos serve` alike, and each one used to reach the provider directly. The
  * host's API quota is per user, so the only place that can pace them together is
  * here — the single funnel they all pass through.
  *

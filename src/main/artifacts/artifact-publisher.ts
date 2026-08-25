@@ -3,7 +3,7 @@ import type {
   ArtifactPublishResult,
   ArtifactWriteRequest
 } from '../../shared/artifacts'
-import { OrcaCloudRequestError } from '../orca-profiles/profile-cloud-client'
+import { OrcaCloudRequestError } from '../barkos-profiles/profile-cloud-client'
 import {
   artifactRequest,
   type ArtifactWriteBody,

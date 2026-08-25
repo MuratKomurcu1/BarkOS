@@ -162,7 +162,7 @@ async function completeWorkerTerminalReleaseOnce(
       processAction: 'none',
       archive: archiveSummary(unknown),
       lastError: unknown.release_error ?? undefined,
-      recovery: `Inspect with: orca orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
+      recovery: `Inspect with: barkos orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
     }
   }
 
@@ -223,7 +223,7 @@ async function completeWorkerTerminalReleaseOnce(
         processAction: 'closed_agent_terminal',
         archive: { source: archiveSource, status: archiveStatus },
         lastError: unknown.release_error ?? reason,
-        recovery: `Inspect with: orca orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
+        recovery: `Inspect with: barkos orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
       }
     }
   } catch (error) {
@@ -247,7 +247,7 @@ async function completeWorkerTerminalReleaseOnce(
       processAction: 'none',
       archive: { source: archiveSource, status: archiveStatus },
       lastError: unknown.release_error ?? reason,
-      recovery: `Inspect with: orca orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
+      recovery: `Inspect with: barkos orchestration worker-show --dispatch ${dispatchId} --json — then repeat worker-release with the same --retry-request. Never substitute a broad terminal close.`
     }
   }
   const released = db.settleWorkerTerminalRelease(resource.id)

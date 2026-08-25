@@ -54,7 +54,7 @@ export function addEnvironmentFromPairingCode(
   if (!offer) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      'Invalid pairing code. Expected an orca://pair?... URL or bare pairing payload.'
+      'Geçersiz eşleştirme kodu. barkos://pair?... bağlantısı veya yalın eşleştirme verisi bekleniyor.'
     )
   }
   const store = readEnvironmentStore(userDataPath)
@@ -105,7 +105,7 @@ export function updateEnvironmentFromPairingCode(
   if (!offer) {
     throw new RuntimeEnvironmentStoreError(
       'invalid_argument',
-      'Invalid pairing code. Expected an orca://pair?... URL or bare pairing payload.'
+      'Geçersiz eşleştirme kodu. barkos://pair?... bağlantısı veya yalın eşleştirme verisi bekleniyor.'
     )
   }
   const store = readEnvironmentStore(userDataPath)
@@ -249,7 +249,7 @@ function readEnvironmentStore(userDataPath: string): RuntimeEnvironmentStore {
   } catch {
     throw new RuntimeEnvironmentStoreError(
       'runtime_error',
-      `Could not read Orca environments at ${path}; the file is invalid.`
+      `Could not read BarkOS environments at ${path}; the file is invalid.`
     )
   }
 }
@@ -266,7 +266,7 @@ function writeEnvironmentStore(userDataPath: string, store: RuntimeEnvironmentSt
     if (error instanceof JsonStringifyByteLimitError) {
       throw new RuntimeEnvironmentStoreError(
         'runtime_error',
-        `Could not write Orca environments at ${path}; the store exceeds its durable capacity.`
+        `Could not write BarkOS environments at ${path}; the store exceeds its durable capacity.`
       )
     }
     throw error

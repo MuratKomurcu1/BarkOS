@@ -8,15 +8,15 @@ import type {
   OrcaProfileOrgMemberRemoveArgs,
   OrcaProfileOrgMembersListArgs,
   OrcaProfileOrgMembersListResult
-} from '../../shared/orca-profiles'
-import { getProfileUserDataPath } from '../orca-profiles/profile-storage-paths'
+} from '../../shared/barkos-profiles'
+import { getProfileUserDataPath } from '../barkos-profiles/profile-storage-paths'
 import {
   changeOrcaProfileOrgMemberRole,
   inviteOrcaProfileOrgMember,
   listOrcaProfileOrgMembers,
   removeOrcaProfileOrgMember,
   revokeOrcaProfileOrgInvite
-} from '../orca-profiles/profile-cloud-org-members-service'
+} from '../barkos-profiles/profile-cloud-org-members-service'
 
 function orgMembersScopedArgs(args: unknown): { orgId: string; record: Record<string, unknown> } {
   if (!args || typeof args !== 'object') {

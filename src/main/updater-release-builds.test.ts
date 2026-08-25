@@ -17,7 +17,7 @@ const release = (tag: string, extra: Record<string, unknown> = {}) => ({
   tag_name: tag,
   draft: false,
   published_at: '2026-07-28T14:00:00Z',
-  html_url: `https://github.com/stablyai/orca/releases/tag/${tag}`,
+  html_url: `https://github.com/MuratKomurcu1/BarkOS/releases/tag/${tag}`,
   ...extra
 })
 
@@ -139,7 +139,7 @@ describe('resolveTargetBuild', () => {
       tag: 'v1.4.160-hourly.202607281400',
       version: '1.4.160-hourly.202607281400',
       feedUrl:
-        'https://github.com/stablyai/orca-hourly/releases/download/v1.4.160-hourly.202607281400'
+        'https://github.com/MuratKomurcu1/BarkOS-hourly/releases/download/v1.4.160-hourly.202607281400'
     })
   })
 
@@ -148,13 +148,13 @@ describe('resolveTargetBuild', () => {
       tag: 'v1.4.160-daily.202607281300',
       version: '1.4.160-daily.202607281300',
       feedUrl:
-        'https://github.com/stablyai/orca-daily/releases/download/v1.4.160-daily.202607281300'
+        'https://github.com/MuratKomurcu1/BarkOS-daily/releases/download/v1.4.160-daily.202607281300'
     })
   })
 
   it('pins a stable tag at the main repo download path', () => {
     expect(resolveTargetBuild('stable', 'v1.4.159').feedUrl).toBe(
-      'https://github.com/stablyai/orca/releases/download/v1.4.159'
+      'https://github.com/MuratKomurcu1/BarkOS/releases/download/v1.4.159'
     )
   })
 

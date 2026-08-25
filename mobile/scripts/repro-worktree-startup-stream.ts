@@ -11,7 +11,7 @@ import WebSocket from 'ws'
 
 const WS_URL = process.env.ORCA_MOBILE_WS_URL ?? 'ws://127.0.0.1:6768'
 const USER_DATA =
-  process.env.ORCA_USER_DATA ?? `${process.env.HOME}/Library/Application Support/orca-dev`
+  process.env.ORCA_USER_DATA ?? `${process.env.HOME}/Library/Application Support/barkos-dev`
 const repoSelector = process.argv[2]
 const worktreeName = process.argv[3]
 const startupCommand = process.argv[4] || 'claude'
@@ -57,7 +57,7 @@ function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T
 }
 
-const devices = readJson<Array<{ token: string }>>(join(USER_DATA, 'orca-devices.json'))
+const devices = readJson<Array<{ token: string }>>(join(USER_DATA, 'barkos-devices.json'))
 const token = devices[0]?.token
 const keypair = readJson<{ publicKeyB64: string }>(join(USER_DATA, 'orca-e2ee-keypair.json'))
 

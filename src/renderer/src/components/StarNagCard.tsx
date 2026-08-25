@@ -6,7 +6,7 @@ import { useAppStore } from '../store'
 import { useMountedRef } from '@/hooks/useMountedRef'
 import { translate } from '@/i18n/i18n'
 
-const ORCA_REPO_URL = 'https://github.com/stablyai/orca'
+const BARKOS_REPO_URL = 'https://github.com/MuratKomurcu1/BarkOS'
 type StarNagMode = 'gh' | 'web'
 
 /**
@@ -97,7 +97,7 @@ export function StarNagCard(): React.JSX.Element | null {
     }
     const openGithubFallback = async (): Promise<boolean> => {
       try {
-        await window.api.shell.openUrl(ORCA_REPO_URL)
+        await window.api.shell.openUrl(BARKOS_REPO_URL)
         await window.api.starNag.openWeb()
         if (mountedRef.current) {
           setVisible(false)
@@ -162,7 +162,7 @@ export function StarNagCard(): React.JSX.Element | null {
             <div className="flex items-center gap-2">
               <Star className="size-4 fill-amber-400/60 text-amber-400/80" />
               <h3 id="star-nag-heading" className="text-sm font-semibold">
-                {translate('auto.components.StarNagCard.5f6df21046', 'Enjoying Orca?')}
+                {translate('auto.components.StarNagCard.5f6df21046', 'Enjoying BarkOS?')}
               </h3>
             </div>
             <Button
@@ -180,7 +180,7 @@ export function StarNagCard(): React.JSX.Element | null {
           <p className="text-sm text-muted-foreground">
             {translate(
               'auto.components.StarNagCard.30c36231c1',
-              'Orca is open source. If it helped today, a GitHub star helps other developers find it.'
+              'BarkOS is open source. If it helped today, a GitHub star helps other developers find it.'
             )}
           </p>
 

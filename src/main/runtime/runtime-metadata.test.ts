@@ -189,7 +189,7 @@ describe('runtime metadata', () => {
       })
 
       for (const path of [
-        join(userDataPath, 'orca-devices.json'),
+        join(userDataPath, 'barkos-devices.json'),
         join(userDataPath, 'orca-e2ee-keypair.json'),
         getEnvironmentStorePath(userDataPath)
       ]) {
@@ -217,7 +217,7 @@ describe('runtime metadata', () => {
         pairingCode
       })
 
-      const devicesPath = join(userDataPath, 'orca-devices.json')
+      const devicesPath = join(userDataPath, 'barkos-devices.json')
       const keypairPath = join(userDataPath, 'orca-e2ee-keypair.json')
       const environmentsPath = getEnvironmentStorePath(userDataPath)
       writeFileSync(

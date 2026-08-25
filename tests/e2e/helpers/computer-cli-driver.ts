@@ -42,7 +42,7 @@ export async function runOrcaCli(
 }
 
 async function runOrcaCliOnce(args: string[]): Promise<CliResult> {
-  const devCli = join(process.cwd(), 'config/scripts/orca-dev.mjs')
+  const devCli = join(process.cwd(), 'config/scripts/barkos-dev.mjs')
   const command = process.env.ORCA_COMPUTER_CLI ?? process.execPath
   const cliArgs = process.env.ORCA_COMPUTER_CLI ? args : [devCli, ...args]
   const env = process.env.ORCA_COMPUTER_CLI
@@ -95,7 +95,7 @@ export function parseJsonOutput<T>(stdout: string): T {
 
 async function getComputerE2eOrcaDevUserDataPath(): Promise<string> {
   if (!orcaDevUserDataPath) {
-    // Why: the shared orca-dev profile can keep an older runtime alive across
+    // Why: the shared barkos-dev profile can keep an older runtime alive across
     // local test runs, making computer-use E2E exercise stale provider code.
     orcaDevUserDataPath = await mkdtemp(join(tmpdir(), 'orca-computer-runtime-'))
   }
@@ -139,7 +139,7 @@ function delay(ms: number): Promise<void> {
 
 async function ensureOrcaRuntimeServed(): Promise<void> {
   if (!orcaServeProcess || orcaServeProcess.exitCode !== null) {
-    const devCli = join(process.cwd(), 'config/scripts/orca-dev.mjs')
+    const devCli = join(process.cwd(), 'config/scripts/barkos-dev.mjs')
     const env = await createComputerE2ERuntimeEnv()
     orcaServeStdout = ''
     orcaServeStderr = ''

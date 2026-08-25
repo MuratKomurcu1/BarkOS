@@ -17,7 +17,7 @@ export function buildWindowsAgentHookCurlPostCommand(
     ...(options.failOnHttpError ? ['--fail'] : []),
     '--connect-timeout 0.5 --max-time 1.5',
     '-H "Content-Type: application/x-www-form-urlencoded"',
-    '-H "X-Orca-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%"',
+    '-H "X-BarkOS-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%"',
     '--data-urlencode "paneKey=%ORCA_PANE_KEY%"',
     '--data-urlencode "tabId=%ORCA_TAB_ID%"',
     '--data-urlencode "launchToken=%ORCA_AGENT_LAUNCH_TOKEN%"',

@@ -65,7 +65,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-01.poster.jpg',
     recordedAtPath: 'tile-01.recorded-at.json',
     owner: 'worktree-orchestration',
-    docsUrl: 'https://www.onorca.dev/docs/model/worktrees'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-02',
@@ -77,7 +77,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-02.poster.jpg',
     recordedAtPath: 'tile-02.recorded-at.json',
     owner: 'terminal',
-    docsUrl: 'https://www.onorca.dev/docs/terminal'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-03',
@@ -89,7 +89,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-03.poster.jpg',
     recordedAtPath: 'tile-03.recorded-at.json',
     owner: 'task-integrations',
-    docsUrl: 'https://www.onorca.dev/docs/review/linear'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-04',
@@ -100,7 +100,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-04.poster.jpg',
     recordedAtPath: 'tile-04.recorded-at.json',
     owner: 'agent-integrations',
-    docsUrl: 'https://www.onorca.dev/docs/agents/supported'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-05',
@@ -112,19 +112,19 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-05.poster.jpg',
     recordedAtPath: 'tile-05.recorded-at.json',
     owner: 'browser-experience',
-    docsUrl: 'https://www.onorca.dev/docs/browser/design-mode'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-06',
     kind: 'media',
     title: 'Remote workspaces',
     caption:
-      'Run agents on a remote machine with the same Orca editing, git, and terminal workflow.',
+      'Run agents on a remote machine with the same BarkOS editing, git, and terminal workflow.',
     gifPath: 'tile-06.gif',
     posterPath: 'tile-06.poster.jpg',
     recordedAtPath: 'tile-06.recorded-at.json',
     owner: 'ssh-workspaces',
-    docsUrl: 'https://www.onorca.dev/docs/ssh'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-07',
@@ -136,7 +136,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-07.poster.jpg',
     recordedAtPath: 'tile-07.recorded-at.json',
     owner: 'editor',
-    docsUrl: 'https://www.onorca.dev/docs/editing/file-explorer'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-08',
@@ -148,18 +148,18 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-08.poster.jpg',
     recordedAtPath: 'tile-08.recorded-at.json',
     owner: 'diff-review',
-    docsUrl: 'https://www.onorca.dev/docs/review/annotate-ai-diff'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-09',
     kind: 'media',
-    title: 'Orca CLI',
-    caption: 'Agents can drive Orca too: create workspaces, snapshot screens, click, and fill.',
+    title: 'BarkOS CLI',
+    caption: 'Agents can drive BarkOS too: create workspaces, snapshot screens, click, and fill.',
     gifPath: 'tile-09.gif',
     posterPath: 'tile-09.poster.jpg',
     recordedAtPath: 'tile-09.recorded-at.json',
-    owner: 'orca-cli',
-    docsUrl: 'https://www.onorca.dev/docs/cli/overview'
+    owner: 'barkos-cli',
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-10',
@@ -171,7 +171,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-10.poster.jpg',
     recordedAtPath: 'tile-10.recorded-at.json',
     owner: 'keyboard-ux',
-    docsUrl: 'https://www.onorca.dev/docs/model/quick-open'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-11',
@@ -183,7 +183,7 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-11.poster.jpg',
     recordedAtPath: 'tile-11.recorded-at.json',
     owner: 'usage-rate-limits',
-    docsUrl: 'https://www.onorca.dev/docs/agents/usage-tracking'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   },
   {
     id: 'tile-12',
@@ -195,6 +195,6 @@ export const FEATURE_WALL_TILES: readonly FeatureWallTile[] = [
     posterPath: 'tile-12.poster.jpg',
     recordedAtPath: 'tile-12.recorded-at.json',
     owner: 'file-preview',
-    docsUrl: 'https://www.onorca.dev/docs/editing/viewers'
+    docsUrl: 'https://muratkomurcu.com/barkos'
   }
 ] as const

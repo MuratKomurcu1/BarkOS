@@ -50,7 +50,7 @@ import type {
   RepoHookSettings,
   SetupAgentStartupPolicy,
   SetupRunPolicy
-} from '../../../shared/orca-yaml-hook-types'
+} from '../../../shared/barkos-yaml-hook-types'
 import type { ProjectGroup } from '../../../shared/project-group-types'
 import type { TuiAgent } from '../../../shared/tui-agent'
 import type { WorkspaceSource as WorkspaceCreateTelemetrySource } from '../../../shared/workspace-source'

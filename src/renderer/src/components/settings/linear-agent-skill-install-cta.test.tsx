@@ -40,14 +40,14 @@ let container: HTMLDivElement | null = null
 function discoveredSkill(overrides: Partial<DiscoveredSkill>): DiscoveredSkill {
   return {
     id: 'skill-1',
-    name: 'orca-linear',
+    name: 'barkos-linear',
     description: null,
     providers: ['agent-skills'],
     sourceKind: 'home',
     sourceLabel: 'Agent skills home',
     rootPath: '/Users/test/.agents/skills',
-    directoryPath: '/Users/test/.agents/skills/orca-linear',
-    skillFilePath: '/Users/test/.agents/skills/orca-linear/SKILL.md',
+    directoryPath: '/Users/test/.agents/skills/barkos-linear',
+    skillFilePath: '/Users/test/.agents/skills/barkos-linear/SKILL.md',
     installed: true,
     updatedAt: null,
     ...overrides
@@ -110,12 +110,12 @@ describe('LinearAgentSkillInstallCta', () => {
     const rendered = await renderCta()
 
     expect(rendered.textContent).toContain('Agent skill:')
-    expect(rendered.textContent).toContain('orca-linear')
+    expect(rendered.textContent).toContain('barkos-linear')
     expect(rendered.textContent).toContain('Not installed')
     expect(rendered.textContent).toContain(
       'Full guided setup (connect + skill + visibility) is under Settings → Task Sources.'
     )
-    expect(rendered.textContent).toContain('barkos skills install --skill orca-linear --global')
+    expect(rendered.textContent).toContain('barkos skills install --skill barkos-linear --global')
   })
 
   it('copies the install command to the clipboard', async () => {
@@ -128,20 +128,20 @@ describe('LinearAgentSkillInstallCta', () => {
     })
 
     expect(mocks.clipboardWrite).toHaveBeenCalledWith(
-      'barkos skills install --skill orca-linear --global'
+      'barkos skills install --skill barkos-linear --global'
     )
     expect(mocks.toastSuccess).toHaveBeenCalled()
   })
 
   it('shows a subtle confirmation and the update command when installed', async () => {
     mocks.skillState.installed = true
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' })]
+    mocks.skillState.skills = [discoveredSkill({ name: 'barkos-linear' })]
 
     const rendered = await renderCta()
 
     expect(rendered.textContent).toContain('Installed')
     expect(rendered.textContent).toContain('Agent skill installed. To update it, run:')
-    expect(rendered.textContent).toContain('barkos skills update --skill orca-linear --global')
+    expect(rendered.textContent).toContain('barkos skills update --skill barkos-linear --global')
     expect(rendered.textContent).not.toContain('Not installed')
   })
 

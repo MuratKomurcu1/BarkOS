@@ -87,7 +87,7 @@ export function PluginInstallDialog({
           <DialogDescription>
             {translate(
               'auto.components.settings.PluginInstallDialog.description',
-              'Installing copies the plugin into Orca and shows its permissions for review. No plugin code runs until you enable it.'
+              'Installing copies the plugin into BarkOS and shows its permissions for review. No plugin code runs until you enable it.'
             )}
           </DialogDescription>
         </DialogHeader>
@@ -142,7 +142,7 @@ export function PluginInstallDialog({
               <p className="text-xs leading-5 text-muted-foreground">
                 {translate(
                   'auto.components.settings.PluginInstallDialog.localHelp',
-                  'Full path to a folder containing orca-plugin.json on this computer. The path is used exactly as entered.'
+                  'Full path to a folder containing barkos-plugin.json on this computer. The path is used exactly as entered.'
                 )}
               </p>
             </TabsContent>

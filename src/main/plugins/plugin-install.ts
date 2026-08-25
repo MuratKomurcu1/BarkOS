@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import {
+  LEGACY_PLUGIN_MANIFEST_FILENAME,
   PLUGIN_MANIFEST_FILENAME,
   isQualifiedPluginKey
 } from '../../shared/plugins/plugin-manifest'
@@ -72,7 +73,10 @@ export async function installPluginFromLocalPath(input: {
   blockedPluginReason?: (pluginKey: string) => string | null
 }): Promise<PluginInstallResult> {
   return serializePluginMutation(input.pluginsDir, async () => {
-    if (!existsSync(join(input.sourcePath, PLUGIN_MANIFEST_FILENAME))) {
+    if (
+      !existsSync(join(input.sourcePath, PLUGIN_MANIFEST_FILENAME)) &&
+      !existsSync(join(input.sourcePath, LEGACY_PLUGIN_MANIFEST_FILENAME))
+    ) {
       return { ok: false, error: `no ${PLUGIN_MANIFEST_FILENAME} found in ${input.sourcePath}` }
     }
     return installStagedPluginTree({
@@ -207,7 +211,7 @@ export async function rollbackInstalledPlugin(input: {
   }
   const blockedReason = input.blockedPluginReason?.(input.pluginKey)
   if (blockedReason) {
-    return { ok: false, error: `plugin is blocked by Orca's safety list: ${blockedReason}` }
+    return { ok: false, error: `plugin is blocked by BarkOS's safety list: ${blockedReason}` }
   }
   return serializePluginMutation(input.pluginsDir, async () => {
     const pluginDir = join(input.pluginsDir, input.pluginKey)

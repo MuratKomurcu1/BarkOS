@@ -15,7 +15,7 @@ import { OrchestrationDb } from '../runtime/orchestration/db'
 import { OrcaRuntimeService } from '../runtime/orca-runtime'
 import type Database from '../sqlite/sync-database'
 import type { HostCliPassthroughOptions } from './ssh-remote-cli-host-passthrough'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-barkos-cli'
 import { acknowledgeRemoteOrcaCliPostOutput } from './ssh-remote-orchestration-post-output'
 
 const LEGACY_FALLBACK_OPTIONS: HostCliPassthroughOptions = {

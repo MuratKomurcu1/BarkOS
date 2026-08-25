@@ -38,7 +38,7 @@ vi.mock('./git/runner', async () => ({
 }))
 
 describe('readIssueCommand', () => {
-  it('prefers the local override over the shared orca.yaml command', async () => {
+  it('prefers the local override over the shared barkos.yaml command', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation(
       (path) => path === TEST_ISSUE_COMMAND_PATH || path === TEST_REPO_ORCA_YAML_PATH
@@ -63,7 +63,7 @@ describe('readIssueCommand', () => {
     })
   })
 
-  it('falls back to the shared orca.yaml command when no local override exists', async () => {
+  it('falls back to the shared barkos.yaml command when no local override exists', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation((path) => path === TEST_REPO_ORCA_YAML_PATH)
     vi.mocked(fs.readFileSync).mockImplementation((path) => {

@@ -136,7 +136,7 @@ describe('run-electron-vite-dev', () => {
   it.skipIf(process.platform === 'win32')(
     'kills the descendant process tree on SIGINT',
     async () => {
-      const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+      const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
       const pidFile = join(tempDir, 'grandchild.pid')
       const wrapperPath = resolve('config/scripts/run-electron-vite-dev.mjs')
       const fakeCliPath = resolve('src/main/startup/__fixtures__/fake-electron-vite-dev-cli.mjs')
@@ -180,7 +180,7 @@ describe('run-electron-vite-dev', () => {
   )
 
   it('forwards dev instance identity to electron-vite', async () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
     const pidFile = join(tempDir, 'grandchild.pid')
     const envFile = join(tempDir, 'env.json')
     const wrapperPath = resolve('config/scripts/run-electron-vite-dev.mjs')
@@ -239,9 +239,9 @@ describe('run-electron-vite-dev', () => {
   })
 
   it.skipIf(process.platform === 'win32')(
-    'prepares userData orca and orca-dev wrappers for dev terminals',
+    'prepares userData orca and barkos-dev wrappers for dev terminals',
     async () => {
-      const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+      const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
       const userDataPath = join(tempDir, 'userData')
       const pidFile = join(tempDir, 'grandchild.pid')
       const envFile = join(tempDir, 'env.json')
@@ -273,7 +273,7 @@ describe('run-electron-vite-dev', () => {
       })
 
       const trackedPids = trackPidFile(pidFile)
-      const devWrapper = readFileSync(join(userDataPath, 'cli', 'bin', 'orca-dev'), 'utf8')
+      const devWrapper = readFileSync(join(userDataPath, 'cli', 'bin', 'barkos-dev'), 'utf8')
       const publicAliasWrapper = readFileSync(join(userDataPath, 'cli', 'bin', 'orca'), 'utf8')
       expect(publicAliasWrapper).toBe(devWrapper)
       expect(publicAliasWrapper).toContain('ORCA_USER_DATA_PATH')
@@ -284,7 +284,7 @@ describe('run-electron-vite-dev', () => {
   )
 
   it('consumes the stable-name flag before forwarding args to electron-vite', async () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
     const pidFile = join(tempDir, 'grandchild.pid')
     const envFile = join(tempDir, 'env.json')
     const wrapperPath = resolve('config/scripts/run-electron-vite-dev.mjs')
@@ -337,7 +337,7 @@ describe('run-electron-vite-dev', () => {
   it.skipIf(process.platform !== 'darwin')(
     'rebuilds the copied Electron app when Chromium resources are missing',
     async () => {
-      const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+      const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
       const wrapperPath = resolve('config/scripts/run-electron-vite-dev.mjs')
       const fakeCliPath = resolve('src/main/startup/__fixtures__/fake-electron-vite-dev-cli.mjs')
       const baseEnv = devWrapperTestEnv({
@@ -415,7 +415,7 @@ describe('run-electron-vite-dev', () => {
   it.skipIf(process.platform !== 'darwin')(
     'preserves relative Electron framework symlinks in the copied mac dev app',
     async () => {
-      const tempDir = mkdtempSync(join(tmpdir(), 'orca-dev-wrapper-'))
+      const tempDir = mkdtempSync(join(tmpdir(), 'barkos-dev-wrapper-'))
       const pidFile = join(tempDir, 'grandchild.pid')
       const envFile = join(tempDir, 'env.json')
       const wrapperPath = resolve('config/scripts/run-electron-vite-dev.mjs')

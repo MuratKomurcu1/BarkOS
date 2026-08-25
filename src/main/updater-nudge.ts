@@ -9,9 +9,12 @@ export type NudgeConfig = {
 
 export async function fetchNudge(): Promise<NudgeConfig | null> {
   try {
-    const res = await net.fetch('https://onorca.dev/whats-new/nudge.json', {
-      signal: AbortSignal.timeout(5000)
-    })
+    const res = await net.fetch(
+      'https://raw.githubusercontent.com/MuratKomurcu1/BarkOS/main/resources/updates/nudge.json',
+      {
+        signal: AbortSignal.timeout(5000)
+      }
+    )
     if (!res.ok) {
       return null
     }

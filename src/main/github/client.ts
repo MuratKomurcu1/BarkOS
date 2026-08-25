@@ -135,7 +135,7 @@ import { hydrateGitHubPRStack, mergeGitHubPRStack } from './github-pr-stack'
 type GhExecOptions = GitHubRepoExecOptions & { signal?: AbortSignal }
 type HostedReviewLocalGitOptions = ReturnType<typeof getHostedReviewLocalGitOptions>
 
-const ORCA_REPO = 'stablyai/orca'
+const BARKOS_REPO = 'MuratKomurcu1/BarkOS'
 const PR_CHECK_LOG_TAIL_JOB_LIMIT = 5
 // Why: each entry holds up to 16KB of log text; bound the cache so a long session can't grow it unbounded.
 const PR_CHECK_LOG_TAIL_CACHE_MAX_ENTRIES = 128
@@ -336,7 +336,7 @@ export async function checkOrcaStarred(): Promise<boolean | null> {
   try {
     const { stdout, stderr } = await execFileAsync(
       'gh',
-      ['api', '--include', `user/starred/${ORCA_REPO}`],
+      ['api', '--include', `user/starred/${BARKOS_REPO}`],
       { encoding: 'utf-8' }
     )
     const response = `${stdout ?? ''}\n${stderr ?? ''}`
@@ -515,7 +515,7 @@ export async function getPullRequestPushTarget(
 export async function starOrca(): Promise<boolean> {
   await acquire()
   try {
-    await execFileAsync('gh', ['api', '-X', 'PUT', `user/starred/${ORCA_REPO}`], {
+    await execFileAsync('gh', ['api', '-X', 'PUT', `user/starred/${BARKOS_REPO}`], {
       encoding: 'utf-8'
     })
     return true

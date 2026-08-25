@@ -62,7 +62,7 @@ import { useAppStore } from '@/store'
 import { getRuntimeEnvironmentIdForWorktree } from '@/lib/worktree-runtime-owner'
 import { ORCA_BROWSER_BLANK_URL, ORCA_BROWSER_PARTITION } from '../../../../shared/constants'
 import { BROWSER_CERTIFICATE_TRUST_RUNTIME_CAPABILITY } from '../../../../shared/protocol-version'
-import { getOrcaProfileBrowserDefaultPartition } from '../../../../shared/orca-profiles'
+import { getOrcaProfileBrowserDefaultPartition } from '../../../../shared/barkos-profiles'
 import type {
   BrowserCertificateProceedResult,
   BrowserLoadError,
@@ -2054,7 +2054,7 @@ function RemoteBrowserPagePane({
                     >
                       {translate(
                         'auto.components.browser.pane.BrowserPane.b5b87d6cbb',
-                        'Open Link In Orca Browser'
+                        'Open Link In BarkOS Browser'
                       )}
                     </button>
                     <button
@@ -4709,7 +4709,7 @@ function BrowserPagePane({
                     >
                       {translate(
                         'auto.components.browser.pane.BrowserPane.b5b87d6cbb',
-                        'Open Link In Orca Browser'
+                        'Open Link In BarkOS Browser'
                       )}
                     </button>
                     <button

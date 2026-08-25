@@ -1,4 +1,4 @@
-// Why: `.orca/issue-command` is the per-user override; `orca.yaml` is the tracked project default.
+// Why: `.orca/issue-command` is the per-user override; `barkos.yaml` is the tracked project default.
 import { readFileSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { loadHooks } from './hooks'
@@ -52,7 +52,7 @@ export function readIssueCommand(repoPath: string): ResolvedIssueCommand {
 
 /**
  * Write the per-user issue command override to `{repoRoot}/.orca/issue-command`.
- * Empty content deletes the override so the shared `orca.yaml` command applies again.
+ * Empty content deletes the override so the shared `barkos.yaml` command applies again.
  */
 export function writeIssueCommand(repoPath: string, content: string): void {
   const filePath = getIssueCommandFilePath(repoPath)

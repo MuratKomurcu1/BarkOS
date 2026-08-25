@@ -23,7 +23,7 @@ import type {
   SwitchOrcaProfileResult,
   TransferOrcaProfileProjectArgs,
   TransferOrcaProfileProjectResult
-} from '../../shared/orca-profiles'
+} from '../../shared/barkos-profiles'
 
 export type OrcaProfileApi = {
   list: () => Promise<OrcaProfileListResult>

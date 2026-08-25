@@ -12,7 +12,7 @@ vi.mock('../persistence', () => ({
 
 import { OrcaRuntimeService } from '../runtime/orca-runtime'
 import type { HostCliPassthroughOptions } from './ssh-remote-cli-host-passthrough'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-barkos-cli'
 
 // Why: a missing CLI entry forces the legacy in-process bridge, the transport
 // an SSH-hosted agent actually reaches `terminal list` through.

@@ -63,14 +63,14 @@ export const SKILL_METHODS: RpcMethod[] = [
       if (clientKind !== undefined) {
         throw new AgentSkillSharingError(
           AGENT_SKILL_SHARING_UNSUPPORTED_ENVIRONMENT_CODE,
-          'Publishing skills through a paired client is not supported. Run the command from Orca on the machine that stores the skills.'
+          'Publishing skills through a paired client is not supported. Run the command from BarkOS on the machine that stores the skills.'
         )
       }
       const resolvedTarget = resolveDiscoveryTarget(params.target ?? {}, runtime)
       if (resolvedTarget.kind !== 'native-host') {
         throw new AgentSkillSharingError(
           AGENT_SKILL_SHARING_UNSUPPORTED_ENVIRONMENT_CODE,
-          'Publishing skills from a forwarded WSL session is not supported yet. Run the command from Orca on the machine that stores the skills.'
+          'Publishing skills from a forwarded WSL session is not supported yet. Run the command from BarkOS on the machine that stores the skills.'
         )
       }
       const discovered = await discoverSkillsOnTarget(resolvedTarget, runtime.listRepos(), {

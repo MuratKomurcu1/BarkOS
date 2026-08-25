@@ -34,7 +34,7 @@ vi.mock('@/store', () => ({
     })
 }))
 
-vi.mock('../orca-profiles/OrcaProfileSignOutConfirmDialog', () => ({
+vi.mock('../barkos-profiles/OrcaProfileSignOutConfirmDialog', () => ({
   OrcaProfileSignOutConfirmDialog: ({
     open,
     onConfirm

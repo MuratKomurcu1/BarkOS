@@ -18,7 +18,7 @@ import {
   resumeEphemeralVmRuntime,
   stopEphemeralVmRuntimeCleanup
 } from './ephemeral-vm-runtime-service'
-import type { OrcaVmRecipe } from '../shared/orca-yaml-hook-types'
+import type { OrcaVmRecipe } from '../shared/barkos-yaml-hook-types'
 
 const tempDirs: string[] = []
 

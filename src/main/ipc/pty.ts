@@ -120,7 +120,7 @@ import {
   markClaudePtyExited,
   markClaudePtySpawned
 } from '../claude-accounts/live-pty-gate'
-import { ensureLinuxTerminalBarkosCliShimDir } from '../cli/linux-terminal-orca-cli-shim'
+import { ensureLinuxTerminalBarkosCliShimDir } from '../cli/linux-terminal-barkos-cli-shim'
 import {
   isLegacyTerminalShimPathEntry,
   LEGACY_TERMINAL_SHIM_REMOTE_ENV_KEYS,
@@ -2000,7 +2000,7 @@ export function buildPtyHostEnv(
   // Why: WSL shells need the managed userData root for shell-ready wrappers; every managed terminal must name this build's CLI.
   if (opts.isWsl) {
     baseEnv.ORCA_USER_DATA_PATH = opts.userDataPath
-    baseEnv.ORCA_CLI_COMMAND = opts.isPackaged ? 'barkos' : 'orca-dev'
+    baseEnv.ORCA_CLI_COMMAND = opts.isPackaged ? 'barkos' : 'barkos-dev'
   } else {
     if (!opts.isPackaged) {
       baseEnv.ORCA_USER_DATA_PATH ??= opts.userDataPath
@@ -8037,7 +8037,7 @@ export function registerHeadlessPtyRuntime(
     onPtyExit?: (id: string, exitSequence: number) => void
   }
 ): void {
-  // Why: headless `orca serve` has no renderer window but still needs the same PTY handlers so remote clients can drive terminals.
+  // Why: headless `barkos serve` has no renderer window but still needs the same PTY handlers so remote clients can drive terminals.
   const headlessWindow = {
     isDestroyed: () => true,
     webContents: {

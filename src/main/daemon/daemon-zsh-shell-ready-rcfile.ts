@@ -7,7 +7,7 @@ import {
 } from '../shell-templates'
 
 export function getDaemonZshShellReadyRcfileContent(): string {
-  return `# Orca daemon zsh shell-ready wrapper
+  return `# BarkOS daemon zsh shell-ready wrapper
 ${getZshStartupFileSourceBlock({
   fileName: '.zshrc',
   interactiveOnly: true,
@@ -42,7 +42,7 @@ __orca_osc133_preexec() {
   printf "\\033]133;C\\007"
   __orca_in_command=1
 }
-# Why: prepend so Orca captures $? before user prompt hooks can overwrite it.
+# Why: prepend so BarkOS captures $? before user prompt hooks can overwrite it.
 precmd_functions=(__orca_osc133_precmd \${precmd_functions[@]})
 preexec_functions=(__orca_osc133_preexec \${preexec_functions[@]})
 if [[ ! -o login ]]; then

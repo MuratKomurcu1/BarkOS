@@ -6,7 +6,7 @@ import {
   DEFAULT_LOCAL_ORCA_PROFILE_ID,
   getOrcaProfileBrowserDefaultPartition,
   getOrcaProfileBrowserSessionPartition
-} from '../../shared/orca-profiles'
+} from '../../shared/barkos-profiles'
 import type {
   BrowserSessionProfile,
   BrowserSessionProfileCreateOptions,

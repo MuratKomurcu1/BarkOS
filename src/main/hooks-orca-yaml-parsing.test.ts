@@ -127,7 +127,7 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses default terminal tabs from orca.yaml', () => {
+  it('parses default terminal tabs from barkos.yaml', () => {
     const yaml = [
       'defaultTabs:',
       '  - title: Claude',
@@ -165,7 +165,7 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses environmentRecipes from orca.yaml', () => {
+  it('parses environmentRecipes from barkos.yaml', () => {
     const yaml = [
       'environmentRecipes:',
       '  - id: cloud-sandbox',
@@ -286,7 +286,7 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses worktree.sharedDirectories from orca.yaml', () => {
+  it('parses worktree.sharedDirectories from barkos.yaml', () => {
     const result = parseOrcaYaml(
       ['worktree:', '  sharedDirectories:', '    - node_modules', '    - .cache'].join('\n')
     )
@@ -347,7 +347,7 @@ describe('parseOrcaYaml', () => {
     expect(parseOrcaYaml('worktree:\n  sharedDirectories: node_modules\n')).toBeNull()
   })
 
-  it('keeps sharedDirectories alongside other orca.yaml keys', () => {
+  it('keeps sharedDirectories alongside other barkos.yaml keys', () => {
     const result = parseOrcaYaml(
       [
         'scripts:',

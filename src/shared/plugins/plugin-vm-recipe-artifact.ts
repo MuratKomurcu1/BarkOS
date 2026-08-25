@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { ORCA_VM_RECIPE_ID_PATTERN, ORCA_VM_RECIPE_ID_RULE } from '../orca-yaml'
-import type { OrcaVmRecipe } from '../orca-yaml-hook-types'
+import { ORCA_VM_RECIPE_ID_PATTERN, ORCA_VM_RECIPE_ID_RULE } from '../barkos-yaml'
+import type { OrcaVmRecipe } from '../barkos-yaml-hook-types'
 
 const recipeCommandSchema = z
   .string()

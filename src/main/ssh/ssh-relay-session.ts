@@ -90,7 +90,7 @@ import {
   isSshOwnerAdmissionBlockedError,
   SshOwnerAdmissionBlockedError
 } from './ssh-owner-admission-blocked-error'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-barkos-cli'
 import {
   acknowledgeRemoteOrcaCliPostOutput,
   parseRemoteOrcaCliPostOutput
@@ -999,7 +999,7 @@ export class SshRelaySession {
     } catch (error) {
       // Why: on MaxSessions=1 remotes the relay holds the only slot, so this raw-connection install can fail — don't fail the whole connection.
       console.warn(
-        `[ssh-relay-session] remote orca CLI launcher install failed for ${this.targetId}: ${
+        `[ssh-relay-session] remote BarkOS CLI launcher install failed for ${this.targetId}: ${
           error instanceof Error ? error.message : String(error)
         }`
       )
@@ -1368,7 +1368,7 @@ export class SshRelaySession {
   private wireUpRemoteOrcaCli(mux: SshChannelMultiplexer, connectionIncarnation: string): void {
     mux.onRequest('orca.cli', async (params) => {
       if (!this.runtime) {
-        throw new Error('Orca runtime is unavailable')
+        throw new Error('BarkOS runtime is unavailable')
       }
       const argv = Array.isArray(params.argv)
         ? params.argv.filter((item): item is string => typeof item === 'string')
@@ -1407,7 +1407,7 @@ export class SshRelaySession {
     })
     mux.onRequest('orca.cli.postOutput', async (params) => {
       if (!this.runtime) {
-        throw new Error('Orca runtime is unavailable')
+        throw new Error('BarkOS runtime is unavailable')
       }
       const rawEnv = params.env
       const env =

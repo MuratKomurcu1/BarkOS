@@ -242,7 +242,7 @@ describe('configureDevUserDataPath', () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
     const originalOverride = process.env.ORCA_DEV_USER_DATA_PATH
-    process.env.ORCA_DEV_USER_DATA_PATH = '/tmp/orca-dev-repro'
+    process.env.ORCA_DEV_USER_DATA_PATH = '/tmp/barkos-dev-repro'
 
     try {
       configureDevUserDataPath(true)
@@ -254,7 +254,7 @@ describe('configureDevUserDataPath', () => {
       }
     }
 
-    expect(app.setPath).toHaveBeenCalledWith('userData', '/tmp/orca-dev-repro')
+    expect(app.setPath).toHaveBeenCalledWith('userData', '/tmp/barkos-dev-repro')
   })
 
   it('moves dev runs onto an isolated barkos-dev userData path', async () => {

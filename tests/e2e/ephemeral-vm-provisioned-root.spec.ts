@@ -161,7 +161,7 @@ docker rm -f ${shellQuote(target.containerName)} >/dev/null
   chmodSync(createScript, 0o755)
   chmodSync(destroyScript, 0o755)
   writeFileSync(
-    path.join(repoPath, 'orca.yaml'),
+    path.join(repoPath, 'barkos.yaml'),
     `environmentRecipes:
   - id: docker-provisioned-root
     name: Docker provisioned root

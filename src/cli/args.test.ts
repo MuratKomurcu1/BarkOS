@@ -172,7 +172,7 @@ describe('command aliases', () => {
         ['worktree', 'delete']
       ],
       summary: 'Remove a worktree',
-      usage: 'orca worktree rm --worktree <selector>',
+      usage: 'barkos worktree rm --worktree <selector>',
       allowedFlags: ['worktree', 'force']
     },
     {
@@ -287,7 +287,7 @@ describe('validateCommandAndFlags', () => {
       {
         path: ['worktree', 'rm'],
         summary: 'Remove a worktree',
-        usage: 'orca worktree rm',
+        usage: 'barkos worktree rm',
         allowedFlags: ['worktree', 'force', 'run-hooks']
       }
     ]
@@ -310,7 +310,7 @@ describe('validateCommandAndFlags', () => {
       {
         path: ['worktree', 'rm'],
         summary: 'Remove a worktree',
-        usage: 'orca worktree rm',
+        usage: 'barkos worktree rm',
         allowedFlags: []
       }
     ]
@@ -322,7 +322,7 @@ describe('validateCommandAndFlags', () => {
     } catch (error) {
       const data = (error as { data?: { suggestions: string[]; nextSteps: string[] } }).data
       expect(data?.suggestions).toContain('worktree rm')
-      expect(data?.nextSteps[0]).toContain('orca worktree rm')
+      expect(data?.nextSteps[0]).toContain('barkos worktree rm')
     }
   })
 })

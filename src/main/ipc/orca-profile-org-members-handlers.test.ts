@@ -24,11 +24,11 @@ vi.mock('electron', () => ({
   }
 }))
 
-vi.mock('../orca-profiles/profile-storage-paths', () => ({
+vi.mock('../barkos-profiles/profile-storage-paths', () => ({
   getProfileUserDataPath: () => '/tmp/orca-user-data'
 }))
 
-vi.mock('../orca-profiles/profile-cloud-org-members-service', () => ({
+vi.mock('../barkos-profiles/profile-cloud-org-members-service', () => ({
   listOrcaProfileOrgMembers: listOrcaProfileOrgMembersMock,
   inviteOrcaProfileOrgMember: inviteOrcaProfileOrgMemberMock,
   revokeOrcaProfileOrgInvite: revokeOrcaProfileOrgInviteMock,

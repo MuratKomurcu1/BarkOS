@@ -8,18 +8,18 @@ vi.mock('electron', () => ({
   safeStorage: { isEncryptionAvailable: () => false }
 }))
 
-import type { OrcaProfileCloudSummary } from '../../shared/orca-profiles'
-import { ensureActiveOrcaProfile } from '../orca-profiles/profile-index-store'
+import type { OrcaProfileCloudSummary } from '../../shared/barkos-profiles'
+import { ensureActiveOrcaProfile } from '../barkos-profiles/profile-index-store'
 import {
   linkOrcaProfileToCloud,
   unlinkOrcaProfileFromCloud
-} from '../orca-profiles/profile-cloud-index'
+} from '../barkos-profiles/profile-cloud-index'
 import {
   cloudSessionIdentity,
   recordSuccessfulCloudSessionLogin,
   tombstoneCloudSession
-} from '../orca-profiles/profile-cloud-session-mutation'
-import { saveOrcaCloudSession } from '../orca-profiles/profile-cloud-session-store'
+} from '../barkos-profiles/profile-cloud-session-mutation'
+import { saveOrcaCloudSession } from '../barkos-profiles/profile-cloud-session-store'
 import {
   ARTIFACT_SHARING_DISABLED_CODE,
   ARTIFACT_SHARING_DISABLED_MESSAGE,

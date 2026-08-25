@@ -163,7 +163,7 @@ function addRuntimeHost(
     id: hostId,
     kind: 'runtime',
     label,
-    detail: 'Orca server',
+    detail: 'BarkOS server',
     health: controlHealth ?? runtimeHealth(status, compatibility),
     compatibility: compatibility ?? undefined,
     capabilities: status?.capabilities,

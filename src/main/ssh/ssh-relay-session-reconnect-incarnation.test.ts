@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import type * as NodeCrypto from 'node:crypto'
 import { SshRelaySession } from './ssh-relay-session'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-barkos-cli'
 import { createMockDeps, mockDeploySuccess } from './ssh-relay-session-test-fixtures'
 
 type MockMuxInstance = {
@@ -51,7 +51,7 @@ vi.mock('node:crypto', async (importOriginal) => {
   const actual = await importOriginal<typeof NodeCrypto>()
   return { ...actual, randomUUID: vi.fn() }
 })
-vi.mock('./ssh-remote-orca-cli', () => ({
+vi.mock('./ssh-remote-barkos-cli', () => ({
   runRemoteOrcaCli: vi.fn().mockResolvedValue({ exitCode: 0, stdout: '', stderr: '' })
 }))
 vi.mock('./ssh-channel-multiplexer', () => ({

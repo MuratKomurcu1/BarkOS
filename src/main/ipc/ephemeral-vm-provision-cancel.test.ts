@@ -78,7 +78,7 @@ function makeStore(repoPath: string) {
 
 function writeRecipe(repoPath: string, createMarker: string): void {
   writeFileSync(
-    join(repoPath, 'orca.yaml'),
+    join(repoPath, 'barkos.yaml'),
     [
       'environmentRecipes:',
       '  - id: cloud-sandbox',

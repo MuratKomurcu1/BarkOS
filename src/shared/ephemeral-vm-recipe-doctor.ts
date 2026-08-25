@@ -4,7 +4,7 @@ import type {
   EphemeralVmRecipeDoctorCheck,
   EphemeralVmRecipeDoctorResult
 } from './ephemeral-vm-recipes'
-import type { OrcaVmRecipe } from './orca-yaml-hook-types'
+import type { OrcaVmRecipe } from './barkos-yaml-hook-types'
 
 export function doctorEphemeralVmRecipe(args: {
   repoPath: string
@@ -27,7 +27,7 @@ export function doctorEphemeralVmRecipe(args: {
       id: 'repo.path',
       status: 'fail',
       message: `Repo path does not exist or is not a directory: ${args.repoPath}`,
-      remediation: 'Pass the local repo that contains orca.yaml.'
+      remediation: 'Pass the local repo that contains barkos.yaml.'
     })
     return buildDoctorResult(args.recipeId, args.repoPath, checks)
   }

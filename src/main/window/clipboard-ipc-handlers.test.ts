@@ -142,7 +142,7 @@ import {
 
 const REMOTE_CLIPBOARD_STAGING_ROOT = join(
   '/tmp',
-  `orca-clipboard-files${typeof process.getuid === 'function' ? `-${process.getuid()}` : ''}`
+  `barkos-clipboard-files${typeof process.getuid === 'function' ? `-${process.getuid()}` : ''}`
 )
 
 function getRegisteredHandlers(): Map<string, (...args: unknown[]) => unknown> {

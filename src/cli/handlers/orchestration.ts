@@ -131,13 +131,13 @@ type OrchestrationSendResult =
       warnings?: SendRecipientWarning[]
     }
 
-function resolveCompatibilityCliCommand(): 'barkos' | 'orca' | 'orca-ide' | 'orca-dev' {
+function resolveCompatibilityCliCommand(): 'barkos' | 'orca' | 'orca-ide' | 'barkos-dev' {
   const configured = process.env.ORCA_CLI_COMMAND
   if (
     configured === 'barkos' ||
     configured === 'orca' ||
     configured === 'orca-ide' ||
-    configured === 'orca-dev'
+    configured === 'barkos-dev'
   ) {
     return configured
   }
@@ -403,14 +403,14 @@ function throwNoActiveSenderTerminal(): never {
   throw new RuntimeClientError(
     'no_active_sender_terminal',
     'Could not determine the sender terminal for this orchestration command. ' +
-      'Pass --from <terminal-handle> or run the command inside a live Orca terminal with ORCA_TERMINAL_HANDLE set.'
+      'Pass --from <terminal-handle> or run the command inside a live BarkOS terminal with ORCA_TERMINAL_HANDLE set.'
   )
 }
 
 function isDevCliInvocation(): boolean {
   return (
     process.env.ORCA_DEV_CLI_INVOCATION === '1' ||
-    (process.env.ORCA_USER_DATA_PATH?.includes('orca-dev') ?? false)
+    (process.env.ORCA_USER_DATA_PATH?.includes('barkos-dev') ?? false)
   )
 }
 
@@ -936,7 +936,7 @@ export const ORCHESTRATION_HANDLERS: Record<string, CommandHandler> = {
       ) {
         throw new RuntimeClientError(
           'incompatible_runtime',
-          'The connected Orca runtime does not support worker model or effort overrides. Update or restart Orca and try again.'
+          'The connected BarkOS runtime does not support worker model or effort overrides. Update or restart BarkOS and try again.'
         )
       }
     }

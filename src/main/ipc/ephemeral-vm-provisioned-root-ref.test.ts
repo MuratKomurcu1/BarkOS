@@ -181,7 +181,7 @@ function writeRecipe(path: string, createCountPath: string, createEnvPath?: stri
     ].join('\n')
   )
   writeFileSync(
-    join(path, 'orca.yaml'),
+    join(path, 'barkos.yaml'),
     [
       'environmentRecipes:',
       '  - id: cloud-sandbox',

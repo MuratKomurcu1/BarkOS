@@ -6639,7 +6639,7 @@ describe('OrcaRuntimeService', () => {
       await expect(runtime.getRepoHooks('id:repo-1')).resolves.toMatchObject({
         hasHooksFile: true,
         hooks: { scripts: { setup: 'pnpm install' } },
-        source: 'orca.yaml',
+        source: 'barkos.yaml',
         setupTrust: {
           contentHash: '005d0b7e5c261dcc5e2f8568e69a0b30e889a3275b55b18ec20a7deef0081e90',
           scriptContent: 'pnpm install'
@@ -6649,12 +6649,12 @@ describe('OrcaRuntimeService', () => {
       unregisterSshFilesystemProvider('ssh-1')
     }
 
-    expect(fsProvider.readFile).toHaveBeenCalledWith('C:\\remote\\repo\\orca.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('C:\\remote\\repo\\barkos.yaml')
     expect(hasHooksFile).not.toHaveBeenCalled()
     expect(getEffectiveHooks).not.toHaveBeenCalled()
   })
 
-  it('hashes only the shared orca.yaml setup script for local run-both hooks', async () => {
+  it('hashes only the shared barkos.yaml setup script for local run-both hooks', async () => {
     vi.mocked(hasHooksFile).mockReturnValue(true)
     vi.mocked(loadHooks).mockReturnValue({ scripts: { setup: 'echo yaml setup' } })
     vi.mocked(getEffectiveHooks).mockReturnValue({
@@ -6703,7 +6703,7 @@ describe('OrcaRuntimeService', () => {
     }
     const fsProvider = {
       readFile: vi.fn(async (filePath: string) => ({
-        content: filePath.endsWith('orca.yaml')
+        content: filePath.endsWith('barkos.yaml')
           ? 'scripts:\n  setup: pnpm install\n'
           : filePath.endsWith('.gitignore')
             ? 'node_modules\n'
@@ -6734,7 +6734,7 @@ describe('OrcaRuntimeService', () => {
       unregisterSshFilesystemProvider('ssh-1')
     }
 
-    expect(fsProvider.readFile).toHaveBeenCalledWith('C:\\remote\\repo\\orca.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('C:\\remote\\repo\\barkos.yaml')
     expect(fsProvider.readFile).toHaveBeenCalledWith('C:\\remote\\repo\\.orca\\issue-command')
     expect(fsProvider.createDir).toHaveBeenCalledWith('C:\\remote\\repo\\.orca')
     expect(fsProvider.writeFile).toHaveBeenCalledWith(
@@ -6773,7 +6773,7 @@ describe('OrcaRuntimeService', () => {
       })
     })
 
-    it('reports ok for a missing remote orca.yaml and error for any other read failure', async () => {
+    it('reports ok for a missing remote barkos.yaml and error for any other read failure', async () => {
       const readFile = vi.fn()
       registerSshFilesystemProvider('ssh-1', { readFile } as never)
       const runtime = new OrcaRuntimeService(remoteStore as never)
@@ -6802,7 +6802,7 @@ describe('OrcaRuntimeService', () => {
     })
   })
 
-  it('resolves SSH issue commands from shared orca.yaml and deletes empty overrides', async () => {
+  it('resolves SSH issue commands from shared barkos.yaml and deletes empty overrides', async () => {
     const remoteStore = {
       ...store,
       getRepos: () => [
@@ -6825,7 +6825,7 @@ describe('OrcaRuntimeService', () => {
         if (filePath.endsWith('.orca/issue-command')) {
           throw Object.assign(new Error('missing'), { code: 'ENOENT' })
         }
-        if (filePath.endsWith('orca.yaml')) {
+        if (filePath.endsWith('barkos.yaml')) {
           return { content: 'issueCommand: claude -p "Fix #{{issue}}"', isBinary: false }
         }
         return { content: '', isBinary: false }
@@ -6852,7 +6852,7 @@ describe('OrcaRuntimeService', () => {
       unregisterSshFilesystemProvider('ssh-1')
     }
 
-    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/orca.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/barkos.yaml')
     expect(fsProvider.deletePath).toHaveBeenCalledWith('/remote/repo/.orca/issue-command', false)
     expect(fsProvider.writeFile).not.toHaveBeenCalledWith(
       '/remote/repo/.orca/issue-command',
@@ -47518,7 +47518,7 @@ describe('OrcaRuntimeService', () => {
     )
     expect(deleteWorktreeHistoryDirMock).toHaveBeenCalledWith(TEST_WORKTREE_ID)
     expect(result.warning).toBe(
-      `orca.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
+      `barkos.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
     )
   })
 
@@ -47928,7 +47928,7 @@ describe('OrcaRuntimeService', () => {
 
       expect(result).toEqual({
         preservedBranch: { branchName: 'feature/foo', head: 'abc' },
-        warning: `orca.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
+        warning: `barkos.yaml archive hook skipped for ${TEST_WORKTREE_PATH}; pass --run-hooks to run it.`
       })
       expect(gitSpy).toHaveBeenCalledWith(['worktree', 'prune'], {
         cwd: TEST_REPO_PATH

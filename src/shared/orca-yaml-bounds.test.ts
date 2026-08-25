@@ -12,8 +12,8 @@ import {
   MAX_ORCA_YAML_COLLECTION_ENTRIES,
   MAX_ORCA_YAML_FIELD_BYTES,
   MAX_ORCA_YAML_FIELD_CODE_UNITS
-} from './orca-yaml-file-limit'
-import { parseOrcaYaml } from './orca-yaml'
+} from './barkos-yaml-file-limit'
+import { parseOrcaYaml } from './barkos-yaml'
 
 function returnYamlRoot(root: unknown): void {
   parseDocumentMock.mockReturnValue({
@@ -22,7 +22,7 @@ function returnYamlRoot(root: unknown): void {
   })
 }
 
-describe('orca.yaml parse bounds', () => {
+describe('barkos.yaml parse bounds', () => {
   beforeEach(() => {
     parseDocumentMock.mockReset()
     returnYamlRoot({ scripts: { setup: 'pnpm install' } })

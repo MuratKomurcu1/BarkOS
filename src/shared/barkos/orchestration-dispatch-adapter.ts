@@ -81,7 +81,7 @@ export async function dispatchBarkosAssignmentToOrca(args: {
   ) {
     throw barkosAdapterError(
       'precondition-failed',
-      'Dispatch requires an approved assignment and a ready Orca-bound Task',
+      'Dispatch requires an approved assignment and a ready BarkOS-bound Task',
       'dispatch-precondition'
     )
   }

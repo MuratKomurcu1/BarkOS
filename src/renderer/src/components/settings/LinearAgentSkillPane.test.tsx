@@ -11,13 +11,13 @@ import {
 import { getLinearUsageExamples } from '@/lib/linear-usage-examples'
 import { LinearAgentSkillPane } from './LinearAgentSkillPane'
 
-const UPDATE_COMMAND = 'npx skills update orca-linear --global'
+const UPDATE_COMMAND = 'npx skills update barkos-linear --global'
 
 const mocks = vi.hoisted(() => ({
   panelProps: [] as Record<string, unknown>[],
   runtime: 'native' as 'native' | 'wsl',
   skillInstalled: true,
-  updateSkillName: 'orca-linear',
+  updateSkillName: 'barkos-linear',
   linearConnected: true,
   visibleTaskProviders: ['github', 'linear'] as string[],
   openSettingsPage: vi.fn(),
@@ -135,7 +135,7 @@ describe('LinearAgentSkillPane', () => {
     mocks.panelProps.length = 0
     mocks.runtime = 'native'
     mocks.skillInstalled = true
-    mocks.updateSkillName = 'orca-linear'
+    mocks.updateSkillName = 'barkos-linear'
     mocks.linearConnected = true
     mocks.visibleTaskProviders = ['github', 'linear']
     mocks.openSettingsPage.mockClear()
@@ -205,7 +205,7 @@ describe('LinearAgentSkillPane', () => {
     expect(examples).toHaveLength(5)
     for (const example of examples) {
       expect(markup).toContain(example.title)
-      expect(example.prompt).toContain('/orca-linear')
+      expect(example.prompt).toContain('/barkos-linear')
       expect(example.prompt).not.toContain('{{value0}}')
     }
   })
@@ -220,7 +220,7 @@ describe('LinearAgentSkillPane', () => {
     )
   })
 
-  it('passes the orca-linear install/update commands and freshness on a local runtime', async () => {
+  it('passes the barkos-linear install/update commands and freshness on a local runtime', async () => {
     await renderPane()
 
     expect(mocks.panelProps.at(-1)).toEqual(

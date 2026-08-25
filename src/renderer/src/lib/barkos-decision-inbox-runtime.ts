@@ -129,7 +129,7 @@ export async function resolveBarkosDecisionRequestOnRuntime(args: {
       targetEnvironmentId(args.coordinator)
     )
   ) {
-    throw new Error('This request does not belong to the coordinator’s current Orca Run')
+    throw new Error('This request does not belong to the coordinator’s current BarkOS Run')
   }
   const target = runtimeTarget(args.coordinator)
   if (args.request.sourceKind === 'gate') {

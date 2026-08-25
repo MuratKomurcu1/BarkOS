@@ -1,5 +1,5 @@
 import type { AppState } from '@/store/types'
-import type { OrcaHooks } from '../../../shared/orca-yaml-hook-types'
+import type { OrcaHooks } from '../../../shared/barkos-yaml-hook-types'
 import { resolveHookCommandSourcePolicy } from '../../../shared/hook-command-source-policy'
 import { hashOrcaHookScript, type OrcaHookScriptKind } from './orca-hook-trust'
 import {
@@ -128,7 +128,7 @@ async function confirmScriptContent(
   const previouslyApproved = Boolean(existingHash)
 
   return new Promise<'run' | 'skip'>((resolve) => {
-    state.openModal('confirm-orca-yaml-hooks', {
+    state.openModal('confirm-barkos-yaml-hooks', {
       repoId,
       repoName,
       scriptKind,
@@ -241,7 +241,7 @@ export async function ensureHooksConfirmed(
     let scriptContent = ''
     try {
       if (scriptKind === 'issueCommand') {
-        // Local overrides are user-owned; only shared orca.yaml commands need repo trust.
+        // Local overrides are user-owned; only shared barkos.yaml commands need repo trust.
         // Why: hostId disambiguates duplicate repo ids on the local IPC path,
         // matching the checkRuntimeHooks call below.
         const result = await readRuntimeIssueCommand(

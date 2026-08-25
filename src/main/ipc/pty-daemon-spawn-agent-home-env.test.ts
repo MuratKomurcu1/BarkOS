@@ -39,7 +39,7 @@ vi.mock('../telemetry/client', () =>
 vi.mock('../telemetry/classify-error', () =>
   import('./pty-ipc-mock-registry').then((m) => m.classifyErrorModuleMock())
 )
-vi.mock('../cli/linux-terminal-orca-cli-shim', () =>
+vi.mock('../cli/linux-terminal-barkos-cli-shim', () =>
   import('./pty-ipc-mock-registry').then((m) => m.linuxCliShimModuleMock())
 )
 vi.mock('../memory/pty-registry', () =>
@@ -407,7 +407,7 @@ describe('registerPtyHandlers', () => {
           // Why: BarkOS must resolve its own CLI without shadowing the user's `orca` command.
           expect(entries.indexOf(shimDir)).toBeGreaterThanOrEqual(0)
           expect(entries.indexOf(shimDir)).toBeLessThan(entries.indexOf('/usr/bin'))
-          expect(entries).not.toContain(join('/tmp/orca-user-data', 'linux-orca-cli-shim'))
+          expect(entries).not.toContain(join('/tmp/orca-user-data', 'linux-barkos-cli-shim'))
           expect(env.ORCA_CLI_COMMAND).toBe('barkos')
         } finally {
           Object.defineProperty(process, 'platform', {

@@ -1,7 +1,7 @@
 import type { SkillCloudOperation, SkillCloudOptions } from '../../shared/skill-cloud-contract'
-import { ensureActiveOrcaProfile } from '../orca-profiles/profile-index-store'
-import { getOrcaCloudAuthConfig } from '../orca-profiles/profile-cloud-auth-config'
-import { runWithFreshOrcaCloudSession } from '../orca-profiles/profile-cloud-session-refresh'
+import { ensureActiveOrcaProfile } from '../barkos-profiles/profile-index-store'
+import { getOrcaCloudAuthConfig } from '../barkos-profiles/profile-cloud-auth-config'
+import { runWithFreshOrcaCloudSession } from '../barkos-profiles/profile-cloud-session-refresh'
 import {
   allowsArtifactCloudAuthOverride,
   resolveArtifactCloudApiUrl
@@ -28,7 +28,7 @@ export async function runSkillCloudOperation<T>(input: {
       current.profile.cloud?.cloudProfileId !== stamp.cloudProfileId ||
       (current.profile.cloud?.activeOrgId ?? '') !== stamp.organizationId
     ) {
-      throw new Error('The signed-in Orca account changed during the skill request.')
+      throw new Error('The signed-in BarkOS account changed during the skill request.')
     }
   }
   const override = input.options.authToken?.trim() || process.env.ORCA_CLOUD_AUTH_TOKEN?.trim()

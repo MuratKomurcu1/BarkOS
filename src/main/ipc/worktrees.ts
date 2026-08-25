@@ -26,7 +26,7 @@ import {
   pruneWorkspaceSpaceAnalysisSnapshots
 } from '../workspace-space-analysis-snapshot'
 import { recordWorkspaceCleanupRemovalSnapshotPrune } from '../workspace-cleanup-removal-snapshot-prune'
-import type { OrcaHooks } from '../../shared/orca-yaml-hook-types'
+import type { OrcaHooks } from '../../shared/barkos-yaml-hook-types'
 import type { Repo } from '../../shared/repo-types'
 import type {
   AdoptProvisionedRootArgs,
@@ -492,7 +492,7 @@ async function getArchiveHooksForRemoval(repo: Repo): Promise<OrcaHooks | null> 
   }
 
   try {
-    const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+    const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'barkos.yaml'))
     const yamlHooks = result.isBinary ? null : parseOrcaYaml(result.content)
     return getEffectiveHooksFromConfig(repo, yamlHooks)
   } catch {
@@ -2962,7 +2962,7 @@ export function registerWorktreeHandlers(
             )
           }
 
-          // Why: `orca.yaml` shared directories are symlinked in too, and a
+          // Why: `barkos.yaml` shared directories are symlinked in too, and a
           // directory-only ignore rule leaves those links untracked, so removal must
           // tolerate and unlink them exactly like the per-user shared paths.
           const linkedPaths = getWorktreeSharedLinkPaths(repo)
@@ -3427,7 +3427,9 @@ export function registerWorktreeHandlers(
           return { status: 'error', hasHooks: false, hooks: null, mayNeedUpdate: false }
         }
         try {
-          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+          const result = await fsProvider.readFile(
+            joinWorktreeRelativePath(repo.path, 'barkos.yaml')
+          )
           return {
             status: 'ok',
             hasHooks: !result.isBinary,
@@ -3579,7 +3581,9 @@ export function registerWorktreeHandlers(
           }
         }
         try {
-          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+          const result = await fsProvider.readFile(
+            joinWorktreeRelativePath(repo.path, 'barkos.yaml')
+          )
           sharedContent = result.isBinary
             ? null
             : parseOrcaYaml(result.content)?.issueCommand?.trim() || null

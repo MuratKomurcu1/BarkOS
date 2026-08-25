@@ -3,7 +3,7 @@ import type { AutomationExecutionTargetType } from '../automations-types'
 import type { TaskSourceContext } from '../task-source-context'
 import type { TuiAgent } from '../tui-agent'
 import type { DiffComment, MobileDiffReviewState } from '../diff-comment-types'
-import type { EphemeralVmCheckoutMode } from '../orca-yaml-hook-types'
+import type { EphemeralVmCheckoutMode } from '../barkos-yaml-hook-types'
 import type { BuiltInWorktreeVisibilitySourceId } from '../repo-types'
 
 export type WorkspaceLinkedItem = {
@@ -136,7 +136,7 @@ export type Worktree = {
   cliProvenance?: CliWorkspaceProvenance
 } & GitWorktreeInfo
 
-/** Provenance for workspaces created through `orca worktree create`. Absent on
+/** Provenance for workspaces created through `barkos worktree create`. Absent on
  *  workspaces created before this field existed and on every non-CLI create, so
  *  consumers must read "missing" as "not CLI-created". */
 export type CliWorkspaceProvenance = {

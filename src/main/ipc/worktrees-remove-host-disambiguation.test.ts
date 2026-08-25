@@ -239,7 +239,7 @@ describe('registerWorktreeHandlers', () => {
       hooks: { scripts: { archive: 'remote-cleanup' } },
       mayNeedUpdate: false
     })
-    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/orca.yaml')
+    expect(fsProvider.readFile).toHaveBeenCalledWith('/remote/repo/barkos.yaml')
     expect(hasHooksFileMock).not.toHaveBeenCalled()
   })
 

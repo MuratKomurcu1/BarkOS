@@ -93,7 +93,7 @@ export const TERMINAL_HANDLERS: Record<string, CommandHandler> = {
       enter,
       interrupt,
       ...(text && enter && !interrupt ? { agentPrompt: true } : {}),
-      client: { id: 'orca-cli', type: 'desktop' }
+      client: { id: 'barkos-cli', type: 'desktop' }
     })
     printResult(result, json, formatTerminalSend)
   },

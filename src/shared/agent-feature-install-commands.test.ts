@@ -16,28 +16,28 @@ import {
 
 describe('agent feature skill commands', () => {
   it('builds a global install command against the local BarkOS CLI', () => {
-    expect(buildAgentFeatureSkillInstallCommand(['orca-cli'])).toBe(
-      'barkos skills install --skill orca-cli --global'
+    expect(buildAgentFeatureSkillInstallCommand(['barkos-cli'])).toBe(
+      'barkos skills install --skill barkos-cli --global'
     )
-    expect(buildAgentFeatureSkillInstallCommand(['orca-cli'])).not.toContain('npx')
-    expect(buildAgentFeatureSkillInstallCommand(['orca-cli'])).not.toContain('github.com')
+    expect(buildAgentFeatureSkillInstallCommand(['barkos-cli'])).not.toContain('npx')
+    expect(buildAgentFeatureSkillInstallCommand(['barkos-cli'])).not.toContain('github.com')
   })
 
   it('drops --global when installing locally', () => {
-    expect(buildAgentFeatureSkillInstallCommand(['orca-cli'], { global: false })).toBe(
-      'barkos skills install --skill orca-cli'
+    expect(buildAgentFeatureSkillInstallCommand(['barkos-cli'], { global: false })).toBe(
+      'barkos skills install --skill barkos-cli'
     )
   })
 
   it('repeats --skill per name for multi-skill installs', () => {
-    expect(buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration'])).toBe(
-      'barkos skills install --skill orca-cli --skill orchestration --global'
+    expect(buildAgentFeatureSkillInstallCommand(['barkos-cli', 'orchestration'])).toBe(
+      'barkos skills install --skill barkos-cli --skill orchestration --global'
     )
-    expect(buildAgentFeatureSkillInstallArgs(['orca-cli', 'orchestration'])).toEqual([
+    expect(buildAgentFeatureSkillInstallArgs(['barkos-cli', 'orchestration'])).toEqual([
       'skills',
       'install',
       '--skill',
-      'orca-cli',
+      'barkos-cli',
       '--skill',
       'orchestration',
       '--global'
@@ -46,18 +46,18 @@ describe('agent feature skill commands', () => {
 
   it('scopes explicit agent targets into one comma-joined flag', () => {
     expect(
-      buildAgentFeatureSkillInstallCommand(['orca-cli'], { agents: ['universal', 'claude-code'] })
-    ).toBe('barkos skills install --skill orca-cli --global --agent universal,claude-code')
+      buildAgentFeatureSkillInstallCommand(['barkos-cli'], { agents: ['universal', 'claude-code'] })
+    ).toBe('barkos skills install --skill barkos-cli --global --agent universal,claude-code')
   })
 
   it('refuses a target the installer would drop', () => {
     // Why: defence in depth — a `-`-leading value historically meant "all agents"
     // to the external skills CLI; the local installer never widens targets.
-    expect(() => buildAgentFeatureSkillInstallCommand(['orca-cli'], { agents: ['-y'] })).toThrow(
+    expect(() => buildAgentFeatureSkillInstallCommand(['barkos-cli'], { agents: ['-y'] })).toThrow(
       '"-y" is not a usable install target.'
     )
     expect(() =>
-      buildAgentFeatureSkillInstallArgs(['orca-cli'], { agents: ['universal', 'a b'] })
+      buildAgentFeatureSkillInstallArgs(['barkos-cli'], { agents: ['universal', 'a b'] })
     ).toThrow('"a b" is not a usable install target.')
   })
 
@@ -68,32 +68,32 @@ describe('agent feature skill commands', () => {
   })
 
   it('trims and rejects blank update skill names', () => {
-    expect(buildAgentFeatureSkillUpdateCommand('  orca-cli  ')).toBe(
-      'barkos skills update --skill orca-cli --global'
+    expect(buildAgentFeatureSkillUpdateCommand('  barkos-cli  ')).toBe(
+      'barkos skills update --skill barkos-cli --global'
     )
     expect(() => buildAgentFeatureSkillUpdateCommand('   ')).toThrow('A skill name is required.')
   })
 
   it('builds multi-skill update commands and selects project scope for --local', () => {
-    expect(buildAgentFeatureSkillUpdateCommand(['orca-cli', 'orchestration'])).toBe(
-      'barkos skills update --skill orca-cli --skill orchestration --global'
+    expect(buildAgentFeatureSkillUpdateCommand(['barkos-cli', 'orchestration'])).toBe(
+      'barkos skills update --skill barkos-cli --skill orchestration --global'
     )
-    expect(buildAgentFeatureSkillUpdateCommand(['orca-cli'], { global: false })).toBe(
-      'barkos skills update --skill orca-cli --project'
+    expect(buildAgentFeatureSkillUpdateCommand(['barkos-cli'], { global: false })).toBe(
+      'barkos skills update --skill barkos-cli --project'
     )
-    expect(buildAgentFeatureSkillUpdateArgs(['orca-cli'], { global: false })).toEqual([
+    expect(buildAgentFeatureSkillUpdateArgs(['barkos-cli'], { global: false })).toEqual([
       'skills',
       'update',
       '--skill',
-      'orca-cli',
+      'barkos-cli',
       '--project'
     ])
     expect(() => buildAgentFeatureSkillUpdateCommand([])).toThrow('A skill name is required.')
   })
 
   it('exports single-skill update constants without changing install bundles', () => {
-    expect(ORCA_CLI_SKILL_INSTALL_COMMAND).toBe('barkos skills install --skill orca-cli --global')
-    expect(ORCA_CLI_SKILL_UPDATE_COMMAND).toBe('barkos skills update --skill orca-cli --global')
+    expect(ORCA_CLI_SKILL_INSTALL_COMMAND).toBe('barkos skills install --skill barkos-cli --global')
+    expect(ORCA_CLI_SKILL_UPDATE_COMMAND).toBe('barkos skills update --skill barkos-cli --global')
     expect(COMPUTER_USE_SKILL_UPDATE_COMMAND).toBe(
       'barkos skills update --skill computer-use --global'
     )
@@ -101,16 +101,16 @@ describe('agent feature skill commands', () => {
       'barkos skills update --skill orchestration --global'
     )
     expect(EPHEMERAL_VMS_SKILL_UPDATE_COMMAND).toBe(
-      'barkos skills update --skill orca-per-workspace-env --global'
+      'barkos skills update --skill barkos-per-workspace-env --global'
     )
     expect(ORCA_LINEAR_SKILL_UPDATE_COMMAND).toBe(
-      'barkos skills update --skill orca-linear --global'
+      'barkos skills update --skill barkos-linear --global'
     )
     expect(LINEAR_TICKETS_SKILL_UPDATE_COMMAND).toBe(
       'barkos skills update --skill linear-tickets --global'
     )
     expect(ORCA_CLI_ORCHESTRATION_SKILL_INSTALL_COMMAND).toBe(
-      buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration'])
+      buildAgentFeatureSkillInstallCommand(['barkos-cli', 'orchestration'])
     )
   })
 })

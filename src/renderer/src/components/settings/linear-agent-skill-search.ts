@@ -28,7 +28,7 @@ export const getLinearAgentSkillPaneSearchEntries = createLocalizedCatalog(() =>
       ),
       ...translateSearchKeyword(
         'auto.components.settings.linear.agent.skill.search.orcaLinear',
-        'orca-linear'
+        'barkos-linear'
       )
     ]
   }

@@ -4,18 +4,18 @@ import { summarizeSkillMarkdown } from './skill-metadata'
 describe('summarizeSkillMarkdown', () => {
   it('reads name and folded description from YAML frontmatter', () => {
     const summary = summarizeSkillMarkdown(`---
-name: orca-cli
+name: barkos-cli
 description: >-
-  Use the orca CLI to drive a running editor;
+  Use the BarkOS CLI to drive a running editor;
   keep worktree comments current.
 ---
 
-# Orca CLI
+# BarkOS CLI
 `)
 
     expect(summary).toEqual({
-      name: 'orca-cli',
-      description: 'Use the orca CLI to drive a running editor; keep worktree comments current.'
+      name: 'barkos-cli',
+      description: 'Use the BarkOS CLI to drive a running editor; keep worktree comments current.'
     })
   })
 

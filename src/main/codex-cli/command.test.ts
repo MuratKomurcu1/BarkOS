@@ -236,7 +236,7 @@ describe('resolveCliCommands', () => {
   })
 
   it('resolves a batch from PATH and install directories', () => {
-    const root = mkdtempSync(join(tmpdir(), 'orca-cli-commands-'))
+    const root = mkdtempSync(join(tmpdir(), 'barkos-cli-commands-'))
     const pathDir = join(root, 'bin')
     const pathClaude = join(pathDir, 'claude')
     const nvmCodex = join(root, '.nvm', 'versions', 'node', 'v24.13.0', 'bin', 'codex')
@@ -258,7 +258,7 @@ describe('resolveCliCommands', () => {
   })
 
   it('deduplicates command names in the returned map', () => {
-    const root = mkdtempSync(join(tmpdir(), 'orca-cli-commands-'))
+    const root = mkdtempSync(join(tmpdir(), 'barkos-cli-commands-'))
     const pathDir = join(root, 'bin')
     const pathClaude = join(pathDir, 'claude')
     makeExecutable(pathClaude)

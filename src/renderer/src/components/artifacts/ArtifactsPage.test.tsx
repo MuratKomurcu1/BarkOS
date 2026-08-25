@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/vitest'
 import type { ReactNode } from 'react'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { OrcaProfileAuthStatus } from '../../../../shared/orca-profiles'
+import type { OrcaProfileAuthStatus } from '../../../../shared/barkos-profiles'
 
 const mocks = vi.hoisted(() => ({
   authStatus: {

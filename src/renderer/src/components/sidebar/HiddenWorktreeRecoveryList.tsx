@@ -174,7 +174,7 @@ export default function HiddenWorktreeRecoveryList({
                     )
                   : translate(
                       'auto.components.sidebar.WorktreeVisibilityDialog.noneFound',
-                      'No non-Orca worktrees found'
+                      'No non-BarkOS worktrees found'
                     )}
             </div>
             <div className="text-xs text-muted-foreground">
@@ -190,7 +190,7 @@ export default function HiddenWorktreeRecoveryList({
                     )
                   : translate(
                       'auto.components.sidebar.WorktreeVisibilityDialog.appearWhenDetected',
-                      'New worktrees will appear here when Orca detects them.'
+                      'New worktrees will appear here when BarkOS detects them.'
                     )}
             </div>
           </div>

@@ -191,7 +191,7 @@ export async function driveToLiveIdle(runtime: OrcaRuntimeService): Promise<void
 
 export function pointerCount(write: ReturnType<typeof vi.fn>): number {
   return write.mock.calls.filter(([, payload]) =>
-    String(payload).includes('orca orchestration check')
+    String(payload).includes('barkos orchestration check')
   ).length
 }
 

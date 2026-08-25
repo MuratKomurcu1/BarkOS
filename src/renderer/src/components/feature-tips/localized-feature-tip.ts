@@ -6,7 +6,7 @@ export function localizeFeatureTip(tip: FeatureTip | null): FeatureTip | null {
     return null
   }
   switch (tip.id) {
-    case 'orca-cli':
+    case 'barkos-cli':
       return {
         ...tip,
         eyebrow: translate('barkos.featureTip.eyebrow', 'İpucu'),

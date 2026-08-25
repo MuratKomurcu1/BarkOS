@@ -115,7 +115,7 @@ async function loadClientModule(options: SafeStorageMockOptions = {}) {
 }
 
 beforeEach(() => {
-  tempHome = mkdtempLike('orca-linear-client-')
+  tempHome = mkdtempLike('barkos-linear-client-')
   fixtures = new Map([
     [
       'token-alpha',

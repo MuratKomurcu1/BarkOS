@@ -2,16 +2,16 @@ import { z } from 'zod'
 import { isAllowedPluginGitUrl } from './plugin-install-lockfile'
 import { isQualifiedPluginKey } from './plugin-manifest'
 
-export const PLUGIN_MARKETPLACE_FILENAME = 'orca-marketplace.json'
+export const PLUGIN_MARKETPLACE_FILENAME = 'barkos-marketplace.json'
 export const PLUGIN_MARKETPLACE_ENTRY_LIMIT = 2_048
 export const PLUGIN_MARKETPLACE_CATEGORY_LIMIT = 16
 
-export const OFFICIAL_PLUGIN_PUBLISHER = 'stablyai'
-export const OFFICIAL_PLUGIN_ID_PREFIX = 'orca-'
+export const OFFICIAL_PLUGIN_PUBLISHER = 'muratkomurcu1'
+export const OFFICIAL_PLUGIN_ID_PREFIX = 'barkos-'
 export const BARKOS_PLUGIN_PUBLISHER = 'barkos'
 export const BARKOS_PLUGIN_ID_PREFIX = 'barkos-'
-export const OFFICIAL_MARKETPLACE_OWNER = 'stablyai'
-export const OFFICIAL_MARKETPLACE_REPOSITORY = 'orca-plugins'
+export const OFFICIAL_MARKETPLACE_OWNER = 'muratkomurcu1'
+export const OFFICIAL_MARKETPLACE_REPOSITORY = 'barkos'
 
 // Why: theme/icon/skill contributions were deferred, so `contributes` now
 // rejects them and any plugin declaring one fails to install wholesale. The
@@ -118,7 +118,7 @@ export type PluginMarketplaceTrustMetadata = z.infer<typeof pluginMarketplaceTru
 
 export const OFFICIAL_MARKETPLACE_GIT_SOURCE: PluginMarketplaceGitSource = {
   kind: 'git',
-  url: 'https://github.com/stablyai/orca-plugins.git',
+  url: 'https://github.com/MuratKomurcu1/BarkOS.git',
   ref: 'main'
 }
 

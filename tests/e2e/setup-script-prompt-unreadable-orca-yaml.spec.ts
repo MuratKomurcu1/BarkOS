@@ -20,7 +20,7 @@ function runGit(cwd: string, args: string[]): void {
   execFileSync('git', args, { cwd, stdio: 'pipe' })
 }
 
-/** Repo whose shared orca.yaml carries a real setup script, plus a second worktree. */
+/** Repo whose shared barkos.yaml carries a real setup script, plus a second worktree. */
 function createRepoWithSharedSetupScript(repoPath: string, featureWorktreePath: string): void {
   rmSync(repoPath, { recursive: true, force: true })
   rmSync(featureWorktreePath, { recursive: true, force: true })
@@ -28,15 +28,15 @@ function createRepoWithSharedSetupScript(repoPath: string, featureWorktreePath: 
   runGit(repoPath, ['init'])
   runGit(repoPath, ['config', 'user.email', 'e2e@test.local'])
   runGit(repoPath, ['config', 'user.name', 'E2E Test'])
-  writeFileSync(path.join(repoPath, 'README.md'), '# Unreadable orca.yaml E2E\n')
-  writeFileSync(path.join(repoPath, 'orca.yaml'), `scripts:\n  setup: ${SETUP_SCRIPT_COMMAND}\n`)
+  writeFileSync(path.join(repoPath, 'README.md'), '# Unreadable barkos.yaml E2E\n')
+  writeFileSync(path.join(repoPath, 'barkos.yaml'), `scripts:\n  setup: ${SETUP_SCRIPT_COMMAND}\n`)
   runGit(repoPath, ['add', '-A'])
   runGit(repoPath, ['commit', '-m', 'Initial commit'])
   runGit(repoPath, ['worktree', 'add', '-b', 'setup-prompt-proof', featureWorktreePath])
 }
 
 /**
- * Makes the main process report the failure the fix now surfaces: orca.yaml could
+ * Makes the main process report the failure the fix now surfaces: barkos.yaml could
  * not be read (SSH filesystem provider gone), so the hook check fails closed with
  * `status: 'error'` instead of an authoritative "no setup script".
  * The real handler stays captured so healing restores production behavior.
@@ -62,7 +62,7 @@ async function installUnreadableOrcaYamlFault(electronApp: ElectronApplication):
   })
 }
 
-/** orca.yaml becomes readable again — every later check runs the production handler. */
+/** barkos.yaml becomes readable again — every later check runs the production handler. */
 async function healOrcaYamlRead(electronApp: ElectronApplication): Promise<void> {
   await electronApp.evaluate(() => {
     ;(
@@ -155,7 +155,7 @@ test.describe('Setup script prompt', () => {
     await waitForActiveWorktree(orcaPage)
   })
 
-  test('recovers from an unreadable orca.yaml instead of pinning the failed verdict', async ({
+  test('recovers from an unreadable barkos.yaml instead of pinning the failed verdict', async ({
     electronApp,
     orcaPage
   }, testInfo) => {
@@ -174,7 +174,7 @@ test.describe('Setup script prompt', () => {
     const inspectionError = promptCard.getByText(INSPECTION_ERROR_TEXT)
     await expect(inspectionError).toBeVisible({ timeout: 20_000 })
 
-    // orca.yaml is readable again; the card is still pinned to the failed verdict.
+    // barkos.yaml is readable again; the card is still pinned to the failed verdict.
     await healOrcaYamlRead(electronApp)
     const healthyCheck = await orcaPage.evaluate(
       (targetRepoId) => window.api.hooks.check({ repoId: targetRepoId }),
@@ -195,7 +195,7 @@ test.describe('Setup script prompt', () => {
     await worktreeRowSurface(orcaPage, featureWorktreeId).click()
     await expect(featureRow).toHaveAttribute('aria-current', 'page')
 
-    // The repo has a valid orca.yaml scripts.setup, so no prompt may remain.
+    // The repo has a valid barkos.yaml scripts.setup, so no prompt may remain.
     await expect(inspectionError).toBeHidden({ timeout: 20_000 })
     await expect(promptCard).toHaveCount(0)
     await orcaPage.waitForTimeout(RECORDING_DWELL_MS)

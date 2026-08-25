@@ -4,7 +4,7 @@ import type {
   HookCommandSourcePolicy,
   OrcaHooks,
   SetupRunPolicy
-} from '../shared/orca-yaml-hook-types'
+} from '../shared/barkos-yaml-hook-types'
 import type { Repo } from '../shared/repo-types'
 import type { SetupDecision } from '../shared/worktree/create-types'
 import type { WorktreeDefaultTabsLaunch } from '../shared/worktree/launch-types'
@@ -48,7 +48,7 @@ export function getEffectiveHooksFromConfig(
     return null
   }
 
-  // Why: committed `orca.yaml` and local Settings can coexist; the source policy decides which is authoritative.
+  // Why: committed `barkos.yaml` and local Settings can coexist; the source policy decides which is authoritative.
   return {
     scripts: {
       ...(setup ? { setup } : {}),
@@ -107,7 +107,7 @@ export function getDefaultTabsLaunch(
       hasLocalScript: Boolean(repo.hookSettings?.scripts.setup?.trim())
     }
   )
-  // Why: local-only repos may use shared tab titles/colors but must not run the committed orca.yaml commands.
+  // Why: local-only repos may use shared tab titles/colors but must not run the committed barkos.yaml commands.
   const canRunSharedCommands = sharedCommandPolicy !== 'local-only'
   const runCommands =
     hasCommands && canRunSharedCommands ? shouldRunSetupForCreate(repo, decision) : false

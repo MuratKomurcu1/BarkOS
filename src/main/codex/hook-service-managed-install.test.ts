@@ -304,7 +304,7 @@ describe('CodexHookService', () => {
     mkdirSync(systemCodexHome, { recursive: true })
     writeFileSync(systemHooksPath, existingSystemHooks, 'utf-8')
 
-    const devUserDataDir = mkdtempSync(join(tmpdir(), 'orca-dev-codex-user-data-'))
+    const devUserDataDir = mkdtempSync(join(tmpdir(), 'barkos-dev-codex-user-data-'))
     const prodUserDataDir = mkdtempSync(join(tmpdir(), 'orca-prod-codex-user-data-'))
     try {
       getPathMock.mockImplementation((name: string) => {

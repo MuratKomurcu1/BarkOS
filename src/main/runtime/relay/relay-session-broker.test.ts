@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import nacl from 'tweetnacl'
-import type { OrcaCloudAuthConfig } from '../../orca-profiles/profile-cloud-auth-config'
+import type { OrcaCloudAuthConfig } from '../../barkos-profiles/profile-cloud-auth-config'
 import type { RelayHostHelloAckMessage } from './relay-control-protocol'
 import type * as RelayHttpClientModule from './relay-http-client'
 

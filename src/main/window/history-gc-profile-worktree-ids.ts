@@ -3,8 +3,8 @@ import { folderWorkspaceKey } from '../../shared/workspace-scope'
 import {
   getOrcaProfileDataFile,
   getProfileUserDataPath
-} from '../orca-profiles/profile-storage-paths'
-import { getOrcaProfileIndexPath, readProfileIndex } from '../orca-profiles/profile-index-store'
+} from '../barkos-profiles/profile-storage-paths'
+import { getOrcaProfileIndexPath, readProfileIndex } from '../barkos-profiles/profile-index-store'
 
 /**
  * Worktree ids owned by Orca profiles OTHER than the running one.

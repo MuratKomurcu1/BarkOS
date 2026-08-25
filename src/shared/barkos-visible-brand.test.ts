@@ -9,6 +9,6 @@ describe('brandBarkosVisibleCopy', () => {
   })
 
   it('preserves compatibility identifiers and commands', () => {
-    expect(brandBarkosVisibleCopy('orca.yaml · orca://pair')).toBe('orca.yaml · orca://pair')
+    expect(brandBarkosVisibleCopy('barkos.yaml · orca://pair')).toBe('barkos.yaml · orca://pair')
   })
 })

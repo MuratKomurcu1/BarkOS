@@ -7,7 +7,7 @@ export const getBrowserUsePaneSearchEntries = createLocalizedCatalog(() => [
     title: translate('auto.components.settings.browser.use.search.50f0860e18', 'Enable BarkOS CLI'),
     description: translate(
       'auto.components.settings.browser.use.search.890ddf943d',
-      'Register the Orca CLI so agents can drive the browser.'
+      'Register the BarkOS CLI so agents can drive the browser.'
     ),
     keywords: [
       ...translateSearchKeyword(
@@ -33,7 +33,7 @@ export const getBrowserUsePaneSearchEntries = createLocalizedCatalog(() => [
     ),
     description: translate(
       'auto.components.settings.browser.use.search.a7e82445fa',
-      "Install the Browser Use skill so agents can operate Orca's browser."
+      "Install the Browser Use skill so agents can operate BarkOS's browser."
     ),
     keywords: [
       ...translateSearchKeyword(
@@ -48,7 +48,7 @@ export const getBrowserUsePaneSearchEntries = createLocalizedCatalog(() => [
       ),
       ...translateSearchKeyword(
         'auto.components.settings.browser.use.search.f5b8fdddf5',
-        'orca-cli'
+        'barkos-cli'
       ),
       ...translateSearchKeyword('auto.components.settings.browser.use.search.6ea88e5206', 'npx'),
       ...translateSearchKeyword(

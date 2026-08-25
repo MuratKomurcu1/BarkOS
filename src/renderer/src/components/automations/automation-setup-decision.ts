@@ -1,5 +1,5 @@
 import type { AutomationWorkspaceMode } from '../../../../shared/automations-types'
-import type { OrcaHooks, SetupRunPolicy } from '../../../../shared/orca-yaml-hook-types'
+import type { OrcaHooks, SetupRunPolicy } from '../../../../shared/barkos-yaml-hook-types'
 import type { ProjectHostSetup } from '../../../../shared/project-types'
 import type { Repo } from '../../../../shared/repo-types'
 import type { SetupDecision } from '../../../../shared/worktree/create-types'
@@ -78,7 +78,7 @@ export function resolveAutomationSetupDecisionForSave(args: {
   }
 
   if (args.yamlHooks === undefined) {
-    // Why: automations cannot pause later for an orca.yaml trust prompt; when
+    // Why: automations cannot pause later for an barkos.yaml trust prompt; when
     // hook inspection is unavailable, fail closed instead of inheriting setup.
     return 'skip'
   }

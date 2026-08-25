@@ -32,11 +32,11 @@ function operationError(status: string): string {
   return status === 'reconnect-required'
     ? translate(
         'auto.components.skills.SkillShareDialog.reconnect',
-        'Reconnect your Orca account before sharing.'
+        'Reconnect your BarkOS account before sharing.'
       )
     : translate(
         'auto.components.skills.SkillShareDialog.unconfigured',
-        'Connect an Orca Cloud account before sharing.'
+        'Connect a BarkOS Cloud account before sharing.'
       )
 }
 
@@ -231,7 +231,7 @@ export function SkillShareDialog({
     } catch {
       cancellationRequested.current = false
       setCancelling(false)
-      setError('Orca could not send the cancellation request. The upload may still finish.')
+      setError('BarkOS could not send the cancellation request. The upload may still finish.')
     }
   }
 

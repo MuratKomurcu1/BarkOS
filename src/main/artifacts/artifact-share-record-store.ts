@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { writeDurableSecureJsonFile, writeSecureJsonFile } from '../../shared/secure-file'
-import { getOrcaProfileDirectory } from '../orca-profiles/profile-storage-paths'
+import { getOrcaProfileDirectory } from '../barkos-profiles/profile-storage-paths'
 
 export type ArtifactShareScope = {
   cloudUserId: string

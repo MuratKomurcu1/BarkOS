@@ -59,7 +59,7 @@ describe('CliSkillSetupTerminal', () => {
     // Why: the bundled barkos CLI is a native binary, so the Windows host
     // fallback stays bare - the guard is that WSL never enters the command.
     expect(mocks.terminalCommand).toBe(
-      'barkos skills install --skill orca-cli --skill orchestration --global'
+      'barkos skills install --skill barkos-cli --skill orchestration --global'
     )
     expect(mocks.terminalCommand).not.toContain('wsl.exe')
   })

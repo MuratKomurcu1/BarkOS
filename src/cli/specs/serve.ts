@@ -4,9 +4,9 @@ import { GLOBAL_FLAGS } from '../args'
 export const SERVE_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['serve'],
-    summary: 'Start an Orca runtime server without opening a desktop window',
+    summary: 'Start a BarkOS runtime server without opening a desktop window',
     usage:
-      'orca serve [--port <port>] [--pairing-address <host>] [--mobile-pairing] [--no-pairing] [--project-root <path>] [--recipe-json] [--json]',
+      'barkos serve [--port <port>] [--pairing-address <host>] [--mobile-pairing] [--no-pairing] [--project-root <path>] [--recipe-json] [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
       'port',
@@ -24,11 +24,11 @@ export const SERVE_COMMAND_SPECS: CommandSpec[] = [
       'When the web client bundle is available, the server also prints a browser URL with the pairing data embedded.'
     ],
     examples: [
-      'orca serve',
-      'orca serve --json',
-      'orca serve --project-root /workspace/repo --pairing-address wss://sandbox.example.com --recipe-json',
-      'orca serve --port 6768 --pairing-address 100.64.1.20',
-      'orca serve --pairing-address 100.64.1.20 --mobile-pairing'
+      'barkos serve',
+      'barkos serve --json',
+      'barkos serve --project-root /workspace/repo --pairing-address wss://sandbox.example.com --recipe-json',
+      'barkos serve --port 6768 --pairing-address 100.64.1.20',
+      'barkos serve --pairing-address 100.64.1.20 --mobile-pairing'
     ]
   }
 ]

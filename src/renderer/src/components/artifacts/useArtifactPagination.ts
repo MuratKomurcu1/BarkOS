@@ -4,7 +4,7 @@ import type {
   ArtifactListItem,
   ArtifactListPage
 } from '../../../../shared/artifacts'
-import type { OrcaProfileAuthStatus } from '../../../../shared/orca-profiles'
+import type { OrcaProfileAuthStatus } from '../../../../shared/barkos-profiles'
 import { translate } from '@/i18n/i18n'
 import { callRuntimeRpc } from '@/runtime/runtime-rpc-client'
 import { useAppStore } from '@/store'
@@ -96,7 +96,7 @@ export function useArtifactPagination(
         setError(
           translate(
             'auto.components.artifacts.ArtifactsPage.signInAgain',
-            'Sign in to Orca again to load artifacts.'
+            'Sign in to BarkOS again to load artifacts.'
           )
         )
       }
@@ -148,7 +148,7 @@ export function useArtifactPagination(
         setError(
           translate(
             'auto.components.artifacts.ArtifactsPage.signInAgain',
-            'Sign in to Orca again to load artifacts.'
+            'Sign in to BarkOS again to load artifacts.'
           )
         )
         return

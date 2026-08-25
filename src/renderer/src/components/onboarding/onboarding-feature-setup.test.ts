@@ -140,7 +140,7 @@ describe('onboarding feature setup runner', () => {
 
     expect(text).toBe(ALL_SKILL_INSTALL_COMMAND)
     expect(text).toBe(
-      'barkos skills install --skill orca-cli --skill computer-use --skill orchestration --skill orca-linear --global'
+      'barkos skills install --skill barkos-cli --skill computer-use --skill orchestration --skill barkos-linear --global'
     )
   })
 

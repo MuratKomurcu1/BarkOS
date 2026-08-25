@@ -51,7 +51,7 @@ export function loadOrCreateTlsCertificate(userDataPath: string): TlsCertificate
       '-days',
       '3650',
       '-subj',
-      '/CN=Orca Runtime',
+      '/CN=BarkOS Runtime',
       '-keyout',
       keyPath_,
       '-out',

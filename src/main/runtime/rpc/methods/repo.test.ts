@@ -259,7 +259,7 @@ describe('repo RPC methods', () => {
         hasHooksFile: true,
         hooks: { scripts: { setup: 'pnpm install' } },
         setupRunPolicy: 'run-by-default',
-        source: 'orca.yaml',
+        source: 'barkos.yaml',
         setupTrust: {
           contentHash: 'hash-1',
           scriptContent: 'pnpm install'
