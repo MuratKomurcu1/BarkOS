@@ -1506,7 +1506,9 @@ hak bugün yeni geniş geliştirme dilimi başlatmak için kullanılmayacak.
   `dist/barkos-macos-arm64.dmg` başarıyla üretildi. Paket ad-hoc imzalı ve
   noterlenmemiş bir test paketidir; genel dağıtım için Apple/Windows imzalama
   kimlikleri ayrıca gereklidir.
-- Doğrulama: 37 odaklı birim testi, tam TypeScript typecheck, masaüstü derleme,
+- Doğrulama: 71 odaklı birim testi, tam TypeScript typecheck, masaüstü derleme,
   BarkOS Electron E2E testi ve macOS paket içi CLI/daemon testleri geçti.
-  Windows ve Linux paketleri GitHub'ın kendi işletim sistemi runner'larında
-  doğrulanmak üzere yeni yayın iş akışına bağlandı.
+  GitHub Actions çalışması `32833535437` aynı commit üzerinde üç platformu da
+  yeşil tamamladı: Windows NSIS ve paket içi CLI; Linux AppImage/deb, paket içi
+  CLI ve Xvfb masaüstü açılışı; macOS DMG/ZIP ve paket içi CLI. Üç artefakt da
+  14 günlük Actions arşivine yüklendi.
