@@ -134,11 +134,9 @@ pnpm build:mac
 
 Issues, ideas, and pull requests are welcome. Start with the [contribution guide](.github/CONTRIBUTING.md) and read the [security policy](SECURITY.md) before reporting a vulnerability.
 
-## License and acknowledgements
+## Open source
 
-BarkOS is free and open source under the [MIT License](LICENSE).
-
-BarkOS is an independent fork built from the MIT-licensed [Orca](https://github.com/stablyai/orca) codebase and incorporates MIT-licensed concepts/assets from [Pixel Agents](https://github.com/pixel-agents-hq/pixel-agents). BarkOS is not affiliated with Muratify. See [NOTICE-BARKOS.md](NOTICE-BARKOS.md) for complete attribution.
+BarkOS is free and open source under the [MIT License](LICENSE). Use it, modify it, build with it, and contribute back.
 
 ---
 
