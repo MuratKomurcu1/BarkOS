@@ -87,7 +87,7 @@ async function waitForPairingRuntime({ child, userData, pairingAddress, logSucce
       ...process.env,
       ORCA_USER_DATA_PATH: userData,
       // Why: `barkos-dev` derives its own profile and ignores ORCA_USER_DATA_PATH, so
-      // without this an ORCA_CLI=barkos-dev run would address the dev profile instead
+      // without this a BARKOS_CLI=barkos-dev run would address the dev profile instead
       // of this disposable runtime. Plain `orca` ignores it.
       ORCA_DEV_USER_DATA_PATH: userData
     },

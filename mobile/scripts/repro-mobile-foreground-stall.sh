@@ -26,11 +26,11 @@ set -euo pipefail
 UDID="${1:?simulator udid}"
 PORT="${2:?port of the paired host, from the [net] logs}"
 LOG="${3:-/tmp/orca-emulator-boot.log}"
-BUNDLE_ID=com.stably.orca.mobile
+BUNDLE_ID=com.barkos.mobile
 # Long enough for the tiered backoff to reach its 30s/60s tail.
 ESCALATE_SECONDS=200
 
-APP=$(pgrep -f "CoreSimulator.*Orca.app/Orca" | head -1)
+APP=$(pgrep -f "CoreSimulator.*BarkOS.app/BarkOS" | head -1)
 DESK=$(pgrep -f "serve-mobile-pairing" | head -1)
 : "${APP:?mobile app is not running in the simulator}"
 : "${DESK:?headless desktop runtime is not running}"
@@ -63,7 +63,7 @@ kill -CONT "$APP"
 sleep 0.3
 xcrun simctl launch "$UDID" "$BUNDLE_ID" >/dev/null 2>&1
 T0=$(date +%s)
-step "[5] user returns to Orca  <-- t0, desktop still down"
+step "[5] user returns to BarkOS  <-- t0, desktop still down"
 
 # The desktop is deliberately still unreachable here: the only question is
 # whether returning to the app abandons the dead dial or waits it out.

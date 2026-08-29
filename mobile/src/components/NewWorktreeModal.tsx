@@ -30,7 +30,7 @@ import {
   type SetupHookTrust
 } from '../tasks/setup-hook-trust'
 import { isMobileTuiAgentEnabled } from '../tasks/mobile-tui-agents'
-import type { PersistedTrustedOrcaHooks } from '../../../src/shared/orca-yaml-hook-types'
+import type { PersistedTrustedOrcaHooks } from '../../../src/shared/barkos-yaml-hook-types'
 import type { Repo as SharedRepo } from '../../../src/shared/repo-types'
 import type { TuiAgent } from '../../../src/shared/tui-agent'
 import type { SshConnectionState } from '../../../src/shared/ssh-types'
@@ -957,7 +957,7 @@ function NewWorktreeModalContent({
                       {setupSource && (
                         <View style={styles.sourceBadge}>
                           <Text style={styles.sourceBadgeText}>
-                            {setupSource === 'barkos.yaml' ? 'ORCA.YAML' : 'HOOKS'}
+                            {setupSource === 'barkos.yaml' ? 'BARKOS.YAML' : 'HOOKS'}
                           </Text>
                         </View>
                       )}

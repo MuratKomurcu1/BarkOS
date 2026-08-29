@@ -153,7 +153,7 @@ import type {
   GitHubOwnerRepo,
   ProviderCheckSummary
 } from '../../../../src/shared/github/pull-request-types'
-import type { PersistedTrustedOrcaHooks } from '../../../../src/shared/orca-yaml-hook-types'
+import type { PersistedTrustedOrcaHooks } from '../../../../src/shared/barkos-yaml-hook-types'
 import type { BaseRefSearchResult } from '../../../../src/shared/repo-types'
 import type { TuiAgent } from '../../../../src/shared/tui-agent'
 import type { SparsePreset } from '../../../../src/shared/worktree/create-types'

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Start Orca Mobile server and load it in the iOS emulator.
+ * Start BarkOS Mobile server and load it in the iOS emulator.
  * Looks for emulators in the given worktree.
  *
  * Usage:
@@ -78,7 +78,7 @@ Options:
   }
 }
 
-const ORCA_CLI = process.env.ORCA_CLI || 'orca'
+const BARKOS_CLI = process.env.BARKOS_CLI || process.env.ORCA_CLI || 'barkos'
 
 // Colors for output
 const colors = {
@@ -121,7 +121,7 @@ function assertIosSimulatorPlatform() {
 
 // Execute orca CLI command
 async function orca(args, options = {}) {
-  const { stdout, stderr } = await execFileAsync(ORCA_CLI, args, {
+  const { stdout, stderr } = await execFileAsync(BARKOS_CLI, args, {
     cwd: options.cwd || process.cwd(),
     env: options.env || process.env,
     encoding: 'utf8',
@@ -305,7 +305,7 @@ function metroUrlCandidates(initialUrl) {
 }
 
 function devClientUrlForMetroUrl(url) {
-  return `exp+orca-mobile://expo-development-client/?url=${encodeURIComponent(url)}`
+  return `exp+barkos-mobile://expo-development-client/?url=${encodeURIComponent(url)}`
 }
 
 function canListenOnPort(port) {
@@ -421,7 +421,7 @@ async function startMetro(worktree) {
       }
 
       // Also check for the dev-client URL format directly
-      const urlMatch = line.match(/exp\+orca-mobile:\/\/expo-development-client\/\?url=([^\s]+)/)
+      const urlMatch = line.match(/exp\+barkos-mobile:\/\/expo-development-client\/\?url=([^\s]+)/)
       if (urlMatch && !resolved) {
         url = normalizeMetroUrl(decodeURIComponent(urlMatch[1]))
         logInfo(`Found Metro URL: ${url}`)
@@ -566,7 +566,7 @@ async function findReachableMetroUrl(initialUrl) {
 
 // Main function
 async function main() {
-  log(colors.bright + 'Starting Orca Mobile in Emulator\n' + colors.reset)
+  log(colors.bright + 'Starting BarkOS Mobile in Emulator\n' + colors.reset)
   let pairingRuntime = null
 
   try {
@@ -579,7 +579,7 @@ async function main() {
 
     pairingRuntime = await startHeadlessPairingRuntime({
       enabled: options.pair,
-      orcaCli: ORCA_CLI,
+      orcaCli: BARKOS_CLI,
       cwd: process.cwd(),
       lanIpCandidates,
       logStep,

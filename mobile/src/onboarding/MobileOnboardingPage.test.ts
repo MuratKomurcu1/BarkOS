@@ -67,14 +67,14 @@ describe('MobileOnboardingPage', () => {
   it('renders the session choices and sends exactly one selected view', async () => {
     const callbacks = await renderPage('session-view')
 
-    act(() => button('Open sessions in Chat UI').props.onPress())
+    act(() => button('Oturumları sohbet arayüzünde aç').props.onPress())
     expect(callbacks.onSessionChoice).toHaveBeenCalledWith('chat')
     expect(callbacks.onNotificationChoice).not.toHaveBeenCalled()
   })
 
   it('renders the notification choices and sends the selected option', async () => {
     const callbacks = await renderPage('notifications')
-    act(() => button('Skip notifications for now').props.onPress())
+    act(() => button('Bildirimleri şimdilik atla').props.onPress())
 
     expect(callbacks.onNotificationChoice).toHaveBeenCalledWith('skip')
     expect(callbacks.onSessionChoice).not.toHaveBeenCalled()
@@ -82,8 +82,8 @@ describe('MobileOnboardingPage', () => {
 
   it('disables both notification choices while permission is pending', async () => {
     await renderPage('notifications', { busyChoice: 'enable' })
-    const enable = button('Enable agent notifications')
-    const secondary = button('Skip notifications for now')
+    const enable = button('Ajan bildirimlerini etkinleştir')
+    const secondary = button('Bildirimleri şimdilik atla')
 
     expect(enable.props.disabled).toBe(true)
     expect(secondary.props.disabled).toBe(true)

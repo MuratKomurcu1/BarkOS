@@ -117,7 +117,7 @@ describe('MobileHostCard', () => {
 
     const navigationButton = renderer.root.findAllByType('Pressable')[0]
     expect(navigationButton.props.accessibilityLabel).toBe(
-      'Open Desk, Connected, Direct via Tailscale, 3 worktrees, 2 active'
+      'Open Desk, Connected, Doğrudan via Tailscale, 3 worktrees, 2 active'
     )
   })
 
@@ -154,7 +154,7 @@ describe('MobileHostCard', () => {
 
     const navigationButton = renderer.root.findAllByType('Pressable')[0]
     expect(navigationButton.props.accessibilityLabel).toBe(
-      'Open Desk, Connected, Orca Relay, Worktree list unavailable'
+      'Open Desk, Connected, BarkOS Aktarma, Worktree list unavailable'
     )
     expect(
       renderer.root
@@ -193,7 +193,7 @@ describe('MobileHostCard', () => {
 
     const navigationButton = renderer.root.findAllByType('Pressable')[0]
     expect(navigationButton.props.accessibilityLabel).toBe(
-      "Open Desk, Can't reach desktop, Update desktop Orca and sign in to connect from anywhere"
+      "Open Desk, Can't reach desktop, Her yerden bağlanmak için masaüstü BarkOS'u güncelleyin ve oturum açın"
     )
   })
 })

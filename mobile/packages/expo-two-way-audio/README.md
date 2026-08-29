@@ -13,7 +13,7 @@ The aim of the module is to facilitate creating real-time conversational apps. T
 ## Installation
 
 ```
-npm i @orca/expo-two-way-audio
+npm i @barkos/expo-two-way-audio
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm i @orca/expo-two-way-audio
 1. Request permissions for recording audio
 
    ```JSX
-   import {useMicrophonePermissions} from "@orca/expo-two-way-audio";
+   import {useMicrophonePermissions} from "@barkos/expo-two-way-audio";
 
    const [micPermission, requestMicPermission] = useMicrophonePermissions();
    console.log(micPermission);
