@@ -134,6 +134,20 @@ The completed foundation is intentionally idle until BarkOS is launched. It
 adds no login item, daemon, browser extension, scheduled job, or background
 service to normal system use.
 
+## 0.2.0-preview.4 release slice
+
+- [x] Add an opt-in “Hey BarkOS” desktop assistant with continuous wake-phrase
+      listening and everyday conversation through the selected local CLI agent.
+- [x] Route project and code requests into the BarkOS company workflow while
+      keeping sensitive actions behind explicit confirmation.
+- [x] Add Turkish offline speech endpointing and a stable Turkish system voice.
+- [x] Improve LAN pairing QR readability and remove misleading public-store
+      links until a BarkOS-owned mobile build is available.
+- [x] Gate cross-platform releases on voice, mobile, live-office, orchestration,
+      type, and localization checks.
+- [x] Publish prerelease tags as GitHub prereleases and target only the BarkOS
+      repository.
+
 ## M2 implementation slice
 
 - [x] Add strict, versioned objective, plan, task, assignment, dispatch,

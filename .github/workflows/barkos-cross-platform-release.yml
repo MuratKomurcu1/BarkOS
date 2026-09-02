@@ -125,9 +125,25 @@ jobs:
       - name: BarkOS birim testleri
         run: >-
           pnpm exec vitest run --config config/vitest.config.ts
+          config/scripts/electron-builder-mac-channel-config.test.mjs
+          src/main/ipc/voice-assistant.test.ts
+          src/main/speech/system-speech.test.ts
+          src/main/speech/model-catalog.test.ts
+          src/main/speech/stt-offline-audio-chunker.test.ts
+          src/main/runtime/mobile-pairing-qr.test.ts
           src/shared/barkos
           src/renderer/src/lib/barkos-live-office.test.ts
           src/renderer/src/components/barkos-company/barkos-pixel-office-engine.test.ts
+          src/renderer/src/components/mobile/MobileHero.test.tsx
+          src/renderer/src/components/mobile/mobile-platform-copy.test.ts
+          src/renderer/src/components/voice-assistant
+
+      - name: Tür ve yerelleştirme doğrulaması
+        run: >-
+          pnpm run typecheck &&
+          pnpm run verify:localization-catalog &&
+          pnpm run verify:localization-extraction &&
+          pnpm run verify:localization-coverage
 
       - name: Paket girdilerini derle
         run: pnpm run build:release
@@ -168,8 +184,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
-        run: >-
-          gh release create "$TAG" dist/*
-          --repo "${{ github.repository }}"
-          --title "BarkOS ${TAG#v}"
-          --generate-notes
+        run: |
+          args=(
+            release create "$TAG" dist/*
+            --repo "${{ github.repository }}"
+            --title "BarkOS ${TAG#v}"
+            --generate-notes
+          )
+          if [[ "$TAG" == *-* ]]; then
+            args+=(--prerelease)
+          fi
+          gh "${args[@]}"

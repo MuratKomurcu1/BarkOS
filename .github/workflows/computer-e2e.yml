@@ -54,8 +54,6 @@ on:
       - 'tests/e2e/helpers/computer-driver.ts'
       - 'tests/e2e/vitest.config.ts'
   workflow_dispatch:
-  schedule:
-    - cron: '0 6 * * *'
 
 jobs:
   native-smoke:

@@ -44,6 +44,17 @@ const withHourlyEnv = (assert) => withEnv({ ORCA_MAC_HOURLY: '1' }, assert)
 const withDailyEnv = (assert) => withEnv({ ORCA_MAC_DAILY: '1' }, assert)
 const withAdhocEnv = (assert) => withEnv({ ORCA_MAC_ADHOC: '1' }, assert)
 
+const expectBarkosPublishTarget = (config) => {
+  expect(config.publish).toEqual([
+    {
+      provider: 'github',
+      owner: 'MuratKomurcu1',
+      repo: 'BarkOS',
+      releaseType: 'draft'
+    }
+  ])
+}
+
 describe('electron-builder mac channel config', () => {
   it('builds hourly artifacts with the release signing identity', () => {
     withHourlyEnv((config) => {
@@ -79,20 +90,20 @@ describe('electron-builder mac channel config', () => {
     })
   })
 
-  it('never publishes BarkOS builds to Orca repositories', () => {
+  it('publishes every BarkOS channel only to the BarkOS repository', () => {
     withHourlyEnv((config) => {
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
     withDailyEnv((config) => {
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
     withAdhocEnv((config) => {
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
     withEnv({ ORCA_MAC_RELEASE: '1' }, (config) => {
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
-    expect(electronBuilderConfig.publish).toEqual([])
+    expectBarkosPublishTarget(electronBuilderConfig)
   })
 
   it('stamps hourly packages with the hourly version', () => {
@@ -110,7 +121,7 @@ describe('electron-builder mac channel config', () => {
       expect(config.mac.hardenedRuntime).toBe(true)
       expect(config.mac.notarize).toBe(true)
       expect(config.forceCodeSigning).toBe(true)
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
   })
 
@@ -129,7 +140,7 @@ describe('electron-builder mac channel config', () => {
       expect(config.mac.hardenedRuntime).toBe(true)
       expect(config.mac.notarize).toBe(true)
       expect(config.forceCodeSigning).toBe(true)
-      expect(config.publish).toEqual([])
+      expectBarkosPublishTarget(config)
     })
   })
 

@@ -3,7 +3,31 @@
 Bu dosya, BarkOS geliştirmesine ara verilen noktayı kaydeder. Eve geçince
 çalışmaya buradan devam edilebilir.
 
-## Oturum bilgisi
+## Güncel sürüm adayı — 2 Eylül 2026
+
+- Sürüm: `barkos@0.2.0-preview.4`
+- Dal: `barkos/main`
+- Masaüstü: macOS, Windows ve Linux paketleme iş akışı hazır.
+- Mobil: BarkOS Mobile `0.0.44 (1)` App Store incelemesinde; incelemedeki yapı
+  değiştirilmedi.
+- Ses: “Hey BarkOS” ile sürekli dinleme, Türkçe çevrimdışı konuşma tanıma,
+  gündelik sohbet, görev yönlendirme ve sabit Türkçe sistem sesi eklendi.
+- Mobil eşleştirme: telefon kameralarının daha güvenilir okuyabilmesi için QR
+  çözünürlüğü, kenar boşluğu ve hata düzeltme profili güncellendi.
+- Yayın güvenliği: önizleme etiketleri GitHub'da otomatik olarak ön sürüm
+  işaretlenir; yayın hedefi yalnızca `MuratKomurcu1/BarkOS` deposudur.
+- CI: pahalı miras tanı işleri günlük zamanlayıcıdan çıkarıldı; PR ve manuel
+  çalıştırma seçenekleri korundu. BarkOS yayın kapısı ses, mobil, canlı ofis,
+  orkestrasyon, tür ve yerelleştirme doğrulamalarını çalıştırır.
+- Doğrulama: Node `24.18.0` altında 56 dosyada 294 BarkOS testi, tam tür kontrolü,
+  tam lint ve yerelleştirme kapıları geçti.
+
+Yerel Apple Silicon DMG/ZIP üretildi; paketlenmiş CLI, kod imzası ve DMG
+bütünlüğü doğrulandı. Yeni yapı `/Applications/BarkOS.app` içine kuruldu ve
+masaüstü süreçleriyle daemon başarıyla başladı. Önceki kurulum geri dönüş için
+`/Applications/BarkOS.previous.app` adıyla korunuyor.
+
+## Önceki oturum bilgisi
 
 - Tarih: 25 Ağustos 2026
 - Saat dilimi: Europe/Istanbul

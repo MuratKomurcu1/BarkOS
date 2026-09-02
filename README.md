@@ -45,6 +45,7 @@ Most agent tools give you another chat window. BarkOS gives you an operating com
 - **Project reader** maps the repository before work begins and turns findings into an executable plan.
 - **Claude and OpenCode specialists** are assigned per task for deep review, refactors, parallel implementation, or provider fallback.
 - **Live pixel office** represents real agent sessions and their current state instead of decorative animation.
+- **“Hey BarkOS” voice assistant** listens locally, understands Turkish, answers everyday questions, and routes project work into the company workflow.
 - **Isolated workspaces** let agents work in parallel without trampling the same files.
 - **Audited decisions and permission gates** keep provider choice below user authority.
 - **Turkish-first desktop experience** makes the full workflow understandable without terminal knowledge.
@@ -86,10 +87,10 @@ Download BarkOS directly for your platform:
 
 | Platform | Package |
 | --- | --- |
-| macOS Apple Silicon | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-macos-arm64.dmg) |
-| macOS Intel | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-macos-x64.dmg) |
-| Windows | [EXE installer](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-windows-setup.exe) |
-| Linux | [AppImage](https://github.com/MuratKomurcu1/BarkOS/releases/latest/download/barkos-linux.AppImage) |
+| macOS Apple Silicon | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/download/v0.2.0-preview.4/barkos-macos-arm64.dmg) |
+| macOS Intel | [DMG](https://github.com/MuratKomurcu1/BarkOS/releases/download/v0.2.0-preview.4/barkos-macos-x64.dmg) |
+| Windows | [EXE installer](https://github.com/MuratKomurcu1/BarkOS/releases/download/v0.2.0-preview.4/barkos-windows-setup.exe) |
+| Linux | [AppImage](https://github.com/MuratKomurcu1/BarkOS/releases/download/v0.2.0-preview.4/barkos-linux.AppImage) |
 
 Release notes and previous builds are available under [GitHub Releases](https://github.com/MuratKomurcu1/BarkOS/releases).
 
