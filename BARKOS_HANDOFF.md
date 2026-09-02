@@ -7,7 +7,9 @@ Bu dosya, BarkOS geliştirmesine ara verilen noktayı kaydeder. Eve geçince
 
 - Sürüm: `barkos@0.2.0-preview.4`
 - Dal: `barkos/main`
-- Masaüstü: macOS, Windows ve Linux paketleme iş akışı hazır.
+- Masaüstü: macOS Apple Silicon, macOS Intel, Windows ve Linux paketleri
+  `v0.2.0-preview.4` ön sürümü olarak yayımlandı:
+  <https://github.com/MuratKomurcu1/BarkOS/releases/tag/v0.2.0-preview.4>
 - Mobil: BarkOS Mobile `0.0.44 (1)` App Store incelemesinde; incelemedeki yapı
   değiştirilmedi.
 - Ses: “Hey BarkOS” ile sürekli dinleme, Türkçe çevrimdışı konuşma tanıma,
@@ -21,11 +23,16 @@ Bu dosya, BarkOS geliştirmesine ara verilen noktayı kaydeder. Eve geçince
   orkestrasyon, tür ve yerelleştirme doğrulamalarını çalıştırır.
 - Doğrulama: Node `24.18.0` altında 56 dosyada 294 BarkOS testi, tam tür kontrolü,
   tam lint ve yerelleştirme kapıları geçti.
+- GitHub Actions: `33640629862` numaralı yayın çalışmasında dört platform
+  paketinin derleme, CLI doğrulama ve arşivleme işleri başarılı oldu. Linux
+  paketi ayrıca sanal masaüstünde açılış kontrolünden geçti.
 
 Yerel Apple Silicon DMG/ZIP üretildi; paketlenmiş CLI, kod imzası ve DMG
 bütünlüğü doğrulandı. Yeni yapı `/Applications/BarkOS.app` içine kuruldu ve
 masaüstü süreçleriyle daemon başarıyla başladı. Önceki kurulum geri dönüş için
-`/Applications/BarkOS.previous.app` adıyla korunuyor.
+`/Applications/BarkOS.previous.app` adıyla korunuyor. Kurulu yapının sürüm
+damgası `0.2.0-preview.4.local.1788358422606.f570618c05a3`; başlangıçta
+`MaxListeners` veya terminal kurtarma uyarısı gözlenmedi.
 
 ## Önceki oturum bilgisi
 
