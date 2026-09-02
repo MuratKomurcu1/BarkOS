@@ -14,6 +14,7 @@ import { translate } from '@/i18n/i18n'
 import { showDictationStartErrorToast } from './dictation-start-error-toast'
 import { useHoldDictationGesture } from './use-hold-dictation-gesture'
 import { DICTATION_CONTROL_EVENT, type DictationControlAction } from './dictation-control-events'
+import { stopVoiceAssistantForDictation } from '../voice-assistant/speech-session-coordinator'
 
 export function DictationController() {
   const dictationState = useAppStore((s) => s.dictationState)
@@ -21,6 +22,7 @@ export function DictationController() {
   const setPartialTranscript = useAppStore((s) => s.setPartialTranscript)
   const recordFeatureInteraction = useAppStore((s) => s.recordFeatureInteraction)
   const settings = useAppStore((s) => s.settings)
+  const assistantEnabled = settings?.voice?.assistantEnabled === true
   const keybindings = useAppStore((s) => s.keybindings)
   const {
     start: startCapture,
@@ -94,6 +96,11 @@ export function DictationController() {
     if (dictationStateRef.current !== 'idle') {
       return
     }
+    if (assistantEnabled) {
+      return
+    }
+
+    await stopVoiceAssistantForDictation()
 
     const modelId = settings?.voice?.sttModel
     if (!modelId) {
@@ -241,6 +248,7 @@ export function DictationController() {
       setDictationState('idle')
     }
   }, [
+    assistantEnabled,
     settings,
     setDictationState,
     startCapture,
@@ -288,6 +296,7 @@ export function DictationController() {
     const handleKeyDown = (): void => {
       if (
         !settings?.voice?.enabled ||
+        assistantEnabled ||
         !settings.voice.sttModel ||
         dictationStateRef.current === 'stopping'
       ) {
@@ -303,6 +312,7 @@ export function DictationController() {
     const cleanup = window.api.ui.onDictationKeyDown(handleKeyDown)
     return cleanup
   }, [
+    assistantEnabled,
     settings?.voice?.dictationMode,
     settings?.voice?.enabled,
     settings?.voice?.sttModel,
@@ -311,7 +321,8 @@ export function DictationController() {
   ])
 
   useEffect(() => {
-    const canDictate = (): boolean => Boolean(settings?.voice?.enabled && settings.voice.sttModel)
+    const canDictate = (): boolean =>
+      Boolean(settings?.voice?.enabled && !assistantEnabled && settings.voice.sttModel)
     const handleControl = (event: Event): void => {
       if (!canDictate() || dictationStateRef.current === 'stopping') {
         return
@@ -337,7 +348,13 @@ export function DictationController() {
     }
     document.addEventListener(DICTATION_CONTROL_EVENT, handleControl)
     return () => document.removeEventListener(DICTATION_CONTROL_EVENT, handleControl)
-  }, [settings?.voice?.enabled, settings?.voice?.sttModel, startDictation, stopDictation])
+  }, [
+    assistantEnabled,
+    settings?.voice?.enabled,
+    settings?.voice?.sttModel,
+    startDictation,
+    stopDictation
+  ])
 
   useHoldDictationGesture({
     dictationStateRef,

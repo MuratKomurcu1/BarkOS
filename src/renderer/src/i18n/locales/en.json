@@ -16501,6 +16501,46 @@
     }
   },
   "barkos": {
+    "voiceAssistant": {
+      "title": "BarkOS Assistant",
+      "settingsDescription": "Wake it with “Hey BarkOS” for everyday conversation or project work.",
+      "modelRequired": "Enable voice dictation and choose a speech model first.",
+      "enableLabel": "Enable BarkOS Assistant",
+      "spokenResponses": "Spoken responses",
+      "spokenResponsesDescription": "BarkOS Assistant reads responses using the system voice.",
+      "enableSpokenResponsesLabel": "Enable spoken BarkOS Assistant responses",
+      "openLabel": "Open BarkOS Assistant",
+      "startListeningLabel": "Start BarkOS Assistant listening",
+      "stopListening": "Stop listening",
+      "startListening": "Start listening",
+      "closeLabel": "Close BarkOS Assistant",
+      "emptyDescription": "Say “Hey BarkOS”. You can have an everyday conversation or assign project, folder, and code work.",
+      "inputPlaceholder": "Talk to BarkOS…",
+      "messageLabel": "BarkOS Assistant message",
+      "send": "Send",
+      "state": {
+        "starting": "Preparing microphone…",
+        "waiting": "Waiting for “Hey BarkOS”",
+        "awake": "Listening",
+        "thinking": "Preparing response…",
+        "speaking": "Responding",
+        "error": "Connection error",
+        "ready": "Ready"
+      },
+      "reply": {
+        "sleep": "Okay. Open the microphone when you want to talk again.",
+        "workConfirmation": "This request includes a sensitive action. I added it to the BarkOS company screen as a draft and will wait for your approval before starting.",
+        "workQueued": "I sent the request to the BarkOS workflow. After you select the project folder, the file reader and lead agent will assemble the team.",
+        "canceled": "Response stopped.",
+        "listening": "I am listening.",
+        "interrupted": "Stopped. I am listening."
+      },
+      "dictationActive": "Stop the active voice dictation session first.",
+      "microphonePermissionRequired": "Allow microphone access for BarkOS, then start listening again.",
+      "selectModel": "Choose a speech model in Settings > Voice.",
+      "microphoneError": "Microphone error: {{value0}}",
+      "desktopOnly": "BarkOS Assistant is available only in the desktop app."
+    },
     "workspaceStatus": {
       "active": "Active",
       "working": "Working",
@@ -17214,6 +17254,14 @@
       }
     },
     "mobile": {
+      "preview": {
+        "cta": "Open TestFlight",
+        "title": "Your BarkOS TestFlight invitation is ready",
+        "description": "Open TestFlight with the Apple Account that received the invitation. Accept the invitation email if BarkOS is not visible yet."
+      },
+      "pairing": {
+        "scannerNote": "Scan this code inside BarkOS Mobile. The iPhone Camera app cannot complete pairing."
+      },
       "private": {
         "title": "BarkOS Mobile private distribution",
         "description": "The previous store build has been removed. A BarkOS install link will appear here only after the BarkOS mobile build is signed and published.",

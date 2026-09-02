@@ -153,6 +153,14 @@ describe('HeroFlow height', () => {
     expect(screen.getByText('Step 1 of 2').closest('.mp-flow-screen')).toHaveAttribute('inert')
   })
 
+  it('shows TestFlight invitation guidance instead of an empty install frame', () => {
+    renderFlow(0, { installQrUrl: 'data:image/png;base64,testflight' })
+
+    expect(screen.getByText('BarkOS TestFlight invitation is ready')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Open TestFlight' })).toBeEnabled()
+    expect(screen.getByAltText('Install QR')).toBeVisible()
+  })
+
   it('shows Relay mint failure with no QR and the beta note', () => {
     renderFlow(1, {
       pairQrDataUrl: null,
@@ -167,12 +175,17 @@ describe('HeroFlow height', () => {
     expect(notice).toHaveTextContent('Use LAN')
     expect(screen.getByText('No pairing code available')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Generate code' })).not.toBeInTheDocument()
-    expect(screen.getByText('Orca Relay is in beta.')).toBeInTheDocument()
+    expect(screen.getByText('BarkOS Relay is in beta.')).toBeInTheDocument()
   })
 
   it('explains an empty QR frame when no code has been generated yet', () => {
     renderFlow(1, { pairQrDataUrl: null, canGeneratePairing: true })
     expect(screen.getByText('Generate a pairing code to continue')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Scan this code inside BarkOS Mobile. The iPhone Camera app cannot complete pairing.'
+      )
+    ).toBeVisible()
   })
 
   it('explains an empty QR frame when Relay sign-in is required', () => {

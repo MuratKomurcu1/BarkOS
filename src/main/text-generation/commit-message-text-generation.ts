@@ -104,7 +104,15 @@ export type RemoteCommitMessageExecResult = {
   spawnError?: string
 }
 
-export type TextGenerationOperation = 'commit-message' | 'pull-request-fields' | 'branch-name'
+export type TextGenerationOperation =
+  | 'commit-message'
+  | 'pull-request-fields'
+  | 'branch-name'
+  | 'assistant-chat'
+
+export type GenerateAssistantChatResult =
+  | { success: true; text: string; agentLabel?: string }
+  | { success: false; error: string; canceled?: boolean }
 
 export type CommitMessageGenerationTarget =
   | { kind: 'local'; cwd: string; env?: NodeJS.ProcessEnv; wslDistro?: string }
@@ -617,6 +625,10 @@ function localLaneKey(operation: TextGenerationOperation, cwd: string): string {
 
 export function cancelGenerateCommitMessageLocal(cwd: string): void {
   cancelTokensByLane.get(localLaneKey('commit-message', cwd))?.()
+}
+
+export function cancelGenerateAssistantChatLocal(cwd: string): void {
+  cancelTokensByLane.get(localLaneKey('assistant-chat', cwd))?.()
 }
 
 function buildWslLauncherEnv(explicitEnv: NodeJS.ProcessEnv | undefined): NodeJS.ProcessEnv {
@@ -1145,6 +1157,28 @@ export async function generateCommitMessageFromContext(
           'commit-message'
         )
   return formatCommitMessageGenerationResult(internalResult)
+}
+
+export async function generateAssistantChatFromPrompt(
+  prompt: string,
+  params: GenerateCommitMessageParams,
+  target: CommitMessageGenerationTarget
+): Promise<GenerateAssistantChatResult> {
+  const planned = planCommitMessageGeneration(
+    { ...params, backslash: commandBackslashMode(target) },
+    prompt
+  )
+  if (!planned.ok) {
+    return { success: false, error: planned.error }
+  }
+
+  const result =
+    target.kind === 'remote'
+      ? await runRemotePlan(planned.plan, target, 'yanıt', 'assistant-chat')
+      : await runLocalPlanForAgent(params.agentId, planned.plan, target, 'yanıt', 'assistant-chat')
+  return result.success
+    ? { success: true, text: result.rawOutput.trim(), agentLabel: result.agentLabel }
+    : { success: false, error: result.error, canceled: result.canceled }
 }
 
 export function cancelGeneratePullRequestFieldsLocal(cwd: string): void {

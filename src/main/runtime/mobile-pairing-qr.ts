@@ -6,9 +6,9 @@ export async function encodeMobilePairingQr(pairingUrl: string): Promise<MobileP
   try {
     const { default: QRCode } = await import('qrcode')
     const qrDataUrl = await QRCode.toDataURL(pairingUrl, {
-      errorCorrectionLevel: 'M',
-      margin: 2,
-      width: 256
+      errorCorrectionLevel: 'L',
+      margin: 4,
+      width: 512
     })
     return { ok: true, qrDataUrl }
   } catch {

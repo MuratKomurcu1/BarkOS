@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { BrainCircuit, FileSearch, LoaderCircle, Send, Sparkles } from 'lucide-react'
 import { translate } from '@/i18n/i18n'
 import { Badge } from '@/components/ui/badge'
@@ -8,12 +8,23 @@ import { BarkosDesktopAccessStatus } from './BarkosDesktopAccessStatus'
 
 type Props = {
   busy: boolean
+  initialRequest?: string | null
   onStart: (request: string) => Promise<boolean>
 }
 
-export function BarkosProjectCommandBar({ busy, onStart }: Props): React.JSX.Element {
+export function BarkosProjectCommandBar({
+  busy,
+  initialRequest,
+  onStart
+}: Props): React.JSX.Element {
   const [request, setRequest] = useState('')
   const canStart = request.trim().length > 0 && !busy
+
+  useEffect(() => {
+    if (initialRequest) {
+      setRequest(initialRequest)
+    }
+  }, [initialRequest])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()

@@ -67,6 +67,7 @@ const {
   isDashboardPopoutRendererMock,
   registerTerminalPreviewHandlersMock,
   registerSpeechHandlersMock,
+  registerVoiceAssistantHandlersMock,
   registerSkillsHandlersMock,
   registerWorkspaceSpaceHandlersMock,
   registerWorkspacePortHandlersMock,
@@ -141,6 +142,7 @@ const {
   isDashboardPopoutRendererMock: vi.fn(),
   registerTerminalPreviewHandlersMock: vi.fn(),
   registerSpeechHandlersMock: vi.fn(),
+  registerVoiceAssistantHandlersMock: vi.fn(),
   registerSkillsHandlersMock: vi.fn(),
   registerWorkspaceSpaceHandlersMock: vi.fn(),
   registerWorkspacePortHandlersMock: vi.fn(),
@@ -186,6 +188,10 @@ vi.mock('./terminal-preview', () => ({
 
 vi.mock('./speech', () => ({
   registerSpeechHandlers: registerSpeechHandlersMock
+}))
+
+vi.mock('./voice-assistant', () => ({
+  registerVoiceAssistantHandlers: registerVoiceAssistantHandlersMock
 }))
 
 vi.mock('./cli', () => ({
@@ -503,6 +509,7 @@ describe('registerCoreHandlers', () => {
     registerDashboardPopoutHandlersMock.mockReset()
     registerTerminalPreviewHandlersMock.mockReset()
     registerSpeechHandlersMock.mockReset()
+    registerVoiceAssistantHandlersMock.mockReset()
     registerSkillsHandlersMock.mockReset()
     registerWorkspaceSpaceHandlersMock.mockReset()
     registerWorkspacePortHandlersMock.mockReset()
@@ -638,6 +645,7 @@ describe('registerCoreHandlers', () => {
     expect(registerBrowserHandlersMock).toHaveBeenCalled()
     expect(registerFilesystemWatcherHandlersMock).toHaveBeenCalled()
     expect(registerSpeechHandlersMock).toHaveBeenCalledWith(store)
+    expect(registerVoiceAssistantHandlersMock).toHaveBeenCalledWith(store)
 
     await expect(
       aiVaultOptions.scanRuntimeAiVaultSessions(

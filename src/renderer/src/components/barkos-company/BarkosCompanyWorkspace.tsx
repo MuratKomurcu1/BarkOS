@@ -81,6 +81,7 @@ type Props = {
   orchestration: BarkosOrchestrationActions
   onSubmitEvidence: BarkosEvidenceSubmissionController['open']
   projectIntakeBusy: boolean
+  initialProjectRequest?: string | null
   onStartProject: (request: string) => Promise<boolean>
 }
 
@@ -120,6 +121,7 @@ export function BarkosCompanyWorkspace({
   orchestration,
   onSubmitEvidence,
   projectIntakeBusy,
+  initialProjectRequest,
   onStartProject
 }: Props): React.JSX.Element {
   const [selectedSection, setSelectedSection] = useState('roster')
@@ -146,6 +148,7 @@ export function BarkosCompanyWorkspace({
         onLaunchWorker={onLaunchWorker}
         onOpenOffice={() => setSelectedSection('office')}
         projectIntakeBusy={projectIntakeBusy}
+        initialProjectRequest={initialProjectRequest}
         onStartProject={onStartProject}
       />
       <TabsList aria-label={translate('barkos.company.page.sections', 'Şirket bölümleri')}>

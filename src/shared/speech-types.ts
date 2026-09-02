@@ -79,4 +79,7 @@ export type VoiceSettings = {
   microphoneDeviceId: string | null
   /** Cached label for display when the preferred device is unplugged */
   microphoneDeviceLabel: string | null
+  assistantEnabled?: boolean
+  assistantSpeakResponses?: boolean
+  assistantConversationTimeoutMs?: number
 }

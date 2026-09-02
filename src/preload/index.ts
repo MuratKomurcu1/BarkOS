@@ -5207,6 +5207,11 @@ const api = {
       ipcRenderer.on('speech:error', listener)
       return () => ipcRenderer.removeListener('speech:error', listener)
     }
+  },
+  voiceAssistant: {
+    reply: (request) => ipcRenderer.invoke('voiceAssistant:reply', request),
+    speak: (request) => ipcRenderer.invoke('voiceAssistant:speak', request),
+    cancel: () => ipcRenderer.invoke('voiceAssistant:cancel')
   }
 }
 

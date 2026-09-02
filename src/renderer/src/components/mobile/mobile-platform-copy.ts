@@ -5,15 +5,11 @@ export type IosChannel = 'stable' | 'preview'
 
 export type InstallCopy = { ctaLabel: string; url: string | null }
 
-const IOS_CHANNEL_COPY: Record<IosChannel, InstallCopy> = {
-  stable: {
-    ctaLabel: 'BarkOS Mobile',
-    url: null
-  },
-  preview: {
-    ctaLabel: 'BarkOS Mobile',
-    url: null
-  }
+const TESTFLIGHT_APP_URL = 'https://apps.apple.com/app/testflight/id899247664'
+
+const IOS_STABLE_COPY: InstallCopy = {
+  ctaLabel: 'BarkOS Mobile',
+  url: null
 }
 
 const ANDROID_COPY: InstallCopy = {
@@ -22,7 +18,16 @@ const ANDROID_COPY: InstallCopy = {
 }
 
 export function getInstallCopy(platform: Platform, iosChannel: IosChannel): InstallCopy {
-  return platform === 'ios' ? IOS_CHANNEL_COPY[iosChannel] : ANDROID_COPY
+  if (platform !== 'ios') {
+    return ANDROID_COPY
+  }
+  if (iosChannel === 'stable') {
+    return IOS_STABLE_COPY
+  }
+  return {
+    ctaLabel: translate('barkos.mobile.preview.cta', 'Open TestFlight'),
+    url: TESTFLIGHT_APP_URL
+  }
 }
 
 export function getChannelTagline(iosChannel: IosChannel): string {

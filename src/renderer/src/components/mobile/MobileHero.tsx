@@ -192,15 +192,36 @@ export function HeroFlow({
                 </div>
               ) : null}
               {installCopy.url ? (
-                <div className="mp-inline-actions">
-                  <button type="button" className="mp-ghost-action" onClick={onOpenInstallUrl}>
-                    {installCopy.ctaLabel}
-                  </button>
-                  <button type="button" className="mp-text-link" onClick={onCopyInstallUrl}>
-                    <Copy className="size-3.5" />
-                    {translate('auto.components.mobile.MobileHero.aa97420ba4', 'Copy install link')}
-                  </button>
-                </div>
+                <>
+                  <div className="mp-inline-actions">
+                    <button type="button" className="mp-ghost-action" onClick={onOpenInstallUrl}>
+                      {installCopy.ctaLabel}
+                    </button>
+                    <button type="button" className="mp-text-link" onClick={onCopyInstallUrl}>
+                      <Copy className="size-3.5" />
+                      {translate(
+                        'auto.components.mobile.MobileHero.aa97420ba4',
+                        'Copy install link'
+                      )}
+                    </button>
+                  </div>
+                  {platform === 'ios' && iosChannel === 'preview' ? (
+                    <div className="mt-4 rounded-lg border border-border bg-muted/25 p-4 text-sm">
+                      <p className="font-medium text-foreground">
+                        {translate(
+                          'barkos.mobile.preview.title',
+                          'BarkOS TestFlight invitation is ready'
+                        )}
+                      </p>
+                      <p className="mt-1 text-muted-foreground">
+                        {translate(
+                          'barkos.mobile.preview.description',
+                          'Open TestFlight with the Apple Account that received the invitation. Accept the invitation email if BarkOS is not visible yet.'
+                        )}
+                      </p>
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 <div className="rounded-lg border border-border bg-muted/25 p-4 text-sm">
                   <p className="font-medium text-foreground">

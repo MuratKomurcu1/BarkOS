@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { OFFLINE_DECODE_CHUNK_SECONDS, OfflineAudioChunker } from './stt-offline-audio-chunker'
+import {
+  OFFLINE_DECODE_CHUNK_SECONDS,
+  OFFLINE_ENDPOINT_TRAILING_SILENCE_SECONDS,
+  OFFLINE_WAKE_DECODE_CHUNK_SECONDS,
+  OfflineAudioChunker
+} from './stt-offline-audio-chunker'
 
 // Why: a small rate keeps test arrays tiny while exercising the same
 // seconds-based limits used with real 16 kHz audio.
@@ -96,5 +101,51 @@ describe('OfflineAudioChunker', () => {
     expect(chunker.flush()).toBeNull()
     expect(chunker.push(new Float32Array(0))).toEqual([])
     expect(chunker.flush()).toBeNull()
+  })
+
+  it('emits a short utterance after trailing silence when endpointing is enabled', () => {
+    const chunker = new OfflineAudioChunker(SAMPLE_RATE, { endpointing: true })
+    const speech = loudSignal(Math.round(0.5 * SAMPLE_RATE))
+    const silence = new Float32Array(
+      Math.round(OFFLINE_ENDPOINT_TRAILING_SILENCE_SECONDS * SAMPLE_RATE)
+    )
+
+    const ready = [...chunker.push(speech), ...chunker.push(silence)]
+
+    expect(ready).toHaveLength(1)
+    expect(ready[0].length).toBeGreaterThanOrEqual(speech.length + silence.length)
+    expect(chunker.flush()).toBeNull()
+  })
+
+  it('does not accumulate leading silence while waiting for speech', () => {
+    const chunker = new OfflineAudioChunker(SAMPLE_RATE, { endpointing: true })
+
+    expect(chunker.push(new Float32Array(CHUNK_LIMIT * 2))).toEqual([])
+    expect(chunker.flush()).toBeNull()
+  })
+
+  it('emits consecutive utterances without stopping the session', () => {
+    const chunker = new OfflineAudioChunker(SAMPLE_RATE, { endpointing: true })
+    const utterance = new Float32Array(
+      loudSignal(Math.round(0.4 * SAMPLE_RATE)).length +
+        Math.round(OFFLINE_ENDPOINT_TRAILING_SILENCE_SECONDS * SAMPLE_RATE)
+    )
+    utterance.set(loudSignal(Math.round(0.4 * SAMPLE_RATE)))
+
+    const ready = [...chunker.push(utterance), ...chunker.push(utterance)]
+
+    expect(ready).toHaveLength(2)
+  })
+
+  it('bounds wake-word windows even when background audio never becomes silent', () => {
+    const chunker = new OfflineAudioChunker(SAMPLE_RATE, {
+      endpointing: true,
+      maxChunkSeconds: OFFLINE_WAKE_DECODE_CHUNK_SECONDS
+    })
+
+    const ready = chunker.push(loudSignal(OFFLINE_WAKE_DECODE_CHUNK_SECONDS * SAMPLE_RATE + 200))
+
+    expect(ready).toHaveLength(1)
+    expect(ready[0].length).toBeLessThanOrEqual(OFFLINE_WAKE_DECODE_CHUNK_SECONDS * SAMPLE_RATE)
   })
 })

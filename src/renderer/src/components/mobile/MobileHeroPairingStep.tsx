@@ -185,6 +185,12 @@ export function MobileHeroPairingStep({
           </strong>
           {translate('auto.components.mobile.MobileHero.2f077ef4eb', ', and scan the code.')}
         </p>
+        <p className="mp-pairing-scanner-note">
+          {translate(
+            'barkos.mobile.pairing.scannerNote',
+            'Scan this code inside BarkOS Mobile. The iPhone Camera app cannot complete pairing.'
+          )}
+        </p>
       </div>
       <div className="mp-pairing-relay">
         <MobilePairingConnectionOptions

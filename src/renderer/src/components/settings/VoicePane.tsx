@@ -10,6 +10,7 @@ import { OpenAiTranscriptionSettingsRow } from './OpenAiTranscriptionSettingsRow
 import { handleVoiceDictationToggle } from './voice-dictation-toggle'
 import { VoiceDictationSettingsSection } from './VoiceDictationSettingsSection'
 import { VoiceSpeechModelSection } from './VoiceSpeechModelSection'
+import { VoiceAssistantSettingsSection } from './VoiceAssistantSettingsSection'
 import { matchesSettingsSearch } from './settings-search'
 import { getOpenaiTranscriptionSearchEntry } from './voice-pane-search'
 import { translate } from '@/i18n/i18n'
@@ -225,6 +226,11 @@ export function VoicePane({ settings, updateSettings }: VoicePaneProps): React.J
         onUpdateVoiceSettings={updateVoiceSettings}
         onOpenOpenAiDialog={openOpenAiDialog}
         onRefreshModelStates={refreshModelStates}
+      />
+
+      <VoiceAssistantSettingsSection
+        voiceSettings={voiceSettings}
+        onUpdateVoiceSettings={updateVoiceSettings}
       />
 
       {showOpenAiSettingsRow && (

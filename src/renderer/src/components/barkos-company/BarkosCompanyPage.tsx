@@ -30,6 +30,7 @@ import { useBarkosProviderCapacity } from './use-barkos-provider-capacity'
 import { useBarkosUsageCost } from './use-barkos-usage-cost'
 import { useBarkosCompanyBackupActions } from './use-barkos-company-backup-actions'
 import { startBarkosProjectIntake } from '@/lib/barkos-project-intake-runtime'
+import { consumeVoiceWorkRequest } from '../voice-assistant/voice-assistant-work-request'
 
 export default function BarkosCompanyPage(): React.JSX.Element {
   const company = useAppStore((state) => state.barkosCompany)
@@ -74,6 +75,7 @@ export default function BarkosCompanyPage(): React.JSX.Element {
   const [editor, setEditor] = useState<BarkosCompanyEditorState>(null)
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [projectIntakeBusy, setProjectIntakeBusy] = useState(false)
+  const [voiceProjectRequest, setVoiceProjectRequest] = useState<string | null>(null)
   const workerLaunch = useBarkosWorkerLaunch(company)
   const orchestration = useBarkosOrchestrationActions({
     company,
@@ -291,6 +293,24 @@ export default function BarkosCompanyPage(): React.JSX.Element {
     [company, projectIntakeBusy]
   )
 
+  useEffect(() => {
+    if (!company || loadState !== 'ready') {
+      return
+    }
+    const queued = consumeVoiceWorkRequest()
+    if (!queued) {
+      return
+    }
+    setVoiceProjectRequest(queued.request)
+    if (queued.autoStart) {
+      void handleProjectStart(queued.request).then((accepted) => {
+        if (accepted) {
+          setVoiceProjectRequest(null)
+        }
+      })
+    }
+  }, [company, handleProjectStart, loadState])
+
   const loading = loadState === 'idle' || loadState === 'loading'
   const saving = loadState === 'saving'
   const fileBusy = fileAction !== 'idle'
@@ -370,6 +390,7 @@ export default function BarkosCompanyPage(): React.JSX.Element {
             orchestration={orchestration}
             onSubmitEvidence={evidenceSubmission.open}
             projectIntakeBusy={projectIntakeBusy}
+            initialProjectRequest={voiceProjectRequest}
             onStartProject={handleProjectStart}
           />
         ) : null}

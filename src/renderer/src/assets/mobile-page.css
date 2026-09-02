@@ -37,7 +37,7 @@
   --mp-flow-card-border-width: 1px;
   --mp-flow-card-inset: calc(var(--mp-flow-card-padding) + var(--mp-flow-card-border-width));
   --mp-flow-shell-height: 400px;
-  --mp-qr-large-size: 184px;
+  --mp-qr-large-size: 232px;
   --m-bg-base: #111111;
   --m-bg-panel: #1a1a1a;
   --m-bg-raised: #242424;
@@ -759,6 +759,15 @@
   font-size: 15px;
   font-weight: 450;
   line-height: 1.55;
+}
+
+.mobile-page-root .mp-pairing-scanner-note {
+  max-width: 420px;
+  margin: -12px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 .mobile-page-root .mp-tab-toggle {

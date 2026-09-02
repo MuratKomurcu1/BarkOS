@@ -41,6 +41,11 @@ const DictationController = lazy(() =>
     default: module.DictationController
   }))
 )
+const VoiceAssistantController = lazy(() =>
+  import('../components/voice-assistant/VoiceAssistantController').then((module) => ({
+    default: module.VoiceAssistantController
+  }))
+)
 const SshPassphraseDialog = lazy(() =>
   import('../components/settings/SshPassphraseDialog').then((module) => ({
     default: module.SshPassphraseDialog
@@ -132,6 +137,9 @@ export function AppRootSurfaces(props: {
   const shouldMountUpdateCard = shouldMountUpdateCardForStatus(updateStatus)
   const shouldMountDictationController =
     settings?.voice?.enabled === true || dictationState !== 'idle'
+  const shouldMountVoiceAssistant = Boolean(
+    settings?.voice?.assistantEnabled && settings.voice.enabled && settings.voice.sttModel
+  )
   const renderPetOverlay = shouldRenderPetOverlay({ persistedUIReady, petEnabled, petVisible })
 
   return (
@@ -330,6 +338,13 @@ export function AppRootSurfaces(props: {
         <Suspense fallback={null}>
           <OverlayBoundary boundaryId="overlay.dictation" resetKey={activeView}>
             <DictationController />
+          </OverlayBoundary>
+        </Suspense>
+      ) : null}
+      {shouldMountVoiceAssistant ? (
+        <Suspense fallback={null}>
+          <OverlayBoundary boundaryId="overlay.voice-assistant" resetKey={activeView}>
+            <VoiceAssistantController />
           </OverlayBoundary>
         </Suspense>
       ) : null}

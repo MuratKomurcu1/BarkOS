@@ -14,7 +14,7 @@ export const SPEECH_MODEL_CATALOG: SpeechModelManifest[] = [
     sampleRate: 16000,
     streaming: false,
     modelingUnit: 'bpe',
-    recommended: true
+    recommended: false
   },
   {
     id: 'parakeet-tdt-0.6b-v2-int8',
@@ -110,6 +110,18 @@ export const SPEECH_MODEL_CATALOG: SpeechModelManifest[] = [
     ...getSpeechModelDownloadMetadata('whisper-tiny'),
     sampleRate: 16000,
     streaming: false
+  },
+  {
+    id: 'whisper-small-tr',
+    label: 'Whisper Small Türkçe',
+    description: 'Türkçe konuşma için yüksek doğruluk. Tamamen yerel ve çevrimdışı çalışır.',
+    type: 'whisper',
+    provider: 'local',
+    language: 'tr',
+    ...getSpeechModelDownloadMetadata('whisper-small-tr'),
+    sampleRate: 16000,
+    streaming: false,
+    recommended: true
   },
   {
     id: 'sense-voice-zh-en-ja-ko-yue',

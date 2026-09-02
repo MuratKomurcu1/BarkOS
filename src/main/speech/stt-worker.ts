@@ -1,7 +1,7 @@
 /* oxlint-disable typescript-eslint/no-explicit-any -- sherpa-onnx native addon has no type definitions */
 import { parentPort, workerData } from 'node:worker_threads'
 import { resampleToRate } from './stt-audio-resample'
-import { OfflineAudioChunker } from './stt-offline-audio-chunker'
+import { OFFLINE_WAKE_DECODE_CHUNK_SECONDS, OfflineAudioChunker } from './stt-offline-audio-chunker'
 import { buildHotwordsConfig, resolveFile, resolveTokens } from './stt-worker-model-config'
 
 type WorkerMessage =
@@ -12,6 +12,7 @@ type WorkerMessage =
       streaming: boolean
       sampleRate: number
       files: string[]
+      language?: string
       hotwordsFilePath?: string
       modelingUnit?: string
     }
@@ -30,6 +31,7 @@ let stream: any = null
 let isStreaming = false
 let offlineChunker: OfflineAudioChunker | null = null
 let offlineSampleRate = 16000
+let offlineChunkSeconds: number | undefined
 
 function loadSherpa(): any {
   const modulePath = workerData?.sherpaModulePath
@@ -45,7 +47,13 @@ function handleInit(msg: Extract<WorkerMessage, { type: 'init' }>): void {
 
     const { modelDir, modelType, streaming, sampleRate, files } = msg
     isStreaming = streaming
-    offlineChunker = streaming ? null : new OfflineAudioChunker(sampleRate)
+    offlineChunkSeconds = msg.hotwordsFilePath ? OFFLINE_WAKE_DECODE_CHUNK_SECONDS : undefined
+    offlineChunker = streaming
+      ? null
+      : new OfflineAudioChunker(sampleRate, {
+          endpointing: true,
+          maxChunkSeconds: offlineChunkSeconds
+        })
     offlineSampleRate = sampleRate
 
     const tokens = resolveTokens(files, modelDir)
@@ -100,7 +108,9 @@ function handleInit(msg: Extract<WorkerMessage, { type: 'init' }>): void {
         modelConfig: {
           whisper: {
             encoder: resolveFile(files, 'encoder', modelDir),
-            decoder: resolveFile(files, 'decoder', modelDir)
+            decoder: resolveFile(files, 'decoder', modelDir),
+            language: msg.language === 'multilingual' ? '' : (msg.language ?? ''),
+            task: 'transcribe'
           },
           tokens,
           numThreads: 2,
@@ -192,7 +202,10 @@ function decodeOfflineChunk(samples: Float32Array): string {
 // Recovery failures are swallowed so they cannot skip the stopped lifecycle signal.
 function resetOfflineSessionState(): void {
   try {
-    offlineChunker = new OfflineAudioChunker(offlineSampleRate)
+    offlineChunker = new OfflineAudioChunker(offlineSampleRate, {
+      endpointing: true,
+      maxChunkSeconds: offlineChunkSeconds
+    })
     if (sherpa && recognizer) {
       stream = sherpa.createOfflineStream(recognizer)
     }

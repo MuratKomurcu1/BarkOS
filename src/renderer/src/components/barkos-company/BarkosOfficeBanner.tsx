@@ -19,6 +19,7 @@ type Props = {
   onLaunchWorker: (worker: BarkosWorker) => void
   onOpenOffice: () => void
   projectIntakeBusy: boolean
+  initialProjectRequest?: string | null
   onStartProject: (request: string) => Promise<boolean>
 }
 
@@ -29,6 +30,7 @@ export function BarkosOfficeBanner({
   onLaunchWorker,
   onOpenOffice,
   projectIntakeBusy,
+  initialProjectRequest,
   onStartProject
 }: Props): React.JSX.Element {
   const workersById = new Map(company.workers.map((worker) => [worker.id, worker]))
@@ -65,7 +67,11 @@ export function BarkosOfficeBanner({
             {translate('barkos.office.banner.open', 'Ofisi aç')}
           </Button>
         </header>
-        <BarkosProjectCommandBar busy={projectIntakeBusy} onStart={onStartProject} />
+        <BarkosProjectCommandBar
+          busy={projectIntakeBusy}
+          initialRequest={initialProjectRequest}
+          onStart={onStartProject}
+        />
         <div className="barkos-office-window">
           <div className="barkos-office-window-toolbar" aria-hidden="true">
             <span className="barkos-office-traffic-lights">

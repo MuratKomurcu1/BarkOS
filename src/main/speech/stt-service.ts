@@ -271,6 +271,7 @@ export class SttService {
       streaming: manifest.streaming,
       sampleRate: manifest.sampleRate,
       files: manifest.files ?? [],
+      language: manifest.language,
       hotwordsFilePath,
       modelingUnit: manifest.modelingUnit
     })

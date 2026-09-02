@@ -200,6 +200,27 @@ const MODEL_DOWNLOAD_FILES = {
       ]
     ]
   ),
+  'whisper-small-tr': huggingFaceFiles(
+    'csukuangfj/sherpa-onnx-whisper-small',
+    '8f3c18b358db4d1f2fc1eae49d75cd20989e4309',
+    [
+      [
+        'small-encoder.int8.onnx',
+        112_442_483,
+        '4cbe7b22fa9026b843b60a68640c747de05bafb1a11b57edc0e66c232d9f33a9'
+      ],
+      [
+        'small-decoder.int8.onnx',
+        262_226_114,
+        'acad50b5c782696e91b55914cc5ab4f756f1532f76e22aa6fc615f39fb69a8ee'
+      ],
+      [
+        'small-tokens.txt',
+        816_730,
+        'b34b360dbb493e781e479794586d661700670d65564001f23024971d1f2fa126'
+      ]
+    ]
+  ),
   'sense-voice-zh-en-ja-ko-yue': huggingFaceFiles(
     'csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17',
     '2365baeacb507f821a0c8120fcee3d484dba7a07',

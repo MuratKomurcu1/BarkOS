@@ -25,6 +25,24 @@ describe('SPEECH_MODEL_CATALOG', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
+  it('registers the pinned Turkish Whisper Small model', () => {
+    const model = getCatalogModel('whisper-small-tr')
+
+    expect(model).toMatchObject({
+      type: 'whisper',
+      provider: 'local',
+      language: 'tr',
+      streaming: false,
+      recommended: true,
+      sizeBytes: 375_485_327
+    })
+    expect(model?.files).toEqual([
+      'small-encoder.int8.onnx',
+      'small-decoder.int8.onnx',
+      'small-tokens.txt'
+    ])
+  })
+
   it('registers SenseVoice as a non-streaming local model', () => {
     const model = getCatalogModel('sense-voice-zh-en-ja-ko-yue')
     expect(model).toBeDefined()

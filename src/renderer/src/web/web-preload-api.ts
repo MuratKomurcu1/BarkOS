@@ -617,6 +617,17 @@ function createWebPreloadApi(): Partial<PreloadApi> {
     })
 
   return {
+    voiceAssistant: {
+      reply: async () => ({
+        success: false,
+        error: translate(
+          'barkos.voiceAssistant.desktopOnly',
+          'BarkOS Assistant is available only in the desktop app.'
+        )
+      }),
+      speak: async () => ({ success: false }),
+      cancel: async () => undefined
+    },
     barkosCompany: {
       load: async () => {
         const serialized = window.localStorage.getItem(BARKOS_COMPANY_STORAGE_KEY)
